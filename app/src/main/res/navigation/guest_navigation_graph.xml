@@ -6,6 +6,11 @@
     app:startDestination="@id/guestMainScreenFragment">
 
     <fragment
+        android:id="@+id/guestMainScreenFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.GuestMainScreenFragment"
+        android:label="fragment_guest_main_screen"
+        tools:layout="@layout/fragment_guest_main_screen" />
+    <fragment
         android:id="@+id/accountScreenFragment"
         android:name="ftn.booking_app_team_2.bookie.fragments.AccountScreenFragment"
         android:label="fragment_account_screen"
