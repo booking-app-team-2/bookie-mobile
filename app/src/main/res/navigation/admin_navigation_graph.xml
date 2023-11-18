@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_navigation_graph"
+    app:startDestination="@id/reportedUsersScreenFragment">
+
+    <fragment
+        android:id="@+id/reportedUsersScreenFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.ReportedUsersScreenFragment"
+        android:label="fragment_reported_users_screen"
+        tools:layout="@layout/fragment_reported_users_screen" />
+    <fragment
+        android:id="@+id/reportedCommentsScreenFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.ReportedCommentsScreenFragment"
+        android:label="fragment_reported_comments_screen"
+        tools:layout="@layout/fragment_reported_comments_screen" />
+    <fragment
+        android:id="@+id/accommodationsApprovalScreenFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.AccommodationsApprovalScreenFragment"
+        android:label="fragment_accommodations_approval_screen"
+        tools:layout="@layout/fragment_accommodations_approval_screen" />
+    <fragment
+        android:id="@+id/accountScreenFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.AccountScreenFragment"
+        android:label="fragment_account_screen"
+        tools:layout="@layout/fragment_account_screen" />
+</navigation>

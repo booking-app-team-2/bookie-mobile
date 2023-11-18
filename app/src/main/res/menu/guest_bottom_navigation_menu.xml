@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/guestMainScreenFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/round_home"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/accountScreenFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/round_person"
+        android:title="@string/profile" />
+    <item
+        android:id="@+id/guestReservationsScreenFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/round_menu_book"
+        android:title="@string/reservations" />
+    <item
+        android:id="@+id/notificationsScreenFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/round_notifications_active"
+        android:title="@string/notifications" />
+</menu>
