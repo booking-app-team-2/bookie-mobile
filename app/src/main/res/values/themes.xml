@@ -10,6 +10,7 @@
         <item name="colorTertiary">@color/light_tertiary</item>
         <item name="colorOnTertiary">@color/light_neutral</item>
         <item name="android:windowBackground">@color/light_neutral</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="Theme.Bookie" parent="Base.Theme.Bookie" />

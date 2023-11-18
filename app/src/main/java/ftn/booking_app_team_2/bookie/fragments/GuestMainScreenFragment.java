@@ -1,6 +1,5 @@
-package ftn.booking_app_team_2.bookie;
+package ftn.booking_app_team_2.bookie.fragments;
 
-import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,24 +7,23 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
 
-import com.google.android.material.search.SearchBar;
+import ftn.booking_app_team_2.bookie.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AccomodationsPreviewFragment#newInstance} factory method to
+ * Use the {@link GuestMainScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AccomodationsPreviewFragment extends Fragment {
+public class GuestMainScreenFragment extends Fragment {
 
     private ImageView imageView;
-    public AccomodationsPreviewFragment() {
+    public GuestMainScreenFragment() {
 
     }
-    public static AccomodationsPreviewFragment newInstance() {
-        AccomodationsPreviewFragment fragment = new AccomodationsPreviewFragment();
+    public static GuestMainScreenFragment newInstance() {
+        GuestMainScreenFragment fragment = new GuestMainScreenFragment();
         return fragment;
     }
     @Override
@@ -36,7 +34,7 @@ public class AccomodationsPreviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      View view=inflater.inflate(R.layout.fragment_accomodations_preview, container, false);
+      View view=inflater.inflate(R.layout.fragment_guest_main_screen, container, false);
       return view;
 
     }

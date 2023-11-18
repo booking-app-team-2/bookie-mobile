@@ -1,4 +1,4 @@
-package ftn.booking_app_team_2.bookie;
+package ftn.booking_app_team_2.bookie.fragments;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import ftn.booking_app_team_2.bookie.R;
 
 /**
  * A simple {@link Fragment} subclass.
