@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/guest_navigation_graph"
+    app:startDestination="@id/guestMainScreenFragment">
+
+    <fragment
+        android:id="@+id/guestMainScreenFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.GuestMainScreenFragment"
+        android:label="fragment_guest_main_screen"
+        tools:layout="@layout/fragment_guest_main_screen" />
+    <fragment
+        android:id="@+id/accountScreenFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.AccountScreenFragment"
+        android:label="fragment_account_screen"
+        tools:layout="@layout/fragment_account_screen" />
+    <fragment
+        android:id="@+id/guestReservationsScreenFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.GuestReservationsScreenFragment"
+        android:label="fragment_guest_reservations_screen"
+        tools:layout="@layout/fragment_guest_reservations_screen" />
+    <fragment
+        android:id="@+id/notificationsScreenFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.NotificationsScreenFragment"
+        android:label="fragment_notifications_screen"
+        tools:layout="@layout/fragment_notifications_screen" />
+</navigation>

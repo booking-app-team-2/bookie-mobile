@@ -11,5 +11,6 @@
         <item name="colorTertiary">@color/dark_tertiary</item>
         <item name="colorOnTertiary">@color/dark_neutral</item>
         <item name="android:windowBackground">@color/dark_neutral</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>
