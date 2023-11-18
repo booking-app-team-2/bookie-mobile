@@ -36,6 +36,5 @@ public class GuestMainScreenFragment extends Fragment {
                              Bundle savedInstanceState) {
       View view=inflater.inflate(R.layout.fragment_guest_main_screen, container, false);
       return view;
-
     }
 }
