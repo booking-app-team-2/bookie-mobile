@@ -45,4 +45,20 @@
         parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">?attr/colorSecondary</item>
     </style>
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="itemRippleColor">?attr/colorPrimaryVariant</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="itemIconTint">?attr/colorOnPrimary</item>
+        <item name="itemTextColor">?attr/colorOnPrimary</item>
+        <item name="itemActiveIndicatorStyle">
+            @style/Widget.App.BottomNavigationView.ActiveIndicator
+        </item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView.ActiveIndicator"
+        parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">?attr/colorSecondary</item>
+    </style>
 </resources>
