@@ -16,11 +16,18 @@ import ftn.booking_app_team_2.bookie.R;
  * create an instance of this fragment.
  */
 public class AccommodationDetailsFragment extends Fragment {
-
-
-
     public AccommodationDetailsFragment() {
-        // Required empty public constructor
+
+    }
+
+    public static GuestMainScreenFragment newInstance() {
+        GuestMainScreenFragment fragment = new GuestMainScreenFragment();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

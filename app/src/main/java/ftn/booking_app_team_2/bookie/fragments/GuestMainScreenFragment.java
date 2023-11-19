@@ -2,7 +2,9 @@ package ftn.booking_app_team_2.bookie.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import ftn.booking_app_team_2.bookie.R;
+import ftn.booking_app_team_2.bookie.databinding.FragmentGuestMainScreenBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,8 +20,9 @@ import ftn.booking_app_team_2.bookie.R;
  * create an instance of this fragment.
  */
 public class GuestMainScreenFragment extends Fragment {
-
     private ImageView imageView;
+    private FragmentGuestMainScreenBinding binding;
+
     public GuestMainScreenFragment() {
 
     }
@@ -32,9 +36,15 @@ public class GuestMainScreenFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      View view=inflater.inflate(R.layout.fragment_guest_main_screen, container, false);
-      return view;
+        binding = FragmentGuestMainScreenBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        binding.accommodationCard.detailsBtn.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.navigateToAccommodationDetailsScreen);
+        });
+
+        return root;
     }
 }

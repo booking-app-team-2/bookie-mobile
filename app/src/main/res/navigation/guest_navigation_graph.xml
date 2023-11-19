@@ -9,7 +9,16 @@
         android:id="@+id/guestMainScreenFragment"
         android:name="ftn.booking_app_team_2.bookie.fragments.GuestMainScreenFragment"
         android:label="fragment_guest_main_screen"
-        tools:layout="@layout/fragment_guest_main_screen" />
+        tools:layout="@layout/fragment_guest_main_screen" >
+        <action
+            android:id="@+id/navigateToAccommodationDetailsScreen"
+            app:destination="@id/accommodationDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accommodationDetailsFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.AccommodationDetailsFragment"
+        android:label="fragment_accommodation_details"
+        tools:layout="@layout/fragment_accommodation_details" />
     <fragment
         android:id="@+id/accountScreenFragment"
         android:name="ftn.booking_app_team_2.bookie.fragments.AccountScreenFragment"
