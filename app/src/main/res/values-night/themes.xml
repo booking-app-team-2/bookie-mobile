@@ -1,19 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-        <!-- Base application theme. -->
-        <style name="Base.Theme.Bookie" parent="Theme.Material3.DayNight.NoActionBar">
-                <item name="colorPrimary">@color/dark_primary</item>
-                <item name="colorPrimaryVariant">@color/dark_primary_variant</item>
-                <item name="colorOnPrimary">@color/dark_neutral</item>
-                <item name="colorSecondary">@color/dark_secondary</item>
-                <item name="colorSecondaryVariant">@color/dark_secondary_variant</item>
-                <item name="colorOnSecondary">@color/dark_neutral</item>
-                <item name="colorTertiary">@color/dark_tertiary</item>
-                <item name="colorOnTertiary">@color/dark_neutral</item>
-                <item name="colorOnSurface">@color/white</item>
-                <item name="colorSurfaceContainerLow">@color/dark_neutral</item>
-                <item name="materialCardViewElevatedStyle">@style/Widget.App.CardView</item>
-                <item name="materialDividerStyle">@style/Widget.App.MaterialDivider</item>
-                <item name="android:windowBackground">@color/dark_neutral</item>
-                <item name="android:windowIsTranslucent">true</item>
-        </style>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Bookie" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/dark_primary</item>
+        <item name="colorPrimaryVariant">@color/dark_primary_variant</item>
+        <item name="colorOnPrimary">@color/dark_neutral</item>
+        <item name="colorSecondary">@color/dark_secondary</item>
+        <item name="colorSecondaryVariant">@color/dark_secondary_variant</item>
+        <item name="colorOnSecondary">@color/dark_neutral</item>
+        <item name="colorTertiary">@color/dark_tertiary</item>
+        <item name="colorOnTertiary">@color/dark_neutral</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorSurfaceContainerLow">@color/dark_neutral</item>
+        <item name="materialCardViewElevatedStyle">@style/Widget.App.CardView</item>
+        <item name="materialDividerStyle">@style/Widget.App.MaterialDivider</item>
+        <item name="android:windowBackground">@color/dark_neutral</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>
