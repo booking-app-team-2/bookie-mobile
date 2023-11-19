@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include layout="@layout/accommodation_card"/>
+                <include android:id="@+id/accommodationCard" layout="@layout/accommodation_card"/>
                 <include layout="@layout/accommodation_card"/>
                 <include layout="@layout/accommodation_card"/>
             </LinearLayout>
