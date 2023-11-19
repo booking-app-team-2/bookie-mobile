@@ -9,6 +9,10 @@
         <item name="colorOnSecondary">@color/light_neutral</item>
         <item name="colorTertiary">@color/light_tertiary</item>
         <item name="colorOnTertiary">@color/light_neutral</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorSurfaceContainerLow">@color/light_neutral</item>
+        <item name="materialCardViewElevatedStyle">@style/Widget.App.CardView</item>
+        <item name="materialDividerStyle">@style/Widget.App.MaterialDivider</item>
         <item name="android:windowBackground">@color/light_neutral</item>
     </style>
 
