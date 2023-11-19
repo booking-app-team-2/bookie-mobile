@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
             TODO: Remove placeholder, below. Get user type via SessionManager, once logging in has
                 been implemented.
         */
-        String userType = "admin";
+        String userType = "guest";
         int graphResId;
         int resId;
         if (userType.equals("guest")) {
