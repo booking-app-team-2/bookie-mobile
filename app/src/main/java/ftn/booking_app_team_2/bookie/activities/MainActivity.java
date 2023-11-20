@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -16,6 +17,8 @@ import ftn.booking_app_team_2.bookie.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
+    private NavController navController;
+    private BottomNavigationView bottomNavigationView;
 
     private void setupNavbarBasedOnUserType() {
         /*
@@ -36,15 +39,10 @@ public class MainActivity extends AppCompatActivity {
             resId = R.menu.admin_bottom_navigation_menu;
         }
 
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().
-                findFragmentById(binding.fragmentContainerView.getId());
-        assert navHostFragment != null;
-        NavController navController = navHostFragment.getNavController();
         NavInflater inflater = navController.getNavInflater();
         NavGraph graph = inflater.inflate(graphResId);
         navController.setGraph(graph);
 
-        BottomNavigationView bottomNavigationView = binding.bottomNavigationView;
         bottomNavigationView.getMenu().clear();
         bottomNavigationView.inflateMenu(resId);
 
@@ -58,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        bottomNavigationView = binding.bottomNavigationView;
+
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().
+                findFragmentById(binding.fragmentContainerView.getId());
+        assert navHostFragment != null;
+        navController = navHostFragment.getNavController();
+
         setupNavbarBasedOnUserType();
     }
+
 }
