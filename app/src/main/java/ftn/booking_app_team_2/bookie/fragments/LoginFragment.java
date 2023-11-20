@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Objects;
-
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.activities.MainActivity;
 import ftn.booking_app_team_2.bookie.databinding.FragmentLoginBinding;
