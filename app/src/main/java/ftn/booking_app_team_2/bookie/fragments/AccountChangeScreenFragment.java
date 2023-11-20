@@ -81,10 +81,11 @@ public class AccountChangeScreenFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentAccountChangeScreenBinding.inflate(inflater, container, false);
+        binding = FragmentAccountChangeScreenBinding
+                .inflate(inflater, container, false);
 
         binding.profileImageBtn.setOnClickListener(view -> {
-            // TODO: Make placeholder snackbar on picture press.
+            Snackbar.make(view, R.string.picture_press_stop, Snackbar.LENGTH_SHORT).show();
         });
 
         binding.cancelBtn.setOnClickListener(view -> {
@@ -104,6 +105,6 @@ public class AccountChangeScreenFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        // TODO: Make snackbar for picture change note.
+        Snackbar.make(requireView(), R.string.change_picture_note, Snackbar.LENGTH_LONG).show();
     }
 }

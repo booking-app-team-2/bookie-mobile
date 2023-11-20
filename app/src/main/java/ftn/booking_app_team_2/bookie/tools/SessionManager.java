@@ -1,7 +1,10 @@
 package ftn.booking_app_team_2.bookie.tools;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+
+import ftn.booking_app_team_2.bookie.activities.LoginRegisterActivity;
 
 public class SessionManager {
     private SharedPreferences sharedPreferences;
@@ -30,6 +33,10 @@ public class SessionManager {
         editor.clear();
         editor.commit();
 
-        // TODO: Create intent which returns the app to the log in screen and clears the back stack.
+        Intent intent = new Intent(context, LoginRegisterActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        context.startActivity(intent);
     }
 }

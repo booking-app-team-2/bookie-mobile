@@ -13,7 +13,6 @@
     <!-- Neutral is used for the background, surfaces and text on top of former colours -->
     <color name="light_neutral">#FDF5EC</color>
 
-    <!-- TODO: Add dark colours -->
     <!-- Dark theme colours-->
     <color name="dark_primary">#461076</color>
     <color name="dark_primary_variant">#5E105B</color>

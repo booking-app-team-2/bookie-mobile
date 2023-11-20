@@ -22,7 +22,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-//                TODO: Redirect to login screen
+                Intent intent = new Intent(SplashScreenActivity.this, LoginRegisterActivity.class);
+                startActivity(intent);
+                finish();
             }
         }, 5000);
     }

@@ -1,5 +1,6 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,8 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Objects;
+
 import ftn.booking_app_team_2.bookie.R;
+import ftn.booking_app_team_2.bookie.activities.MainActivity;
 import ftn.booking_app_team_2.bookie.databinding.FragmentLoginBinding;
+import ftn.booking_app_team_2.bookie.tools.SessionManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,9 +70,25 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
+
         binding.registerBtn.setOnClickListener(view->{
             Navigation.findNavController(view).navigate(R.id.navigateToRegister);
         });
+
+        binding.loginBtn.setOnClickListener(view -> {
+            SessionManager sessionManager = new SessionManager(requireContext());
+            if (binding.roleRadioGroup.getCheckedRadioButtonId() == binding.roleGuest.getId()) {
+                sessionManager.createLoginSession("guest");
+            } else if (binding.roleRadioGroup.getCheckedRadioButtonId() == binding.roleOwner.getId()) {
+                sessionManager.createLoginSession("host");
+            } else {
+                sessionManager.createLoginSession("admin");
+            }
+
+            Intent intent = new Intent(requireActivity(), MainActivity.class);
+            startActivity(intent);
+        });
+
         return binding.getRoot();
     }
 }

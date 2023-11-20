@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.databinding.ActivityMainBinding;
+import ftn.booking_app_team_2.bookie.tools.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -20,11 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
 
     private void setupNavbarBasedOnUserType() {
-        /*
-            TODO: Remove placeholder, below. Get user type via SessionManager, once logging in has
-                been implemented.
-        */
-        String userType = "guest";
+        SessionManager sessionManager = new SessionManager(this);
+        String userType = sessionManager.getUserType();
         int graphResId;
         int resId;
         if (userType.equals("guest")) {

@@ -28,5 +28,7 @@
     <string name="reported_comments">Reported Comments</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="egg">egg</string>
+    <string name="picture_press_stop">Stop poking me!</string>
+    <string name="ok">OK</string>
 
 </resources>

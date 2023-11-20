@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccountScreenBinding;
+import ftn.booking_app_team_2.bookie.tools.SessionManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,7 +72,8 @@ public class AccountScreenFragment extends Fragment {
         });
 
         binding.logOutBtn.setOnClickListener(view -> {
-            // TODO: Add logic for logging the user out.
+            SessionManager sessionManager = new SessionManager(requireContext());
+            sessionManager.logoutUser();
         });
 
         return binding.getRoot();

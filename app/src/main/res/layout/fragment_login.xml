@@ -72,6 +72,7 @@
         </LinearLayout>
 
         <RadioGroup
+            android:id="@+id/roleRadioGroup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center">
@@ -80,7 +81,8 @@
                 android:id="@+id/roleGuest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Guest" />
+                android:text="Guest"
+                android:checked="true" />
 
             <RadioButton
                 android:id="@+id/roleOwner"
@@ -94,11 +96,6 @@
                 android:layout_height="wrap_content"
                 android:text="Admin" />
 
-            <RadioButton
-                android:id="@+id/roleUnregistered"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Unregistered" />
         </RadioGroup>
 
     </LinearLayout>
