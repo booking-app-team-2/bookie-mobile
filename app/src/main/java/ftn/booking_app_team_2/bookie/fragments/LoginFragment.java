@@ -1,8 +1,8 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -11,27 +11,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ftn.booking_app_team_2.bookie.R;
-import ftn.booking_app_team_2.bookie.databinding.FragmentAccountScreenBinding;
+import ftn.booking_app_team_2.bookie.activities.MainActivity;
+import ftn.booking_app_team_2.bookie.databinding.FragmentLoginBinding;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AccountScreenFragment#newInstance} factory method to
+ * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AccountScreenFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private FragmentLoginBinding binding;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private FragmentAccountScreenBinding binding;
 
-    public AccountScreenFragment() {
+    public LoginFragment() {
         // Required empty public constructor
     }
 
@@ -41,11 +42,11 @@ public class AccountScreenFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AccountScreenFragment.
+     * @return A new instance of fragment LoginFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AccountScreenFragment newInstance(String param1, String param2) {
-        AccountScreenFragment fragment = new AccountScreenFragment();
+    public static LoginFragment newInstance(String param1, String param2) {
+        LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -63,17 +64,27 @@ public class AccountScreenFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentAccountScreenBinding.inflate(inflater, container, false);
+        // Inflate the layout for this fragment
+        binding = FragmentLoginBinding.inflate(inflater, container, false);
 
-        binding.changeDataBtn.setOnClickListener(view -> {
-            Navigation.findNavController(view).navigate(R.id.navigateToAccountChangeScreen);
+        binding.registerBtn.setOnClickListener(view->{
+            Navigation.findNavController(view).navigate(R.id.navigateToRegister);
         });
 
-        binding.logOutBtn.setOnClickListener(view -> {
+        binding.loginBtn.setOnClickListener(view -> {
             SessionManager sessionManager = new SessionManager(requireContext());
-            sessionManager.logoutUser();
+            if (binding.roleRadioGroup.getCheckedRadioButtonId() == binding.roleGuest.getId()) {
+                sessionManager.createLoginSession("guest");
+            } else if (binding.roleRadioGroup.getCheckedRadioButtonId() == binding.roleOwner.getId()) {
+                sessionManager.createLoginSession("host");
+            } else {
+                sessionManager.createLoginSession("admin");
+            }
+
+            Intent intent = new Intent(requireActivity(), MainActivity.class);
+            startActivity(intent);
         });
 
         return binding.getRoot();

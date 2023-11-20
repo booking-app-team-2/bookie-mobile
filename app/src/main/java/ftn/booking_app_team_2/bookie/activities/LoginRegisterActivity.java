@@ -1,7 +1,9 @@
-package ftn.booking_app_team_2.bookie;
+package ftn.booking_app_team_2.bookie.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import ftn.booking_app_team_2.bookie.R;
 
 public class LoginRegisterActivity extends AppCompatActivity {
 
