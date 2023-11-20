@@ -14,6 +14,7 @@
         <item name="materialCardViewElevatedStyle">@style/Widget.App.CardView</item>
         <item name="materialDividerStyle">@style/Widget.App.MaterialDivider</item>
         <item name="android:windowBackground">@color/light_neutral</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="Theme.Bookie" parent="Base.Theme.Bookie" />

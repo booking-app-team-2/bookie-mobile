@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/reportedUsersScreenFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/round_report_problem"
+        android:title="@string/reported_users" />
+    <item
+        android:id="@+id/reportedCommentsScreenFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/round_report"
+        android:title="@string/reported_comments" />
+    <item
+        android:id="@+id/accommodationsApprovalScreenFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/round_king_bed"
+        android:title="@string/accommodations" />
+    <item
+        android:id="@+id/accountScreenFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/round_person"
+        android:title="@string/profile" />
+</menu>
