@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">Bookie</string>
     <string name="hello_earth">Hello Earth!</string>
+    <string name="bookie">Bookie</string>
+    <string name="password">Password:</string>
+    <string name="email">Email:</string>
+    <string name="name">Name:</string>
+    <string name="surname">Surname:</string>
+    <string name="address_of_residence">Address of residence:</string>
+    <string name="telephone_number">Telephone number:</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="change_data">Change Data</string>
+    <string name="delete_profile">Delete Profile</string>
+    <string name="log_out">Log Out</string>
+    <string name="change_picture_note">Press the profile picture in order to change it.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 </resources>
