@@ -92,14 +92,6 @@ public class AccountChangeScreenFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.navigateToAccountScreen);
         });
 
-        binding.profileImageBtn.setOnClickListener(view -> {
-            // TODO: Make placeholder snackbar on picture press.
-        });
-
-        binding.cancelBtn.setOnClickListener(view -> {
-            Navigation.findNavController(view).navigate(R.id.navigateToAccountScreen);
-        });
-
         return binding.getRoot();
     }
 
