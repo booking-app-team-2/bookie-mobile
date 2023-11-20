@@ -3,14 +3,14 @@ package ftn.booking_app_team_2.bookie.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccountScreenBinding;
 
 /**
@@ -66,21 +66,14 @@ public class AccountScreenFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentAccountScreenBinding.inflate(inflater, container, false);
 
-        return binding.getRoot();
-    }
+        binding.changeDataBtn.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.navigateToAccountChangeScreen);
+        });
 
-    @Override
-    public void onViewCreated(@Nullable View view, @Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Button logOutButton = binding.logOutBtn;
-        logOutButton.setOnClickListener(view1 -> {
+        binding.logOutBtn.setOnClickListener(view -> {
             // TODO: Add logic for logging the user out.
         });
 
-        Button changeDataButton = binding.changeDataBtn;
-        changeDataButton.setOnClickListener(view1 -> {
-            // TODO: Trigger action to change fragment.
-        });
+        return binding.getRoot();
     }
 }

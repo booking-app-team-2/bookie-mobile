@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.util.TypedValue;
@@ -82,6 +83,14 @@ public class AccountChangeScreenFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentAccountChangeScreenBinding.inflate(inflater, container, false);
 
+        binding.profileImageBtn.setOnClickListener(view -> {
+            // TODO: Make placeholder snackbar on picture press.
+        });
+
+        binding.cancelBtn.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.navigateToAccountScreen);
+        });
+
         return binding.getRoot();
     }
 
@@ -89,17 +98,6 @@ public class AccountChangeScreenFragment extends Fragment {
     public void onViewCreated(@Nullable View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ImageButton profileImageButton = binding.profileImageBtn;
-
-        profileImageButton.setOnClickListener(view1 -> {
-            // TODO: Make placeholder snackbar on picture press.
-        });
-
-        Button cancelButton = binding.cancelBtn;
-
-        cancelButton.setOnClickListener(view1 -> {
-            // TODO: Trigger action to change fragment.
-        });
     }
 
     @Override
