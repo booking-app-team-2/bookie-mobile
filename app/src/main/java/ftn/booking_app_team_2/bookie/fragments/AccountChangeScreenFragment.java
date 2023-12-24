@@ -84,10 +84,6 @@ public class AccountChangeScreenFragment extends Fragment {
         binding = FragmentAccountChangeScreenBinding
                 .inflate(inflater, container, false);
 
-        binding.profileImageBtn.setOnClickListener(view -> {
-            Snackbar.make(view, R.string.picture_press_stop, Snackbar.LENGTH_SHORT).show();
-        });
-
         binding.cancelBtn.setOnClickListener(view -> {
             Navigation.findNavController(view).navigate(R.id.navigateToAccountScreen);
         });
@@ -99,12 +95,5 @@ public class AccountChangeScreenFragment extends Fragment {
     public void onViewCreated(@Nullable View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        Snackbar.make(requireView(), R.string.change_picture_note, Snackbar.LENGTH_LONG).show();
     }
 }

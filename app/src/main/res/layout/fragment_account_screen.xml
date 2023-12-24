@@ -20,215 +20,176 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="8dp">
 
-                <ImageView
+                <com.google.android.flexbox.FlexboxLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="8dp"
-                    android:contentDescription="@string/bookie"
-                    android:src="@drawable/bookie_final" />
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="8dp"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="space_between">
 
-                <LinearLayout
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="320dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/email"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/placeholder"
+                        android:textColor="?attr/colorOnSurface" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <com.google.android.flexbox.FlexboxLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="8dp"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="space_between">
 
-                    <com.google.android.flexbox.FlexboxLayout
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="320dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/name"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
-                        app:flexDirection="row"
-                        app:flexWrap="nowrap"
-                        app:justifyContent="space_between">
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/placeholder"
+                        android:textColor="?attr/colorOnSurface" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="320dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="8dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/email"
-                            android:textColor="?attr/colorOnSurface" />
+                </com.google.android.flexbox.FlexboxLayout>
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="@string/placeholder"
-                            android:textColor="?attr/colorOnSurface" />
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="8dp"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="space_between">
 
-                    </com.google.android.flexbox.FlexboxLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="320dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/surname"
+                        android:textColor="?attr/colorOnSurface" />
 
-                    <com.google.android.flexbox.FlexboxLayout
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
-                        app:flexDirection="row"
-                        app:flexWrap="nowrap"
-                        app:justifyContent="space_between">
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/placeholder"
+                        android:textColor="?attr/colorOnSurface" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="320dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="8dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/password"
-                            android:textColor="?attr/colorOnSurface" />
+                </com.google.android.flexbox.FlexboxLayout>
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="@string/placeholder"
-                            android:textColor="?attr/colorOnSurface" />
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="8dp"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="space_between">
 
-                    </com.google.android.flexbox.FlexboxLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="320dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/address_of_residence"
+                        android:textColor="?attr/colorOnSurface" />
 
-                    <com.google.android.flexbox.FlexboxLayout
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
-                        app:flexDirection="row"
-                        app:flexWrap="nowrap"
-                        app:justifyContent="space_between">
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/placeholder"
+                        android:textColor="?attr/colorOnSurface" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="320dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="8dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/name"
-                            android:textColor="?attr/colorOnSurface" />
+                </com.google.android.flexbox.FlexboxLayout>
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="@string/placeholder"
-                            android:textColor="?attr/colorOnSurface" />
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="space_between">
 
-                    </com.google.android.flexbox.FlexboxLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="320dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/telephone_number"
+                        android:textColor="?attr/colorOnSurface" />
 
-                    <com.google.android.flexbox.FlexboxLayout
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
-                        app:flexDirection="row"
-                        app:flexWrap="nowrap"
-                        app:justifyContent="space_between">
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/placeholder"
+                        android:textColor="?attr/colorOnSurface" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="320dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="8dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/surname"
-                            android:textColor="?attr/colorOnSurface" />
+                </com.google.android.flexbox.FlexboxLayout>
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="@string/placeholder"
-                            android:textColor="?attr/colorOnSurface" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    tools:ignore="UselessLeaf" />
 
-                    </com.google.android.flexbox.FlexboxLayout>
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp" />
 
-                    <com.google.android.flexbox.FlexboxLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
-                        app:flexDirection="row"
-                        app:flexWrap="nowrap"
-                        app:justifyContent="space_between">
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:justifyContent="space_between"
+                    app:alignItems="stretch">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="320dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="8dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/address_of_residence"
-                            android:textColor="?attr/colorOnSurface" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/changeDataBtn"
+                        style="@style/Widget.App.Button"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="8dp"
+                        android:text="@string/change_data" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="@string/placeholder"
-                            android:textColor="?attr/colorOnSurface" />
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.App.Button"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="8dp"
+                        android:text="@string/delete_profile" />
 
-                    </com.google.android.flexbox.FlexboxLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/logOutBtn"
+                        style="@style/Widget.App.Button"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="8dp"
+                        android:text="@string/log_out" />
 
-                    <com.google.android.flexbox.FlexboxLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:flexDirection="row"
-                        app:flexWrap="nowrap"
-                        app:justifyContent="space_between">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="320dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="8dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/telephone_number"
-                            android:textColor="?attr/colorOnSurface" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="@string/placeholder"
-                            android:textColor="?attr/colorOnSurface" />
-
-                    </com.google.android.flexbox.FlexboxLayout>
-
-                    <com.google.android.material.divider.MaterialDivider
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp" />
-
-                    <com.google.android.flexbox.FlexboxLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:flexDirection="row"
-                        app:flexWrap="nowrap"
-                        app:justifyContent="space_between"
-                        app:alignItems="stretch">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/changeDataBtn"
-                            style="@style/Widget.App.Button"
-                            android:layout_width="150dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:text="@string/change_data" />
-
-                        <com.google.android.material.button.MaterialButton
-                            style="@style/Widget.App.Button"
-                            android:layout_width="150dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginVertical="8dp"
-                            android:text="@string/delete_profile" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/logOutBtn"
-                            style="@style/Widget.App.Button"
-                            android:layout_width="150dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:text="@string/log_out" />
-
-                    </com.google.android.flexbox.FlexboxLayout>
-
-                </LinearLayout>
+                </com.google.android.flexbox.FlexboxLayout>
 
             </LinearLayout>
 
