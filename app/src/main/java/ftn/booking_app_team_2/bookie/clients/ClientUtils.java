@@ -30,4 +30,5 @@ public class ClientUtils {
             .build();
 
     public static UserService userService = retrofit.create(UserService.class);
+    public static AccommodationService accommodationService=retrofit.create(AccommodationService.class);
 }
