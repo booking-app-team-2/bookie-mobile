@@ -5,9 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AccommodationsApprovalScreenFragment">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/accommodations" />
+        android:layout_margin="8dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/accommodations_container">
+
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

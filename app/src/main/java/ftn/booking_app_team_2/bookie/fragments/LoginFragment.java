@@ -76,11 +76,11 @@ public class LoginFragment extends Fragment {
         binding.loginBtn.setOnClickListener(view -> {
             SessionManager sessionManager = new SessionManager(requireContext());
             if (binding.roleRadioGroup.getCheckedRadioButtonId() == binding.roleGuest.getId()) {
-                sessionManager.createLoginSession("guest");
+                sessionManager.createLoginSession("Guest");
             } else if (binding.roleRadioGroup.getCheckedRadioButtonId() == binding.roleOwner.getId()) {
-                sessionManager.createLoginSession("host");
+                sessionManager.createLoginSession("Host");
             } else {
-                sessionManager.createLoginSession("admin");
+                sessionManager.createLoginSession("Admin");
             }
 
             Intent intent = new Intent(requireActivity(), MainActivity.class);

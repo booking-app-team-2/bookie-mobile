@@ -36,5 +36,7 @@
     <string name="update_password">Update password</string>
     <string name="current_password">Current password</string>
     <string name="new_password">New password</string>
+    <string name="approve_this_accommodation">Approve this accommodation</string>
+    <string name="send_back_for_revision">Send back for revision</string>
 
 </resources>
