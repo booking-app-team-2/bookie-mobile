@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,18 +17,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
 import ftn.booking_app_team_2.bookie.R;
+import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationDetailsBinding;
-import ftn.booking_app_team_2.bookie.databinding.FragmentGuestMainScreenBinding;
 import ftn.booking_app_team_2.bookie.dialogs.CreateReservationDialog;
-import ftn.booking_app_team_2.bookie.dto.AccommodationDTO;
+import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
 import ftn.booking_app_team_2.bookie.model.AvailabilityPeriod;
-import ftn.booking_app_team_2.bookie.service.AccommodationService;
-import ftn.booking_app_team_2.bookie.service.RetrofitClient;
+import ftn.booking_app_team_2.bookie.clients.AccommodationService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,9 +79,8 @@ public class AccommodationDetailsFragment extends Fragment {
 
     private void loadAccommodation(Long id,View view){
 
-        AccommodationService accommodationApi = RetrofitClient.getClient().create(AccommodationService.class);
 
-        Call<AccommodationDTO> call = accommodationApi.getAccommodation(id);
+        Call<AccommodationDTO> call = ClientUtils.accommodationService.getAccommodation(id);
         call.enqueue(new Callback<AccommodationDTO>() {
             @Override
             public void onResponse(Call<AccommodationDTO> call, Response<AccommodationDTO> response) {

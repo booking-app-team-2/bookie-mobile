@@ -1,4 +1,4 @@
-package ftn.booking_app_team_2.bookie.dto;
+package ftn.booking_app_team_2.bookie.model;
 
 import java.util.Set;
 

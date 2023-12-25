@@ -1,10 +1,9 @@
-package ftn.booking_app_team_2.bookie.service;
+package ftn.booking_app_team_2.bookie.clients;
 import java.util.Collection;
 
-import ftn.booking_app_team_2.bookie.dto.AccommodationDTO;
+import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
+
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.core.util.Pair;
 
@@ -23,10 +22,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import ftn.booking_app_team_2.bookie.R;
+import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentGuestMainScreenBinding;
-import ftn.booking_app_team_2.bookie.dto.AccommodationDTO;
-import ftn.booking_app_team_2.bookie.service.AccommodationService;
-import ftn.booking_app_team_2.bookie.service.RetrofitClient;
+import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
+import ftn.booking_app_team_2.bookie.clients.AccommodationService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -127,10 +126,9 @@ public class GuestMainScreenFragment extends Fragment {
     private void searchAccommodations(){
 
         Integer guestCount = binding.GuestCountSearchField.getText().toString().equals("") ? null : Integer.parseInt(binding.GuestCountSearchField.getText().toString());
-        AccommodationService accommodationApi = RetrofitClient.getClient().create(AccommodationService.class);
         Long startDateInSeconds = selectedDateRange.first != null ? selectedDateRange.first / 1000 : null;
         Long endDateInSeconds = selectedDateRange.second != null ? selectedDateRange.second / 1000 : null;
-        Call<Collection<AccommodationDTO>> call = accommodationApi.getSearchedAccommodations(
+        Call<Collection<AccommodationDTO>> call = ClientUtils.accommodationService.getSearchedAccommodations(
                 null,
                 guestCount,
                 startDateInSeconds,
