@@ -5,26 +5,30 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import ftn.booking_app_team_2.bookie.clients.UserService;
-
 public class User implements Parcelable, Serializable {
     @SerializedName("username")
+    @Expose
     private String username;
 
     @SerializedName("name")
+    @Expose
     private String name;
 
     @SerializedName("surname")
+    @Expose
     private String surname;
 
     @SerializedName("addressOfResidence")
+    @Expose
     private String addressOfResidence;
 
     @SerializedName("telephone")
+    @Expose
     private String telephone;
 
     public String getUsername() {

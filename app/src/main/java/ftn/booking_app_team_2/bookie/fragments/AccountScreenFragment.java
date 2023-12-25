@@ -50,17 +50,22 @@ public class AccountScreenFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void populateView() {
+        email.setText(user.getUsername());
+        name.setText(user.getName());
+        surname.setText(user.getSurname());
+        addressOfResidence.setText(user.getAddressOfResidence());
+        telephone.setText(user.getTelephone());
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        if (user.getUsername() != null)
+        if (user.getUsername() != null) {
+            populateView();
             return;
+        }
 
         Call<User> call = ClientUtils.userService.getUser(userId);
         call.enqueue(new Callback<User>() {
@@ -70,11 +75,7 @@ public class AccountScreenFragment extends Fragment {
                     user = response.body();
                     assert user != null;
 
-                    email.setText(user.getUsername());
-                    name.setText(user.getName());
-                    surname.setText(user.getSurname());
-                    addressOfResidence.setText(user.getAddressOfResidence());
-                    telephone.setText(user.getTelephone());
+                    populateView();
                 } else {
                     assert response.errorBody() != null;
                     try {
