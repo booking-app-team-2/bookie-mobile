@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
         String userType = sessionManager.getUserType();
         int graphResId;
         int resId;
-        if (userType.equals("guest")) {
+        if (userType.equals("Guest")) {
             graphResId = R.navigation.guest_navigation_graph;
             resId = R.menu.guest_bottom_navigation_menu;
-        } else if (userType.equals("host")) {
+        } else if (userType.equals("Host")) {
             graphResId = R.navigation.host_navigation_graph;
             resId = R.menu.host_bottom_navigation_menu;
         } else {

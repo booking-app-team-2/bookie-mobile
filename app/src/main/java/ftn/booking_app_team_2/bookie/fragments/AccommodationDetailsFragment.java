@@ -2,9 +2,11 @@ package ftn.booking_app_team_2.bookie.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,20 +15,27 @@ import android.view.ViewGroup;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationDetailsBinding;
 import ftn.booking_app_team_2.bookie.dialogs.CreateReservationDialog;
+import ftn.booking_app_team_2.bookie.model.AccommodationApproval;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
 import ftn.booking_app_team_2.bookie.model.AvailabilityPeriod;
 import ftn.booking_app_team_2.bookie.clients.AccommodationService;
+import ftn.booking_app_team_2.bookie.tools.SessionManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,23 +61,95 @@ public class AccommodationDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    public void updateIsApproved(boolean isApproved) {
+        assert getArguments() != null;
+        Call<AccommodationApproval> call = ClientUtils.accommodationService.putIsApproved(
+                getArguments().getLong("accommodationId"),
+                new AccommodationApproval(isApproved)
+        );
+        call.enqueue(new Callback<AccommodationApproval>() {
+            @Override
+            public void onResponse(@NonNull Call<AccommodationApproval> call,
+                                   @NonNull Response<AccommodationApproval> response) {
+                if (response.code() == 200) {
+                    requireActivity().getSupportFragmentManager().popBackStack();
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AccommodationApproval> call,
+                                  @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding=FragmentAccommodationDetailsBinding.inflate(inflater, container, false);
         View root=binding.getRoot();
+
+        SessionManager sessionManager = new SessionManager(requireContext());
+        String userRole = sessionManager.getUserType();
+
+        if (!userRole.equals("Admin")) {
+            binding.approvalLayout.setVisibility(View.GONE);
+            root.findViewById(R.id.reserveButton).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialog();
+                }
+            });
+        }
+        else if (!userRole.equals("Guest")) {
+            binding.reservationLayout.setVisibility(View.GONE);
+
+            binding.approveBtn.setOnClickListener(view ->
+                    new MaterialAlertDialogBuilder(view.getContext())
+                            .setTitle("Are you sure you want to approve this accommodation?")
+                            .setPositiveButton("Confirm", ((dialog, which) ->
+                                    updateIsApproved(true)))
+                            .setNegativeButton("Cancel", ((dialog, which) -> { }))
+                            .show()
+
+            );
+            binding.sendBackBtn.setOnClickListener(view ->
+                    new MaterialAlertDialogBuilder(view.getContext())
+                            .setTitle("Are you sure you want to send this accommodation back for" +
+                                    " revision")
+                            .setPositiveButton("Confirm", ((dialog, which) ->
+                                    updateIsApproved(false)))
+                            .setNegativeButton("Cancel", ((dialog, which) -> { }))
+                            .show()
+            );
+        }
+
         Bundle args = getArguments();
         if (args != null) {
             Long accommodationId = args.getLong("accommodationId");
             //TODO: Add getReqest and connect to other fields
             loadAccommodation(accommodationId,root);
         }
-        root.findViewById(R.id.reserveButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-            }
-        });
         return root;
     }
 

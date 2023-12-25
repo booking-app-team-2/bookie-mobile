@@ -8,6 +8,7 @@
     android:layout_marginTop="40dp"
     tools:context=".fragments.AccommodationDetailsFragment"
     android:padding="16dp">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -157,6 +158,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/reservationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
@@ -176,6 +178,33 @@
             app:icon="@drawable/round_star"
             />
     </RelativeLayout>
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/approvalLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexDirection="row"
+                app:flexWrap="nowrap"
+                app:justifyContent="space_between">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/approveBtn"
+                    style="@style/Widget.App.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:text="@string/approve_this_accommodation"
+                    app:layout_flexGrow="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/sendBackBtn"
+                    style="@style/Widget.App.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:text="@string/send_back_for_revision"
+                    app:layout_flexGrow="1" />
+
+            </com.google.android.flexbox.FlexboxLayout>
         </LinearLayout>
     </ScrollView>
 

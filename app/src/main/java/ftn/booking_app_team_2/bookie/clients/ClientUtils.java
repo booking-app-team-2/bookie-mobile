@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ClientUtils {
     public static final String SERVICE_API_PATH = "http://localhost:8081/api/v1/";
 
-    public static final String JWT = "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJib29raWUtYmFja2VuZCIsInN1YiI6ImRhcmtvQGdtYWlsLmNvbSIsImF1ZCI6IndlYiIsImlhdCI6MTcwMzQ5MDYwOCwiaWQiOjMsIm5hbWUiOiJEYXJrbyIsInJvbGUiOiJHdWVzdCIsImV4cCI6MTcwMzQ5MjQwOH0.hf-OREods3hIsHBxJ6Th7gj2Km8qvoy4T65gbWwKlnKUsMa9P55mYKbA1l1MoDqLbDPd-Q9NExiBxgGQ2UH9bw";
+    public static final String JWT = "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJib29raWUtYmFja2VuZCIsInN1YiI6ImJvb2tpZUBnbWFpbC5jb20iLCJhdWQiOiJ3ZWIiLCJpYXQiOjE3MDM1MTQwMjksImlkIjoxLCJuYW1lIjoiQm9va2llIiwicm9sZSI6IkFkbWluIiwiZXhwIjoxNzAzNTE1ODI5fQ.np-mWIsFEK_aOppP-2ZSrYbTtAZAwpbpQdphg4SWWs5ZFxAVGSoIYa_fMtxqS8-30Wfqb-PNyLlTBilA7bwFag";
 
     public static OkHttpClient test() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
