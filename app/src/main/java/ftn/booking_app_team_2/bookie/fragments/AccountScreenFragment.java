@@ -6,49 +6,40 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONObject;
 
 import ftn.booking_app_team_2.bookie.R;
+import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccountScreenBinding;
+import ftn.booking_app_team_2.bookie.model.User;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AccountScreenFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AccountScreenFragment extends Fragment {
+    private User user = new User();
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    private FragmentAccountScreenBinding binding;
+    private TextView email;
+    private TextView name;
+    private TextView surname;
+    private TextView addressOfResidence;
+    private TextView telephone;
 
     public AccountScreenFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AccountScreenFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AccountScreenFragment newInstance(String param1, String param2) {
+    public static AccountScreenFragment newInstance() {
         AccountScreenFragment fragment = new AccountScreenFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,19 +47,75 @@ public class AccountScreenFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (user.getUsername() != null)
+            return;
+
+        Call<User> call = ClientUtils.userService.getUser(1L);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                if (response.code() == 200) {
+                    user = response.body();
+                    assert user != null;
+
+                    email.setText(user.getUsername());
+                    name.setText(user.getName());
+                    surname.setText(user.getSurname());
+                    addressOfResidence.setText(user.getAddressOfResidence());
+                    telephone.setText(user.getTelephone());
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentAccountScreenBinding.inflate(inflater, container, false);
+        FragmentAccountScreenBinding binding =
+                FragmentAccountScreenBinding.inflate(inflater, container, false);
 
-        binding.changeDataBtn.setOnClickListener(view -> {
-            Navigation.findNavController(view).navigate(R.id.navigateToAccountChangeScreen);
+        email = binding.email;
+        name = binding.name;
+        surname = binding.surname;
+        addressOfResidence = binding.addressOfResidence;
+        telephone = binding.telephone;
+
+        binding.changeDataBtn.setOnClickListener(view ->
+            Navigation.findNavController(view).navigate(R.id.navigateToAccountChangeScreen)
+        );
+
+        binding.deleteBtn.setOnClickListener(view -> {
+
         });
 
         binding.logOutBtn.setOnClickListener(view -> {

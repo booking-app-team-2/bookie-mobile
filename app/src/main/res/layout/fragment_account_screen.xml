@@ -40,6 +40,7 @@
                         android:textColor="?attr/colorOnSurface" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/email"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -65,6 +66,7 @@
                         android:textColor="?attr/colorOnSurface" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -90,6 +92,7 @@
                         android:textColor="?attr/colorOnSurface" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/surname"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -115,6 +118,7 @@
                         android:textColor="?attr/colorOnSurface" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/addressOfResidence"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -139,6 +143,7 @@
                         android:textColor="?attr/colorOnSurface" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/telephone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -175,6 +180,7 @@
                         android:text="@string/change_data" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/deleteBtn"
                         style="@style/Widget.App.Button"
                         android:layout_width="150dp"
                         android:layout_height="match_parent"
