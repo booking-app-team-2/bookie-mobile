@@ -1,4 +1,42 @@
 <resources>
+
     <string name="app_name">Bookie</string>
     <string name="hello_earth">Hello Earth!</string>
+    <string name="bookie_splash">bookie_splash</string>
+    <string name="bookie">Bookie</string>
+    <string name="password">Password:</string>
+    <string name="email">Email:</string>
+    <string name="name">Name:</string>
+    <string name="surname">Surname:</string>
+    <string name="address_of_residence">Address of residence:</string>
+    <string name="telephone_number">Telephone number:</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="change_data">Change Data</string>
+    <string name="delete_profile">Delete Profile</string>
+    <string name="log_out">Log Out</string>
+    <string name="change_picture_note">Press the profile picture in order to change it.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="reservations">Reservations</string>
+    <string name="notifications">Notifications</string>
+    <string name="accommodations">Accommodations</string>
+    <string name="reported_users">Reported Users</string>
+    <string name="reported_comments">Reported Comments</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="egg">egg</string>
+    <string name="picture_press_stop">Stop poking me!</string>
+    <string name="ok">OK</string>
+    <string name="update_basic_info">Update basic info</string>
+    <string name="update_telephone_number">Update telephone number</string>
+    <string name="update_address_of_residence">Update address of residence</string>
+    <string name="update_password">Update password</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="approve_this_accommodation">Approve this accommodation</string>
+    <string name="send_back_for_revision">Send back for revision</string>
+
 </resources>

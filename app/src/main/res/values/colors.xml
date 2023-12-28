@@ -2,4 +2,23 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Light theme colours-->
+    <color name="light_primary">#C2211E</color>
+    <color name="light_primary_variant">#DE2E2B</color>
+    <color name="light_secondary">#E74919</color>
+    <color name="light_secondary_variant">#EF6306</color>
+    <color name="light_tertiary">#A4DAE0</color>
+    <!-- Neutral is used for the background, surfaces and text on top of former colours -->
+    <color name="light_neutral">#FDF5EC</color>
+
+    <!-- Dark theme colours-->
+    <color name="dark_primary">#461076</color>
+    <color name="dark_primary_variant">#5E105B</color>
+    <color name="dark_secondary">#761073</color>
+    <color name="dark_secondary_variant">#761040</color>
+    <color name="dark_tertiary">#E8C502</color>
+    <!-- Neutral is used for the background, surfaces and text on top of former colours -->
+    <color name="dark_neutral">#171123</color>
 </resources>

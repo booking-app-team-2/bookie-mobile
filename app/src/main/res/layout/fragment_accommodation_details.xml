@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_marginTop="40dp"
+    tools:context=".fragments.AccommodationDetailsFragment"
+    android:padding="16dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/photoImageView"
+        app:srcCompat="@drawable/ic_launcher_foreground"
+        style="@style/Widget.MaterialComponents.ShapeableImageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_marginBottom="8dp"/>
+
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/nameTextView"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.constraintlayout.utils.widget.MotionLabel
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:text="Location" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/locationField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:inputType="none"
+            android:longClickable="false"
+            android:text="Accommodation Location, will be a map soon :(" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/amenityField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="Accommodation amenities: amenity1,amenity2,amenity3"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:cursorVisible="false"/>
+    </com.google.android.material.textfield.TextInputLayout>
+            <androidx.constraintlayout.utils.widget.MotionLabel
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="Desctiption" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/desciptionField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="Accommodation Description"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:cursorVisible="false"/>
+    </com.google.android.material.textfield.TextInputLayout>
+            <androidx.constraintlayout.utils.widget.MotionLabel
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="Number of guests" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/guestCountfield"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="1 to 4 people"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:cursorVisible="false"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.constraintlayout.utils.widget.MotionLabel
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="Type of accommodation" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/typeField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="Accommodation type"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:cursorVisible="false"/>
+    </com.google.android.material.textfield.TextInputLayout>
+            <androidx.constraintlayout.utils.widget.MotionLabel
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="Availability periods" />
+    <LinearLayout
+        android:id="@+id/periodLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/reservationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/reserveButton"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Reserve"/>
+        <Button
+            style="?attr/materialIconButtonStyle"
+            android:id="@+id/iconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            app:icon="@drawable/round_star"
+            />
+    </RelativeLayout>
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/approvalLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexDirection="row"
+                app:flexWrap="nowrap"
+                app:justifyContent="space_between">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/approveBtn"
+                    style="@style/Widget.App.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:text="@string/approve_this_accommodation"
+                    app:layout_flexGrow="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/sendBackBtn"
+                    style="@style/Widget.App.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:text="@string/send_back_for_revision"
+                    app:layout_flexGrow="1" />
+
+            </com.google.android.flexbox.FlexboxLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
