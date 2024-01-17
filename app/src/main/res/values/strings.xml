@@ -38,5 +38,13 @@
     <string name="new_password">New password</string>
     <string name="approve_this_accommodation">Approve this accommodation</string>
     <string name="send_back_for_revision">Send back for revision</string>
+    <string name="accommodation_name">Accommodation name</string>
+    <string name="reservation_period">Reservation period</string>
+    <string name="search">Search</string>
+    <string name="search_reservations_by_status">Search reservations by status:</string>
+    <string name="waiting">Waiting</string>
+    <string name="accepted">Accepted</string>
+    <string name="declined">Declined</string>
+    <string name="cancelled">Cancelled</string>
 
 </resources>
