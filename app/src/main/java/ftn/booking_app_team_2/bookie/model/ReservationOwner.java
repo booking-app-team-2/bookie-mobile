@@ -1,5 +1,6 @@
 package ftn.booking_app_team_2.bookie.model;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -14,53 +15,43 @@ import java.math.BigDecimal;
 public class ReservationOwner implements Parcelable, Serializable {
     @SerializedName("id")
     @Expose
-    private Long id;
+    private final Long id;
 
 
     @SerializedName("numberOfGuests")
     @Expose
-    private int numberOfGuests;
+    private final int numberOfGuests;
 
     @SerializedName("status")
     @Expose
-    private ReservationStatus status;
+    private final ReservationStatus status;
 
     @SerializedName("accommodationNameDTO")
     @Expose
-    private AccommodationNameDTO accommodationNameDTO;
+    private final AccommodationNameDTO accommodationNameDTO;
 
     @SerializedName("reserveeBasicInfoDTO")
     @Expose
-    private ReserveeBasicInfoDTO reserveeBasicInfoDTO;
+    private final ReserveeBasicInfoDTO reserveeBasicInfoDTO;
 
     @SerializedName("periodDTO")
     @Expose
-    private PeriodDTO periodDTO;
+    private final PeriodDTO periodDTO;
 
     @SerializedName("price")
     @Expose
     private BigDecimal price;
 
-    public ReservationOwner(Long id, int numberOfGuests, ReservationStatus status,
-                            AccommodationNameDTO accommodationNameDTO,
-                            ReserveeBasicInfoDTO reserveeBasicInfoDTO, PeriodDTO periodDTO,
-                            BigDecimal price) {
-        this.id = id;
-        this.numberOfGuests = numberOfGuests;
-        this.status = status;
-        this.accommodationNameDTO = accommodationNameDTO;
-        this.reserveeBasicInfoDTO = reserveeBasicInfoDTO;
-        this.periodDTO = periodDTO;
-        this.price = price;
-    }
-
     protected ReservationOwner(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readLong();
-        }
+        id = in.readLong();
         numberOfGuests = in.readInt();
+        status = ReservationStatus.valueOf(in.readString());
+        accommodationNameDTO = in.readParcelable(AccommodationNameDTO.class.getClassLoader());
+        reserveeBasicInfoDTO = in.readParcelable(ReserveeBasicInfoDTO.class.getClassLoader());
+        periodDTO = in.readParcelable(PeriodDTO.class.getClassLoader());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            price = in.readSerializable(BigDecimal.class.getClassLoader(), BigDecimal.class);
+        }
     }
 
     public Long getId() {
@@ -98,13 +89,13 @@ public class ReservationOwner implements Parcelable, Serializable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(id);
-        }
+        dest.writeLong(id);
         dest.writeInt(numberOfGuests);
+        dest.writeSerializable(status);
+        dest.writeParcelable(accommodationNameDTO, flags);
+        dest.writeParcelable(reserveeBasicInfoDTO, flags);
+        dest.writeParcelable(periodDTO, flags);
+        dest.writeSerializable(price);
     }
 
     public static final Creator<ReservationOwner> CREATOR = new Creator<ReservationOwner>() {

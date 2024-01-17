@@ -1,31 +1,57 @@
 package ftn.booking_app_team_2.bookie.model;
 
-public class PeriodDTO {
-    private long startTimestamp;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    private long endTimestamp;
+import androidx.annotation.NonNull;
 
-    public PeriodDTO(long startTimestamp, long endTimestamp) {
-        this.startTimestamp = startTimestamp;
-        this.endTimestamp = endTimestamp;
-    }
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public PeriodDTO() {
+import java.io.Serializable;
+
+public class PeriodDTO implements Parcelable, Serializable {
+    @SerializedName("startTimestamp")
+    @Expose
+    private final long startTimestamp;
+
+    @SerializedName("endTimestamp")
+    @Expose
+    private final long endTimestamp;
+
+    protected PeriodDTO(Parcel in) {
+        startTimestamp = in.readLong();
+        endTimestamp = in.readLong();
     }
 
     public long getStartTimestamp() {
         return startTimestamp;
     }
 
-    public void setStartTimestamp(long startTimestamp) {
-        this.startTimestamp = startTimestamp;
-    }
-
     public long getEndTimestamp() {
         return endTimestamp;
     }
 
-    public void setEndTimestamp(long endTimestamp) {
-        this.endTimestamp = endTimestamp;
+    @Override
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeLong(startTimestamp);
+        dest.writeLong(endTimestamp);
+    }
+
+    public static final Creator<PeriodDTO> CREATOR = new Creator<PeriodDTO>() {
+        @Override
+        public PeriodDTO createFromParcel(Parcel in) {
+            return new PeriodDTO(in);
+        }
+
+        @Override
+        public PeriodDTO[] newArray(int size) {
+            return new PeriodDTO[size];
+        }
+    };
 }

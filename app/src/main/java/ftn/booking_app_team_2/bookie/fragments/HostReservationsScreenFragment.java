@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,7 +39,7 @@ import retrofit2.Response;
 public class HostReservationsScreenFragment extends Fragment {
     private FragmentHostReservationsScreenBinding binding;
 
-    private List<ReservationOwner> reservationsOwner = null;
+    private Collection<ReservationOwner> reservationsOwner = null;
 
     private TextInputEditText accommodationName;
     private Pair<Long, Long> selectedTimestampRange = new Pair<>(null, null);
@@ -124,6 +125,32 @@ public class HostReservationsScreenFragment extends Fragment {
         );
     }
 
+    private void removeAllReservationViews() {
+        binding.reservationsContainer.removeAllViews();
+    }
+
+    private void addAllReservationViews() {
+        reservationsOwner.forEach(reservationOwner -> {
+            ReservationFragment reservationFragment = ReservationFragment.newInstance(
+                    reservationOwner.getId(),
+                    reservationOwner.getAccommodationNameDTO(),
+                    reservationOwner.getNumberOfGuests(),
+                    reservationOwner.getPeriodDTO(),
+                    reservationOwner.getPrice(),
+                    reservationOwner.getReserveeBasicInfoDTO(),
+                    reservationOwner.getStatus()
+            );
+
+            FragmentTransaction fragmentTransaction =
+                    getChildFragmentManager().beginTransaction();
+            fragmentTransaction.add(
+                    binding.reservationsContainer.getId(),
+                    reservationFragment
+            );
+            fragmentTransaction.commit();
+        });
+    }
+
     private void searchReservations() {
         Call<Collection<ReservationOwner>> call =
                 ClientUtils.reservationService.searchAndFilterOwner(
@@ -138,8 +165,12 @@ public class HostReservationsScreenFragment extends Fragment {
             public void onResponse(@NonNull Call<Collection<ReservationOwner>> call,
                                    @NonNull Response<Collection<ReservationOwner>> response) {
                 if (response.code() == 200) {
+                    removeAllReservationViews();
+
                     assert response.body() != null;
-                    reservationsOwner = new ArrayList<>(response.body());
+                    reservationsOwner = response.body();
+
+                    addAllReservationViews();
                 } else {
                     assert response.errorBody() != null;
                     try {

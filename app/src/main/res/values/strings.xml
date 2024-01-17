@@ -44,5 +44,18 @@
     <string name="accepted">Accepted</string>
     <string name="declined">Declined</string>
     <string name="cancelled">Cancelled</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="accommodation">Accommodation:</string>
+    <string name="number_of_guests">Number of guests:</string>
+    <string name="from_to">From - To:</string>
+    <string name="price">Price:</string>
+    <string name="reservee">Reservee:</string>
+    <string name="number_of_reservations_cancelled_by_reservee">
+        Number of reservations cancelled by reservee:
+    </string>
+    <string name="status">Status:</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
 
 </resources>

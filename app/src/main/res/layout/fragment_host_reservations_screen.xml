@@ -6,133 +6,172 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.HostReservationsScreenFragment">
 
-    <com.google.android.flexbox.FlexboxLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:flexDirection="column"
-        app:flexWrap="nowrap"
-        android:paddingHorizontal="10dp">
+        android:layout_height="wrap_content">
 
-
-        <com.google.android.material.textfield.TextInputLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="@string/accommodation_name">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/accommodationName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                tools:ignore="TextContrastCheck" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/accommodationNameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/reservation_period">
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="@string/accommodation_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/reservationPeriodInput"
+                    android:id="@+id/accommodationName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:inputType="none"
-                    android:longClickable="false"
+                    android:inputType="textCapWords"
                     tools:ignore="TextContrastCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/reservationPeriodButton"
-                style="?attr/materialIconButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                app:icon="@drawable/date_icon"
-                tools:ignore="RelativeOverlap,SpeakableTextPresentCheck" />
-
-        </RelativeLayout>
-
-        <com.google.android.material.card.MaterialCardView
-            style="?attr/materialCardViewElevatedStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" >
-
-            <com.google.android.flexbox.FlexboxLayout
+            <RelativeLayout
+                android:id="@+id/reservationPeriodPicker"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:flexDirection="column"
-                app:flexWrap="nowrap"
-                android:padding="10dp" >
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/accommodationNameInput">
 
-                <com.google.android.material.textview.MaterialTextView
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/search_reservations_by_status"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:hint="@string/reservation_period">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/reservationPeriodInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none"
+                        android:longClickable="false"
+                        tools:ignore="TextContrastCheck" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/reservationPeriodButton"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    app:icon="@drawable/date_icon"
+                    tools:ignore="RelativeOverlap,SpeakableTextPresentCheck" />
+
+            </RelativeLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/filterHolder"
+                style="?attr/materialCardViewElevatedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reservationPeriodPicker">
 
                 <com.google.android.flexbox.FlexboxLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:flexDirection="row"
-                    app:flexWrap="nowrap"
-                    app:justifyContent="space_between" >
+                    android:padding="10dp"
+                    app:flexDirection="column"
+                    app:flexWrap="nowrap">
 
-                    <CheckBox
-                        android:id="@+id/waitingCheckBox"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/waiting"
-                        android:textSize="12sp" />
+                        android:text="@string/search_reservations_by_status"
+                        android:textColor="?attr/colorOnSurface" />
 
-                    <CheckBox
-                        android:id="@+id/acceptedCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/accepted"
-                        android:textSize="12sp" />
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:flexDirection="row"
+                        app:flexWrap="nowrap"
+                        app:justifyContent="space_between">
 
-                    <CheckBox
-                        android:id="@+id/declinedCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/declined"
-                        android:textSize="12sp" />
+                        <CheckBox
+                            android:id="@+id/waitingCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/waiting"
+                            android:textSize="12sp" />
 
-                    <CheckBox
-                        android:id="@+id/cancelledCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cancelled"
-                        android:textSize="12sp" />
+                        <CheckBox
+                            android:id="@+id/acceptedCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/accepted"
+                            android:textSize="12sp" />
+
+                        <CheckBox
+                            android:id="@+id/declinedCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/declined"
+                            android:textSize="12sp" />
+
+                        <CheckBox
+                            android:id="@+id/cancelledCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cancelled"
+                            android:textSize="12sp" />
+
+                    </com.google.android.flexbox.FlexboxLayout>
 
                 </com.google.android.flexbox.FlexboxLayout>
 
-            </com.google.android.flexbox.FlexboxLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/searchBtn"
+                style="@style/Widget.App.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filterHolder"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/searchBtn"
-            style="@style/Widget.App.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/search"
-            android:layout_marginTop="10dp" />
+            <LinearLayout
+                android:id="@+id/reservationsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/searchBtn">
 
-    </com.google.android.flexbox.FlexboxLayout>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>
