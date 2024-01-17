@@ -21,9 +21,11 @@
             android:hint="@string/accommodation_name">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/accommodationName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords"
+                tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,12 +43,13 @@
                     android:id="@+id/reservationPeriodInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
                     android:clickable="false"
+                    android:cursorVisible="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
+                    android:inputType="none"
                     android:longClickable="false"
-                    android:cursorVisible="false" />
+                    tools:ignore="TextContrastCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,24 +92,28 @@
                     app:justifyContent="space_between" >
 
                     <CheckBox
+                        android:id="@+id/waitingCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/waiting"
                         android:textSize="12sp" />
 
                     <CheckBox
+                        android:id="@+id/acceptedCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/accepted"
                         android:textSize="12sp" />
 
                     <CheckBox
+                        android:id="@+id/declinedCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/declined"
                         android:textSize="12sp" />
 
                     <CheckBox
+                        android:id="@+id/cancelledCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/cancelled"
@@ -119,6 +126,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/searchBtn"
             style="@style/Widget.App.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

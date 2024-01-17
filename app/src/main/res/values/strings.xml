@@ -15,8 +15,6 @@
     <string name="delete_profile">Delete Profile</string>
     <string name="log_out">Log Out</string>
     <string name="change_picture_note">Press the profile picture in order to change it.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="home">Home</string>
@@ -39,7 +37,7 @@
     <string name="approve_this_accommodation">Approve this accommodation</string>
     <string name="send_back_for_revision">Send back for revision</string>
     <string name="accommodation_name">Accommodation name</string>
-    <string name="reservation_period">Reservation period</string>
+    <string name="reservation_period">Reservation periodDTO</string>
     <string name="search">Search</string>
     <string name="search_reservations_by_status">Search reservations by status:</string>
     <string name="waiting">Waiting</string>
