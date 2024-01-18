@@ -7,14 +7,14 @@ public class AvailabilityPeriod {
 
     private BigDecimal price;
 
-    private Period period;
+    private PeriodDTO periodDTO;
 
 
     private boolean isDeleted = false;
-    public AvailabilityPeriod(Long id, BigDecimal price, Period period, boolean isDeleted) {
+    public AvailabilityPeriod(Long id, BigDecimal price, PeriodDTO periodDTO, boolean isDeleted) {
         this.id = id;
         this.price = price;
-        this.period = period;
+        this.periodDTO = periodDTO;
         this.isDeleted = isDeleted;
     }
 
@@ -37,12 +37,12 @@ public class AvailabilityPeriod {
         this.price = price;
     }
 
-    public Period getPeriod() {
-        return period;
+    public PeriodDTO getPeriod() {
+        return periodDTO;
     }
 
-    public void setPeriod(Period period) {
-        this.period = period;
+    public void setPeriod(PeriodDTO periodDTO) {
+        this.periodDTO = periodDTO;
     }
 
     public boolean isDeleted() {

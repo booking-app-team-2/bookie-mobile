@@ -20,7 +20,7 @@
         android:icon="@drawable/round_king_bed"
         android:title="@string/accommodations" />
     <item
-        android:id="@+id/hostReservationScreenFragment"
+        android:id="@+id/hostReservationsScreenFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/round_menu_book"
