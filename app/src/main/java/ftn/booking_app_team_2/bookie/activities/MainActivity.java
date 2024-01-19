@@ -16,7 +16,6 @@ import ftn.booking_app_team_2.bookie.databinding.ActivityMainBinding;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding binding;
     private NavController navController;
     private BottomNavigationView bottomNavigationView;
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         bottomNavigationView = binding.bottomNavigationView;
