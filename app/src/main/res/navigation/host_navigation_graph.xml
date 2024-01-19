@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/hostReservationsScreenFragment"
-        android:name="ftn.booking_app_team_2.bookie.fragments.HostReservationsScreenFragment"
-        android:label="fragment_host_reservations_screen"
-        tools:layout="@layout/fragment_host_reservations_screen" />
+        android:name="ftn.booking_app_team_2.bookie.fragments.ReservationsScreenFragment"
+        android:label="fragment_reservations_screen"
+        tools:layout="@layout/fragment_reservations_screen" />
 </navigation>

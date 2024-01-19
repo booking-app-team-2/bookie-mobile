@@ -36,9 +36,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ReservationFragment extends Fragment {
-    HostReservationsScreenFragment parentFragment;
+    ReservationsScreenFragment parentFragment;
 
     private FragmentReservationBinding binding;
+
+    private String userRole;
 
     private static final String ARG_ID = "id";
     private static final String ARG_ACCOMMODATION_NAME_DTO = "accommodationNameDTO";
@@ -78,11 +80,31 @@ public class ReservationFragment extends Fragment {
         return fragment;
     }
 
+    public static ReservationFragment newInstance(Long id,
+                                                  AccommodationNameDTO accommodationNameDTO,
+                                                  int numberOfGuests, PeriodDTO periodDTO,
+                                                  BigDecimal price,
+                                                  ReservationStatus status) {
+        ReservationFragment fragment = new ReservationFragment();
+        Bundle args = new Bundle();
+        args.putLong(ARG_ID, id);
+        args.putParcelable(ARG_ACCOMMODATION_NAME_DTO, accommodationNameDTO);
+        args.putInt(ARG_NUMBER_OF_GUESTS, numberOfGuests);
+        args.putParcelable(ARG_PERIOD_DTO, periodDTO);
+        args.putSerializable(ARG_PRICE, price);
+        args.putSerializable(ARG_STATUS, status);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        parentFragment = (HostReservationsScreenFragment) getParentFragment();
+        parentFragment = (ReservationsScreenFragment) getParentFragment();
+
+        SessionManager sessionManager = new SessionManager(requireContext());
+        userRole = sessionManager.getUserType();
     }
 
     @Override
@@ -95,7 +117,8 @@ public class ReservationFragment extends Fragment {
             numberOfGuests = getArguments().getInt(ARG_NUMBER_OF_GUESTS);
             periodDTO = getArguments().getParcelable(ARG_PERIOD_DTO);
             price = (BigDecimal) getArguments().getSerializable(ARG_PRICE);
-            reserveeBasicInfoDTO = getArguments().getParcelable(ARG_RESERVEE_BASIC_INFO_DTO);
+            if (userRole.equals("Owner"))
+                reserveeBasicInfoDTO = getArguments().getParcelable(ARG_RESERVEE_BASIC_INFO_DTO);
             status = (ReservationStatus) getArguments().getSerializable(ARG_STATUS);
         }
     }
@@ -181,7 +204,7 @@ public class ReservationFragment extends Fragment {
                             Snackbar.LENGTH_SHORT
                     ).show();
 
-                    parentFragment.searchReservations();
+                    parentFragment.searchReservationsOwner();
                 } else {
                     assert response.errorBody() != null;
                     try {
@@ -224,7 +247,7 @@ public class ReservationFragment extends Fragment {
                             Snackbar.LENGTH_SHORT
                     ).show();
 
-                    parentFragment.searchReservations();
+                    parentFragment.searchReservationsOwner();
                 } else {
                     assert response.errorBody() != null;
                     try {
@@ -268,12 +291,16 @@ public class ReservationFragment extends Fragment {
         );
         binding.reservationPeriod.setText(getPeriodInDisplayFormat());
         binding.price.setText(String.format("$%s", price));
-        binding.reservee.setText(String.format(
-                "%s %s",
-                reserveeBasicInfoDTO.getName(),
-                reserveeBasicInfoDTO.getSurname())
-        );
-        getNumberOfCancelledReservations();
+        if (userRole.equals("Owner")) {
+            binding.reservee.setText(String.format(
+                    "%s %s",
+                    reserveeBasicInfoDTO.getName(),
+                    reserveeBasicInfoDTO.getSurname())
+            );
+            getNumberOfCancelledReservations();
+        } else if (userRole.equals("Guest")) {
+            binding.reservationOwnerDetails.setVisibility(View.GONE);
+        }
         binding.status.setText(status.toString());
 
         if (userRole.equals("Owner")) {

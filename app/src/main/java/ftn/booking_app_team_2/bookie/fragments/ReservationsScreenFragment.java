@@ -1,5 +1,7 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,17 +31,25 @@ import java.util.List;
 import java.util.Objects;
 
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
-import ftn.booking_app_team_2.bookie.databinding.FragmentHostReservationsScreenBinding;
+import ftn.booking_app_team_2.bookie.databinding.FragmentReservationsScreenBinding;
+import ftn.booking_app_team_2.bookie.model.ReservationGuest;
 import ftn.booking_app_team_2.bookie.model.ReservationOwner;
 import ftn.booking_app_team_2.bookie.model.ReservationStatus;
+import ftn.booking_app_team_2.bookie.tools.SessionManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HostReservationsScreenFragment extends Fragment {
-    private FragmentHostReservationsScreenBinding binding;
+public class ReservationsScreenFragment extends Fragment {
+    private FragmentReservationsScreenBinding binding;
+
+    private String userRole;
 
     private Collection<ReservationOwner> reservationsOwner = null;
+    private Collection<ReservationGuest> reservationsGuest = null;
+
+    private static final String START_TIMESTAMP_KEY = "start_timestamp";
+    private static final String END_TIMESTAMP_KEY = "end_timestamp";
 
     private TextInputEditText accommodationName;
     private Pair<Long, Long> selectedTimestampRange = new Pair<>(null, null);
@@ -48,10 +58,18 @@ public class HostReservationsScreenFragment extends Fragment {
     private CheckBox declinedCheckBox;
     private CheckBox cancelledCheckBox;
 
-    public HostReservationsScreenFragment() { }
+    public ReservationsScreenFragment() { }
 
-    public static HostReservationsScreenFragment newInstance() {
-        return new HostReservationsScreenFragment();
+    public static ReservationsScreenFragment newInstance() {
+        return new ReservationsScreenFragment();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        SessionManager sessionManager = new SessionManager(requireContext());
+        userRole = sessionManager.getUserType();
     }
 
     private List<ReservationStatus> getStatuses() {
@@ -80,12 +98,22 @@ public class HostReservationsScreenFragment extends Fragment {
             return;
         }
 
-        searchReservations();
+        if (userRole.equals("Guest"))
+            searchReservationsGuest();
+        else if (userRole.equals("Owner"))
+            searchReservationsOwner();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && savedInstanceState != null) {
+            selectedTimestampRange = new Pair<>(
+                    savedInstanceState.getSerializable(START_TIMESTAMP_KEY, Long.class),
+                    savedInstanceState.getSerializable(END_TIMESTAMP_KEY, Long.class)
+            );
+        }
     }
 
     private void displaySelectedReservationPeriod() {
@@ -130,28 +158,93 @@ public class HostReservationsScreenFragment extends Fragment {
     }
 
     private void addAllReservationViews() {
-        reservationsOwner.forEach(reservationOwner -> {
-            ReservationFragment reservationFragment = ReservationFragment.newInstance(
-                    reservationOwner.getId(),
-                    reservationOwner.getAccommodationNameDTO(),
-                    reservationOwner.getNumberOfGuests(),
-                    reservationOwner.getPeriodDTO(),
-                    reservationOwner.getPrice(),
-                    reservationOwner.getReserveeBasicInfoDTO(),
-                    reservationOwner.getStatus()
-            );
+        if (userRole.equals("Guest"))
+            reservationsGuest.forEach(reservationGuest -> {
+                ReservationFragment reservationFragment = ReservationFragment.newInstance(
+                        reservationGuest.getId(),
+                        reservationGuest.getAccommodationNameDTO(),
+                        reservationGuest.getNumberOfGuests(),
+                        reservationGuest.getPeriodDTO(),
+                        reservationGuest.getPrice(),
+                        reservationGuest.getStatus()
+                );
 
-            FragmentTransaction fragmentTransaction =
-                    getChildFragmentManager().beginTransaction();
-            fragmentTransaction.add(
-                    binding.reservationsContainer.getId(),
-                    reservationFragment
-            );
-            fragmentTransaction.commit();
+                FragmentTransaction fragmentTransaction =
+                        getChildFragmentManager().beginTransaction();
+                fragmentTransaction.add(binding.reservationsContainer.getId(), reservationFragment);
+                fragmentTransaction.commit();
+            });
+        else if (userRole.equals("Owner")) {
+            reservationsOwner.forEach(reservationOwner -> {
+                ReservationFragment reservationFragment = ReservationFragment.newInstance(
+                        reservationOwner.getId(),
+                        reservationOwner.getAccommodationNameDTO(),
+                        reservationOwner.getNumberOfGuests(),
+                        reservationOwner.getPeriodDTO(),
+                        reservationOwner.getPrice(),
+                        reservationOwner.getReserveeBasicInfoDTO(),
+                        reservationOwner.getStatus()
+                );
+
+                FragmentTransaction fragmentTransaction =
+                        getChildFragmentManager().beginTransaction();
+                fragmentTransaction.add(binding.reservationsContainer.getId(), reservationFragment);
+                fragmentTransaction.commit();
+            });
+        }
+    }
+
+    private void searchReservationsGuest() {
+        Call<Collection<ReservationGuest>> call =
+                ClientUtils.reservationService.searchAndFilterGuest(
+                        Objects.requireNonNull(accommodationName.getText()).toString(),
+                        selectedTimestampRange.first,
+                        selectedTimestampRange.second,
+                        getStatuses()
+                );
+
+        call.enqueue(new Callback<Collection<ReservationGuest>>() {
+            @Override
+            public void onResponse(@NonNull Call<Collection<ReservationGuest>> call,
+                                   @NonNull Response<Collection<ReservationGuest>> response) {
+                if (response.code() == 200) {
+                    removeAllReservationViews();
+
+                    assert response.body() != null;
+                    reservationsGuest = response.body();
+
+                    addAllReservationViews();
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Collection<ReservationGuest>> call,
+                                  @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
         });
     }
 
-    protected void searchReservations() {
+    protected void searchReservationsOwner() {
         Call<Collection<ReservationOwner>> call =
                 ClientUtils.reservationService.searchAndFilterOwner(
                         Objects.requireNonNull(accommodationName.getText()).toString(),
@@ -204,7 +297,7 @@ public class HostReservationsScreenFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull  LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentHostReservationsScreenBinding
+        binding = FragmentReservationsScreenBinding
                 .inflate(inflater, container, false);
 
         accommodationName = binding.accommodationName;
@@ -214,8 +307,19 @@ public class HostReservationsScreenFragment extends Fragment {
         cancelledCheckBox = binding.cancelledCheckBox;
 
         binding.reservationPeriodButton.setOnClickListener(view -> showReservationPeriodPicker());
-        binding.searchBtn.setOnClickListener(view -> searchReservations());
+        if (userRole.equals("Guest"))
+            binding.searchBtn.setOnClickListener(view -> searchReservationsGuest());
+        else if (userRole.equals("Owner"))
+            binding.searchBtn.setOnClickListener(view -> searchReservationsOwner());
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable(START_TIMESTAMP_KEY, selectedTimestampRange.first);
+        outState.putSerializable(END_TIMESTAMP_KEY, selectedTimestampRange.second);
     }
 }
