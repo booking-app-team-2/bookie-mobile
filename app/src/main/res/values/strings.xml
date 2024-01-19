@@ -57,5 +57,6 @@
     <string name="status">Status:</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
+    <string name="update">Update</string>
 
 </resources>

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.activities.MainActivity;
+import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentLoginBinding;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
 
@@ -75,13 +76,7 @@ public class LoginFragment extends Fragment {
 
         binding.loginBtn.setOnClickListener(view -> {
             SessionManager sessionManager = new SessionManager(requireContext());
-            if (binding.roleRadioGroup.getCheckedRadioButtonId() == binding.roleGuest.getId()) {
-                sessionManager.createLoginSession("Guest");
-            } else if (binding.roleRadioGroup.getCheckedRadioButtonId() == binding.roleOwner.getId()) {
-                sessionManager.createLoginSession("Host");
-            } else {
-                sessionManager.createLoginSession("Admin");
-            }
+            sessionManager.createLoginSession(ClientUtils.JWT);
 
             Intent intent = new Intent(requireActivity(), MainActivity.class);
             startActivity(intent);
