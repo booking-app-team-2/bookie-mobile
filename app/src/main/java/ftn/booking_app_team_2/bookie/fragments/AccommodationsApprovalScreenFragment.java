@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 import java.util.Collection;
 
-import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationsApprovalScreenBinding;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
@@ -85,7 +84,8 @@ public class AccommodationsApprovalScreenFragment extends Fragment {
                                             accommodationDTO.getDescription(),
                                             Integer.toString(accommodationDTO.getMinimumGuests()),
                                             Integer.toString(accommodationDTO.getMaximumGuests()),
-                                            accommodationDTO.getId()
+                                            accommodationDTO.getId(),
+                                            accommodationDTO.getImages()
                                     );
 
                         FragmentTransaction fragmentTransaction =

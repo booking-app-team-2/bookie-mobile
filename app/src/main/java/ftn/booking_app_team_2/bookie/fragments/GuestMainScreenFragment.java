@@ -25,7 +25,6 @@ import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentGuestMainScreenBinding;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
-import ftn.booking_app_team_2.bookie.clients.AccommodationService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -147,7 +146,8 @@ public class GuestMainScreenFragment extends Fragment {
                                 accommodationDTO.getDescription(),
                                 Integer.toString(accommodationDTO.getMinimumGuests()),
                                 Integer.toString(accommodationDTO.getMaximumGuests()),
-                                accommodationDTO.getId()
+                                accommodationDTO.getId(),
+                                accommodationDTO.getImages()
                         );
 
                         // Use FragmentTransaction to add the fragment to the layout

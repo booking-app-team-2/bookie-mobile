@@ -49,7 +49,8 @@ public class AccommodationsScreenFragment extends Fragment {
                             accommodation.getDescription(),
                             Integer.toString(accommodation.getMinimumGuests()),
                             Integer.toString(accommodation.getMaximumGuests()),
-                            accommodation.getId()
+                            accommodation.getId(),
+                            accommodation.getImages()
                     );
 
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
