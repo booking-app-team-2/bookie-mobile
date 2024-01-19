@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
@@ -27,6 +28,7 @@ import ftn.booking_app_team_2.bookie.model.AccommodationNameDTO;
 import ftn.booking_app_team_2.bookie.model.NumberOfCancelledReservations;
 import ftn.booking_app_team_2.bookie.model.PeriodDTO;
 import ftn.booking_app_team_2.bookie.model.ReservationStatus;
+import ftn.booking_app_team_2.bookie.model.ReservationStatusDTO;
 import ftn.booking_app_team_2.bookie.model.ReserveeBasicInfoDTO;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
 import retrofit2.Call;
@@ -34,6 +36,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ReservationFragment extends Fragment {
+    ReservationsScreenFragment parentFragment;
+
     private FragmentReservationBinding binding;
 
     private String userRole;
@@ -96,6 +100,8 @@ public class ReservationFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
+        parentFragment = (ReservationsScreenFragment) getParentFragment();
 
         SessionManager sessionManager = new SessionManager(requireContext());
         userRole = sessionManager.getUserType();
@@ -185,10 +191,99 @@ public class ReservationFragment extends Fragment {
         });
     }
 
+    private void acceptReservation() {
+        Call<ReservationStatusDTO> call = ClientUtils.reservationService.acceptReservation(id);
+        call.enqueue(new Callback<ReservationStatusDTO>() {
+            @Override
+            public void onResponse(@NonNull Call<ReservationStatusDTO> call,
+                                   @NonNull Response<ReservationStatusDTO> response) {
+                if (response.code() == 200) {
+                    Snackbar.make(
+                            requireView(),
+                            "Reservation successfully accepted.",
+                            Snackbar.LENGTH_SHORT
+                    ).show();
+
+                    parentFragment.searchReservationsOwner();
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ReservationStatusDTO> call, @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
+    private void declineReservation() {
+        Call<ReservationStatusDTO> call = ClientUtils.reservationService.declineReservation(id);
+        call.enqueue(new Callback<ReservationStatusDTO>() {
+            @Override
+            public void onResponse(@NonNull Call<ReservationStatusDTO> call,
+                                   @NonNull Response<ReservationStatusDTO> response) {
+                if (response.code() == 200) {
+                    Snackbar.make(
+                            requireView(),
+                            "Reservation successfully declined.",
+                            Snackbar.LENGTH_SHORT
+                    ).show();
+
+                    parentFragment.searchReservationsOwner();
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ReservationStatusDTO> call, @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentReservationBinding.inflate(inflater, container, false);
+
+        SessionManager sessionManager = new SessionManager(requireContext());
+        String userRole = sessionManager.getUserType();
 
         binding.accommodationName.setText(accommodationNameDTO.getName());
         binding.numberOfGuests.setText(
@@ -207,6 +302,36 @@ public class ReservationFragment extends Fragment {
             binding.reservationOwnerDetails.setVisibility(View.GONE);
         }
         binding.status.setText(status.toString());
+
+        if (userRole.equals("Owner")) {
+            if (status != ReservationStatus.Waiting) {
+                binding.ownerButtonHolder.setVisibility(View.GONE);
+            } else {
+                binding.acceptReservationBtn.setOnClickListener(view ->
+                        new MaterialAlertDialogBuilder(view.getContext())
+                                .setTitle("Are you sure you want to accept this reservation?")
+                                .setPositiveButton(
+                                        "Confirm",
+                                        (dialog, which) -> acceptReservation()
+                                )
+                                .setNegativeButton("Cancel", ((dialog, which) -> {
+                                }))
+                                .show()
+                );
+
+                binding.declineReservationBtn.setOnClickListener(view ->
+                        new MaterialAlertDialogBuilder(view.getContext())
+                                .setTitle("Are you sure you want to decline this reservation?")
+                                .setPositiveButton(
+                                        "Confirm",
+                                        (dialog, which) -> declineReservation()
+                                )
+                                .setNegativeButton("Cancel", ((dialog, which) -> {
+                                }))
+                                .show()
+                );
+            }
+        }
 
         return binding.getRoot();
     }
