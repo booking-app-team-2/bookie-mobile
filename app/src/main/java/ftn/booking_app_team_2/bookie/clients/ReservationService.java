@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import ftn.booking_app_team_2.bookie.model.NumberOfCancelledReservations;
+import ftn.booking_app_team_2.bookie.model.ReservationGuest;
 import ftn.booking_app_team_2.bookie.model.ReservationOwner;
 import ftn.booking_app_team_2.bookie.model.ReservationStatus;
 import retrofit2.Call;
@@ -13,6 +14,19 @@ import retrofit2.http.Query;
 
 public interface ReservationService {
     String reservationControllerPath = ClientUtils.SERVICE_API_PATH + "reservations";
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type: application/json",
+            "Authorization: Bearer " + ClientUtils.JWT
+    })
+    @GET(reservationControllerPath + "/reservee")
+    Call<Collection<ReservationGuest>> searchAndFilterGuest(
+            @Query("name") String name,
+            @Query("start_timestamp") Long startTimestamp,
+            @Query("end_timestamp") Long endTimestamp,
+            @Query("status") List<ReservationStatus> statuses
+    );
 
     @Headers({
             "User-Agent: Mobile-Android",

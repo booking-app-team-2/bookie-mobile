@@ -148,68 +148,77 @@
                 android:layout_marginBottom="10dp" />
 
             <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/reservationOwnerDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:flexDirection="row"
-                app:flexWrap="nowrap"
-                app:alignItems="stretch"
-                android:layout_marginBottom="10dp">
+                app:flexDirection="column"
+                app:flexWrap="nowrap">
 
-                <com.google.android.material.textview.MaterialTextView
+                <com.google.android.flexbox.FlexboxLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/reservee"
-                    android:textColor="?attr/colorOnSurface"
-                    android:gravity="center_vertical" />
+                    android:layout_height="wrap_content"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:alignItems="stretch"
+                    android:layout_marginBottom="10dp">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/reservee"
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/reservee"
+                        android:textColor="?attr/colorOnSurface"
+                        android:gravity="center_vertical" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/reservee"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="?attr/colorOnSurface"
+                        android:text="@string/placeholder"
+                        android:textAlignment="viewEnd"
+                        android:gravity="center_vertical"
+                        tools:ignore="RtlCompat" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="?attr/colorOnSurface"
-                    android:text="@string/placeholder"
-                    android:textAlignment="viewEnd"
-                    android:gravity="center_vertical"
-                    tools:ignore="RtlCompat" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:alignItems="stretch"
+                    android:layout_marginBottom="10dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/number_of_reservations_cancelled_by_reservee"
+                        android:textColor="?attr/colorOnSurface"
+                        android:gravity="center_vertical" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/numberOfCancelledReservations"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="?attr/colorOnSurface"
+                        android:text="@string/placeholder"
+                        android:textAlignment="viewEnd"
+                        android:gravity="center_vertical"
+                        tools:ignore="RtlCompat" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp" />
 
             </com.google.android.flexbox.FlexboxLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp" />
-
-            <com.google.android.flexbox.FlexboxLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:flexDirection="row"
-                app:flexWrap="nowrap"
-                app:alignItems="stretch"
-                android:layout_marginBottom="10dp">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/number_of_reservations_cancelled_by_reservee"
-                    android:textColor="?attr/colorOnSurface"
-                    android:gravity="center_vertical" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/numberOfCancelledReservations"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="?attr/colorOnSurface"
-                    android:text="@string/placeholder"
-                    android:textAlignment="viewEnd"
-                    android:gravity="center_vertical"
-                    tools:ignore="RtlCompat" />
-
-            </com.google.android.flexbox.FlexboxLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp" />
 
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"

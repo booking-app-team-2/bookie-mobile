@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ReservationOwner implements Parcelable, Serializable {
+public class ReservationGuest implements Parcelable, Serializable {
     @SerializedName("id")
     @Expose
     private final Long id;
@@ -29,10 +29,6 @@ public class ReservationOwner implements Parcelable, Serializable {
     @Expose
     private final AccommodationNameDTO accommodationNameDTO;
 
-    @SerializedName("reserveeBasicInfoDTO")
-    @Expose
-    private final ReserveeBasicInfoDTO reserveeBasicInfoDTO;
-
     @SerializedName("periodDTO")
     @Expose
     private final PeriodDTO periodDTO;
@@ -41,12 +37,11 @@ public class ReservationOwner implements Parcelable, Serializable {
     @Expose
     private BigDecimal price;
 
-    protected ReservationOwner(Parcel in) {
+    protected ReservationGuest(Parcel in) {
         id = in.readLong();
         numberOfGuests = in.readInt();
         status = ReservationStatus.valueOf(in.readString());
         accommodationNameDTO = in.readParcelable(AccommodationNameDTO.class.getClassLoader());
-        reserveeBasicInfoDTO = in.readParcelable(ReserveeBasicInfoDTO.class.getClassLoader());
         periodDTO = in.readParcelable(PeriodDTO.class.getClassLoader());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             price = in.readSerializable(BigDecimal.class.getClassLoader(), BigDecimal.class);
@@ -69,10 +64,6 @@ public class ReservationOwner implements Parcelable, Serializable {
         return accommodationNameDTO;
     }
 
-    public ReserveeBasicInfoDTO getReserveeBasicInfoDTO() {
-        return reserveeBasicInfoDTO;
-    }
-
     public PeriodDTO getPeriodDTO() {
         return periodDTO;
     }
@@ -92,20 +83,19 @@ public class ReservationOwner implements Parcelable, Serializable {
         dest.writeInt(numberOfGuests);
         dest.writeSerializable(status);
         dest.writeParcelable(accommodationNameDTO, flags);
-        dest.writeParcelable(reserveeBasicInfoDTO, flags);
         dest.writeParcelable(periodDTO, flags);
         dest.writeSerializable(price);
     }
 
-    public static final Creator<ReservationOwner> CREATOR = new Creator<ReservationOwner>() {
+    public static final Creator<ReservationGuest> CREATOR = new Creator<ReservationGuest>() {
         @Override
-        public ReservationOwner createFromParcel(Parcel in) {
-            return new ReservationOwner(in);
+        public ReservationGuest createFromParcel(Parcel in) {
+            return new ReservationGuest(in);
         }
 
         @Override
-        public ReservationOwner[] newArray(int size) {
-            return new ReservationOwner[size];
+        public ReservationGuest[] newArray(int size) {
+            return new ReservationGuest[size];
         }
     };
 }

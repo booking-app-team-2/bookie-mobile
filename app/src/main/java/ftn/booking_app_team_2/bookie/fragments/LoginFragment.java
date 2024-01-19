@@ -78,7 +78,7 @@ public class LoginFragment extends Fragment {
             if (binding.roleRadioGroup.getCheckedRadioButtonId() == binding.roleGuest.getId()) {
                 sessionManager.createLoginSession("Guest");
             } else if (binding.roleRadioGroup.getCheckedRadioButtonId() == binding.roleOwner.getId()) {
-                sessionManager.createLoginSession("Host");
+                sessionManager.createLoginSession("Owner");
             } else {
                 sessionManager.createLoginSession("Admin");
             }

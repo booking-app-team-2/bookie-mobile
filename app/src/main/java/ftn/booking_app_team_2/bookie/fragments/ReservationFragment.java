@@ -1,5 +1,6 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,12 +28,15 @@ import ftn.booking_app_team_2.bookie.model.NumberOfCancelledReservations;
 import ftn.booking_app_team_2.bookie.model.PeriodDTO;
 import ftn.booking_app_team_2.bookie.model.ReservationStatus;
 import ftn.booking_app_team_2.bookie.model.ReserveeBasicInfoDTO;
+import ftn.booking_app_team_2.bookie.tools.SessionManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ReservationFragment extends Fragment {
     private FragmentReservationBinding binding;
+
+    private String userRole;
 
     private static final String ARG_ID = "id";
     private static final String ARG_ACCOMMODATION_NAME_DTO = "accommodationNameDTO";
@@ -72,6 +76,31 @@ public class ReservationFragment extends Fragment {
         return fragment;
     }
 
+    public static ReservationFragment newInstance(Long id,
+                                                  AccommodationNameDTO accommodationNameDTO,
+                                                  int numberOfGuests, PeriodDTO periodDTO,
+                                                  BigDecimal price,
+                                                  ReservationStatus status) {
+        ReservationFragment fragment = new ReservationFragment();
+        Bundle args = new Bundle();
+        args.putLong(ARG_ID, id);
+        args.putParcelable(ARG_ACCOMMODATION_NAME_DTO, accommodationNameDTO);
+        args.putInt(ARG_NUMBER_OF_GUESTS, numberOfGuests);
+        args.putParcelable(ARG_PERIOD_DTO, periodDTO);
+        args.putSerializable(ARG_PRICE, price);
+        args.putSerializable(ARG_STATUS, status);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        SessionManager sessionManager = new SessionManager(requireContext());
+        userRole = sessionManager.getUserType();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +111,8 @@ public class ReservationFragment extends Fragment {
             numberOfGuests = getArguments().getInt(ARG_NUMBER_OF_GUESTS);
             periodDTO = getArguments().getParcelable(ARG_PERIOD_DTO);
             price = (BigDecimal) getArguments().getSerializable(ARG_PRICE);
-            reserveeBasicInfoDTO = getArguments().getParcelable(ARG_RESERVEE_BASIC_INFO_DTO);
+            if (userRole.equals("Owner"))
+                reserveeBasicInfoDTO = getArguments().getParcelable(ARG_RESERVEE_BASIC_INFO_DTO);
             status = (ReservationStatus) getArguments().getSerializable(ARG_STATUS);
         }
     }
@@ -166,12 +196,16 @@ public class ReservationFragment extends Fragment {
         );
         binding.reservationPeriod.setText(getPeriodInDisplayFormat());
         binding.price.setText(String.format("$%s", price));
-        binding.reservee.setText(String.format(
-                "%s %s",
-                reserveeBasicInfoDTO.getName(),
-                reserveeBasicInfoDTO.getSurname())
-        );
-        getNumberOfCancelledReservations();
+        if (userRole.equals("Owner")) {
+            binding.reservee.setText(String.format(
+                    "%s %s",
+                    reserveeBasicInfoDTO.getName(),
+                    reserveeBasicInfoDTO.getSurname())
+            );
+            getNumberOfCancelledReservations();
+        } else if (userRole.equals("Guest")) {
+            binding.reservationOwnerDetails.setVisibility(View.GONE);
+        }
         binding.status.setText(status.toString());
 
         return binding.getRoot();
