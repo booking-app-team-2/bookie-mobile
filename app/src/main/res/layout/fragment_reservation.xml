@@ -239,6 +239,7 @@
             </com.google.android.flexbox.FlexboxLayout>
 
             <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/ownerButtonHolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:flexDirection="row"
@@ -246,6 +247,7 @@
                 app:alignItems="stretch">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/acceptReservationBtn"
                     style="@style/Widget.App.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -254,6 +256,7 @@
                     android:text="@string/accept" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/declineReservationBtn"
                     style="@style/Widget.App.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

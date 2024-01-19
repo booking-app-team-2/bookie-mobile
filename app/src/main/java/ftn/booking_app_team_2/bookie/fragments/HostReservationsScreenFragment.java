@@ -151,7 +151,7 @@ public class HostReservationsScreenFragment extends Fragment {
         });
     }
 
-    private void searchReservations() {
+    protected void searchReservations() {
         Call<Collection<ReservationOwner>> call =
                 ClientUtils.reservationService.searchAndFilterOwner(
                         Objects.requireNonNull(accommodationName.getText()).toString(),
