@@ -1,53 +1,90 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.core.util.Pair;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
-import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentGuestMainScreenBinding;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
-import ftn.booking_app_team_2.bookie.clients.AccommodationService;
+import ftn.booking_app_team_2.bookie.tools.AccommodationComparator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GuestMainScreenFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class GuestMainScreenFragment extends Fragment {
-    private ImageView imageView;
+public class GuestMainScreenFragment extends Fragment implements SensorEventListener {
     private FragmentGuestMainScreenBinding binding;
 
+    private List<AccommodationDTO> accommodations = null;
+    private boolean isSortedAscending = true;
+
     private Pair<Long, Long> selectedDateRange;
+
+    private SensorManager sensorManager;
+
+    private long lastSensorUpdateTimestamp;
+
+    private float lastX;
+    private float lastY;
+    private float lastZ;
+
+    private static final int SHAKE_SPEED_THRESHHOLD = 3000;
 
     public GuestMainScreenFragment() {
 
     }
 
     public static GuestMainScreenFragment newInstance() {
-        GuestMainScreenFragment fragment = new GuestMainScreenFragment();
-        return fragment;
+        return new GuestMainScreenFragment();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (accommodations != null)
+            return;
+
+        searchAccommodations();
+
+        sensorManager.registerListener(
+                this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION),
+                SensorManager.SENSOR_DELAY_NORMAL
+        );
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        sensorManager.unregisterListener(this);
     }
 
     @Override
@@ -59,18 +96,21 @@ public class GuestMainScreenFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentGuestMainScreenBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
-        selectedDateRange=new Pair<Long,Long>(null,null);
-        binding.iconButton.setOnClickListener(view -> {
-            showDateRangePicker();
-        });
+        selectedDateRange = new Pair<>(null, null);
 
-        binding.searchButton.setOnClickListener(view ->{
-            searchAccommodations();
-        });
-        binding.accommodationsContainer.removeAllViews();
-        return root;
+        binding.iconButton.setOnClickListener(view -> showDateRangePicker());
+
+        binding.searchButton.setOnClickListener(view -> searchAccommodations());
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        sensorManager = (SensorManager) requireActivity().getSystemService(Context.SENSOR_SERVICE);
     }
 
     private void showDateRangePicker() {
@@ -80,93 +120,156 @@ public class GuestMainScreenFragment extends Fragment {
                         .setTitleText("Select a Date Range")
                         .build();
 
-        dateRangePicker.addOnPositiveButtonClickListener(
-                new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
-                    @Override
-                    public void onPositiveButtonClick(Pair<Long, Long> selection) {
-                        // Save the selected date range
-                        selectedDateRange = selection;
-                        displaySelectedDateRange();
-                        // Perform actions with the selected date range
-                        // (e.g., update UI, save to storage, etc.)
-                    }
-                });
+        dateRangePicker.addOnPositiveButtonClickListener(selection -> {
+            selectedDateRange = selection;
+            displaySelectedDateRange();
+        });
 
-        dateRangePicker.addOnNegativeButtonClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        selectedDateRange=new Pair<Long,Long>(null,null);
-                        binding.DateRangeSearchField.setText("");
-                    }
-                });
+        dateRangePicker.addOnNegativeButtonClickListener(view -> {
+            selectedDateRange = new Pair<>(null, null);
+            binding.DateRangeSearchField.setText("");
+        });
 
-        dateRangePicker.show(requireFragmentManager(), dateRangePicker.toString());
+        dateRangePicker.show(
+                requireActivity().getSupportFragmentManager(), dateRangePicker.toString()
+        );
     }
 
     private void displaySelectedDateRange() {
             if (selectedDateRange != null) {
-                // Convert milliseconds to Date objects
                 Date startDate = new Date(selectedDateRange.first);
                 Date endDate = new Date(selectedDateRange.second);
 
-                // Format the Date objects to a readable date format
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+                SimpleDateFormat dateFormat =
+                        new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
                 String formattedStartDate = dateFormat.format(startDate);
                 String formattedEndDate = dateFormat.format(endDate);
 
-                // Display the selected date range in a TextView or any other UI element
                 String dateRangeText = formattedStartDate + " - " + formattedEndDate;
 
-                // Update your TextView or UI element with the formatted date range text
                 binding.DateRangeSearchField.setText(dateRangeText);
             }
     }
 
-    private void searchAccommodations(){
+    private void addAllAccommodationViews() {
+        if (!isAdded())
+            return;
 
-        Integer guestCount = binding.GuestCountSearchField.getText().toString().equals("") ? null : Integer.parseInt(binding.GuestCountSearchField.getText().toString());
-        Long startDateInSeconds = selectedDateRange.first != null ? selectedDateRange.first / 1000 : null;
-        Long endDateInSeconds = selectedDateRange.second != null ? selectedDateRange.second / 1000 : null;
-        Call<Collection<AccommodationDTO>> call = ClientUtils.accommodationService.getSearchedAccommodations(
-                null,
-                guestCount,
-                startDateInSeconds,
-                endDateInSeconds
-        );
+        accommodations.forEach(accommodation -> {
+            AccommodationCardFragment fragment = AccommodationCardFragment.newInstance(
+                    accommodation.getName(),
+                    accommodation.getDescription(),
+                    Integer.toString(accommodation.getMinimumGuests()),
+                    Integer.toString(accommodation.getMaximumGuests()),
+                    accommodation.getId()
+            );
+
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.add(binding.accommodationsContainer.getId(), fragment);
+            transaction.commit();
+        });
+    }
+
+    private void removeAllAccommodationViews() {
+        if (!isAdded())
+            return;
+
+        getChildFragmentManager().getFragments().forEach(fragment -> {
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.remove(fragment);
+            fragmentTransaction.commit();
+        });
+    }
+
+    private void searchAccommodations(){
+        Integer guestCount = Objects
+                .requireNonNull(binding.GuestCountSearchField.getText())
+                .toString()
+                .equals("") ?
+                null :
+                Integer.parseInt(binding.GuestCountSearchField.getText().toString());
+
+        Long startDateInSeconds =
+                selectedDateRange.first != null ? selectedDateRange.first : null;
+        Long endDateInSeconds =
+                selectedDateRange.second != null ? selectedDateRange.second : null;
+
+        Call<Collection<AccommodationDTO>> call =
+                ClientUtils.accommodationService.getSearchedAccommodations(
+                        null,
+                        guestCount,
+                        startDateInSeconds,
+                        endDateInSeconds
+                );
+
         call.enqueue(new Callback<Collection<AccommodationDTO>>() {
             @Override
-            public void onResponse(Call<Collection<AccommodationDTO>> call, Response<Collection<AccommodationDTO>> response) {
+            public void onResponse(@NonNull Call<Collection<AccommodationDTO>> call,
+                                   @NonNull Response<Collection<AccommodationDTO>> response) {
                 if (response.isSuccessful()) {
-                    binding.accommodationsContainer.removeAllViews();
-                    Collection<AccommodationDTO> accommodations = response.body();
-                    assert accommodations != null;
-                    for(AccommodationDTO accommodationDTO:accommodations){
-                        AccommodationCardFragment fragment = AccommodationCardFragment.newInstance(
-                                accommodationDTO.getName(),
-                                accommodationDTO.getDescription(),
-                                Integer.toString(accommodationDTO.getMinimumGuests()),
-                                Integer.toString(accommodationDTO.getMaximumGuests()),
-                                accommodationDTO.getId()
-                        );
+                    removeAllAccommodationViews();
 
-                        // Use FragmentTransaction to add the fragment to the layout
-                        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                        transaction.add(R.id.accommodations_container, fragment); // Assuming R.id.accommodations_container is the container in your layout
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-                    }
+                    assert response.body() != null;
+                    accommodations = new ArrayList<>(response.body());
+
+                    addAllAccommodationViews();
                 } else {
                     Log.e("TAG","NE RADI");
                 }
             }
 
             @Override
-            public void onFailure(Call<Collection<AccommodationDTO>> call, Throwable t) {
+            public void onFailure(@NonNull Call<Collection<AccommodationDTO>> call,
+                                  @NonNull Throwable t) {
                 Log.e("TAG",t.toString());
             }
         });
-
     }
 
+    private void sortAccommodationsByPrice() {
+        if (!isAdded() && accommodations == null)
+            return;
+
+        removeAllAccommodationViews();
+
+        if (isSortedAscending)
+            Collections.reverse(accommodations);
+        else
+            accommodations.sort(new AccommodationComparator());
+
+        isSortedAscending = !isSortedAscending;
+
+        addAllAccommodationViews();
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+            long currentTimestamp = Instant.now().toEpochMilli();
+
+            long timestampDifference = currentTimestamp - lastSensorUpdateTimestamp;
+            if (timestampDifference <= 100)
+                return;
+
+            lastSensorUpdateTimestamp = currentTimestamp;
+
+            float[] values = sensorEvent.values;
+
+            float speed = Math.abs(
+                    values[0] + values[1] + values[2] - lastX - lastY - lastZ
+            ) / timestampDifference * 10000;
+            if (speed > SHAKE_SPEED_THRESHHOLD) {
+                sortAccommodationsByPrice();
+            }
+
+            lastX = values[0];
+            lastY = values[1];
+            lastZ = values[2];
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
 }

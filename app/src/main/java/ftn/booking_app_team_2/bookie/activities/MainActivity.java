@@ -22,13 +22,12 @@ import ftn.booking_app_team_2.bookie.databinding.ActivityMainBinding;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
-    private ActivityMainBinding binding;
     private NavController navController;
     private BottomNavigationView bottomNavigationView;
 
     private SensorManager sensorManager;
     private Sensor lightSensor;
-    private static final int SENSOR_SENSITIVITY = 100;
+    private static final int SENSOR_SENSITIVITY = 2;
 
     @Override
     protected void onResume() {
@@ -56,10 +55,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (sensorEvent.sensor.getType() == Sensor.TYPE_LIGHT) {
-            if (
-                    sensorEvent.values[0] >= -SENSOR_SENSITIVITY &&
-                            sensorEvent.values[0] <= SENSOR_SENSITIVITY
-            ) {
+            if (sensorEvent.values[0] <= SENSOR_SENSITIVITY) {
                 if (isInDarkMode())
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
@@ -105,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
