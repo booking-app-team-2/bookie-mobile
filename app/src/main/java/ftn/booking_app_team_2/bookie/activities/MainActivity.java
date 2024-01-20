@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (userType.equals("Guest")) {
             graphResId = R.navigation.guest_navigation_graph;
             resId = R.menu.guest_bottom_navigation_menu;
-        } else if (userType.equals("Host")) {
+        } else if (userType.equals("Owner")) {
             graphResId = R.navigation.host_navigation_graph;
             resId = R.menu.host_bottom_navigation_menu;
         } else {
