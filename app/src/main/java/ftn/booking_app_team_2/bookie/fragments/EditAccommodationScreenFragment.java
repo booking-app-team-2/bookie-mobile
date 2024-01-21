@@ -1,13 +1,17 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -32,6 +36,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -50,6 +55,8 @@ import ftn.booking_app_team_2.bookie.model.AccommodationType;
 import ftn.booking_app_team_2.bookie.model.Amenities;
 import ftn.booking_app_team_2.bookie.model.AvailabilityPeriodDTO;
 import ftn.booking_app_team_2.bookie.model.Location;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,6 +86,8 @@ public class EditAccommodationScreenFragment extends Fragment {
     private static final String ARG_ID = "id";
 
     private Long id;
+
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     public EditAccommodationScreenFragment() { }
 
@@ -418,9 +427,65 @@ public class EditAccommodationScreenFragment extends Fragment {
         });
     }
 
-    private void addImage() {
+    private void registerResult() {
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                activityResult -> {
+                    try {
+                        assert activityResult.getData() != null;
+                        addImage(Objects.requireNonNull(activityResult.getData().getData()).toString());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+    }
 
+    private void getImageFromGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        activityResultLauncher.launch(galleryIntent);
+    }
 
+    private void addImage(String imageUri) {
+        File file = new File(imageUri);
+        RequestBody requestBody = RequestBody.create(MultipartBody.FORM, file);
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("image", file.getName(), requestBody);
+
+        Call<ResponseBody> call = ClientUtils.imageService.postImage(body, accommodation.getId());
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
     }
 
     private void removeImageFromView() {
@@ -516,7 +581,8 @@ public class EditAccommodationScreenFragment extends Fragment {
                 isReservationAutoAccepted.setThumbIconResource(R.drawable.round_close);
         });
 
-        binding.addImageBtn.setOnClickListener(view -> addImage());
+        registerResult();
+        binding.addImageBtn.setOnClickListener(view -> getImageFromGallery());
 
         binding.removeImageBtn.setOnClickListener(view -> removeImage());
 

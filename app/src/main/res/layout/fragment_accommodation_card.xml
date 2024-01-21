@@ -35,6 +35,11 @@
 
                 <!-- Title, secondary and supporting text -->
                 <TextView
+                    android:id="@+id/bestPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceTitleLarge" />
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/accommodation_name"

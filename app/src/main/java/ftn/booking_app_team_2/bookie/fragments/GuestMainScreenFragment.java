@@ -169,7 +169,8 @@ public class GuestMainScreenFragment extends Fragment implements SensorEventList
                     Integer.toString(accommodation.getMinimumGuests()),
                     Integer.toString(accommodation.getMaximumGuests()),
                     accommodation.getId(),
-                    accommodation.getImages()
+                    accommodation.getImages(),
+                    accommodation.getAvailabilityPeriods()
             );
 
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();

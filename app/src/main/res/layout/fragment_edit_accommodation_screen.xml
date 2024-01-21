@@ -32,15 +32,15 @@
                 android:layout_height="match_parent"
                 app:flexDirection="row"
                 app:flexWrap="nowrap"
-                app:alignItems="stretch"
                 android:layout_marginBottom="10dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/addImageBtn"
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="@string/add_image"
+                    app:layout_alignSelf="center"
                     app:layout_flexGrow="2" />
 
                 <FrameLayout
@@ -61,7 +61,8 @@
                         android:id="@+id/removeImageBtn"
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_alignSelf="center"
                         android:text="@string/remove_image" />
 
                     <NumberPicker
