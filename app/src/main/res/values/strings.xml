@@ -61,5 +61,6 @@
     <string name="guest_count">Guest count</string>
     <string name="date_range">Date range</string>
     <string name="filter">Filter</string>
+    <string name="update">Update</string>
 
 </resources>

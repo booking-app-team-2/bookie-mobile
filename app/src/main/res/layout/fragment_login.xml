@@ -71,32 +71,5 @@
                 android:text="Login" />
         </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/roleRadioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
-
-            <RadioButton
-                android:id="@+id/roleGuest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Guest"
-                android:checked="true" />
-
-            <RadioButton
-                android:id="@+id/roleOwner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Owner" />
-
-            <RadioButton
-                android:id="@+id/roleAdmin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Admin" />
-
-        </RadioGroup>
-
     </LinearLayout>
 </FrameLayout>

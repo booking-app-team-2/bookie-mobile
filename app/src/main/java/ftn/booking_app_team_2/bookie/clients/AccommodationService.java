@@ -1,4 +1,5 @@
 package ftn.booking_app_team_2.bookie.clients;
+
 import java.util.Collection;
 
 import ftn.booking_app_team_2.bookie.model.AccommodationApproval;
@@ -40,6 +41,14 @@ public interface AccommodationService {
     })
     @GET("accommodations/{id}")
     Call<AccommodationDTO> getAccommodation(@Path("id") Long id);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type: application/json",
+            "Authorization: Bearer " + ClientUtils.JWT
+    })
+    @GET("accommodations/owner-accommodations/{ownerId}")
+    Call<Collection<AccommodationDTO>> getAccommodationsByOwner(@Path("ownerId") Long ownerId);
 
     @Headers({
             "User-Agent: Mobile-Android",

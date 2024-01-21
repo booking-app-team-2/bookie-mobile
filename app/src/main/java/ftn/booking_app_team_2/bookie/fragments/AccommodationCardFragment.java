@@ -1,17 +1,22 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import ftn.booking_app_team_2.bookie.R;
+import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationCardBinding;
+import ftn.booking_app_team_2.bookie.tools.SessionManager;
 
 public class AccommodationCardFragment extends Fragment {
+    private String userRole;
+
     private static final String ARG_ACCOMMODATION_NAME = "accommodation_name";
     private static final String ARG_ACCOMMODATION_DESCRIPTION = "accommodation_description";
     private static final String ARG_ACCOMMODATION_MIN_GUESTS = "Minimum guests";
@@ -41,6 +46,14 @@ public class AccommodationCardFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        SessionManager sessionManager = new SessionManager(requireContext());
+        userRole = sessionManager.getUserType();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -55,24 +68,33 @@ public class AccommodationCardFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_accommodation_card, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        FragmentAccommodationCardBinding binding = FragmentAccommodationCardBinding
+                .inflate(inflater, container, false);
 
-        TextView nameTextView = view.findViewById(R.id.accommodation_name);
-        TextView descriptionTextView = view.findViewById(R.id.accommodation_description);
-        TextView guestCount=view.findViewById(R.id.accommodation_guest_count);
-        nameTextView.setText(accommodationName);
-        descriptionTextView.setText(accommodationDescription);
-        guestCount.setText(String.format("%s to %s guests", minGuests, maxGuests));
-        view.findViewById(R.id.detailsBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.accommodationName.setText(accommodationName);
+        binding.accommodationDescription.setText(accommodationDescription);
+        binding.accommodationGuestCount.setText(
+                String.format("%s to %s guests", minGuests, maxGuests)
+        );
+        if (userRole.equals("Guest")) {
+            binding.ownerInteractionContainer.setVisibility(View.GONE);
+
+            binding.detailsBtn.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();
-                bundle.putLong("accommodationId",accommodationId);
-                Navigation.findNavController(v).navigate(R.id.navigateToAccommodationDetailsScreen,bundle);
-            }
-        });
+                bundle.putLong("accommodationId", accommodationId);
+                Navigation.findNavController(v).navigate(
+                        R.id.navigateToAccommodationDetailsScreen, bundle
+                );
+            });
+        } else if (userRole.equals("Owner")) {
+            binding.guestInteractionContainer.setVisibility(View.GONE);
 
-        return view;
+            binding.updateAccommodationBtn.setOnClickListener(view -> {
+
+            });
+        }
+
+        return binding.getRoot();
     }
 }
