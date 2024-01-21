@@ -77,13 +77,10 @@ public class ReservationsScreenFragment extends Fragment {
 
         if (waitingCheckBox.isChecked())
             statuses.add(ReservationStatus.Waiting);
-
         if (acceptedCheckBox.isChecked())
             statuses.add(ReservationStatus.Accepted);
-
         if (declinedCheckBox.isChecked())
             statuses.add(ReservationStatus.Declined);
-
         if (cancelledCheckBox.isChecked())
             statuses.add(ReservationStatus.Cancelled);
 
@@ -131,7 +128,8 @@ public class ReservationsScreenFragment extends Fragment {
                 String.format(
                         "%s - %s",
                         startDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                        endDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                        endDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                )
         );
     }
 
@@ -154,10 +152,20 @@ public class ReservationsScreenFragment extends Fragment {
     }
 
     private void removeAllReservationViews() {
-        binding.reservationsContainer.removeAllViews();
+        if (!isAdded())
+            return;
+
+        getChildFragmentManager().getFragments().forEach(childFragment -> {
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.remove(childFragment);
+            fragmentTransaction.commit();
+        });
     }
 
     private void addAllReservationViews() {
+        if (!isAdded())
+            return;
+
         if (userRole.equals("Guest"))
             reservationsGuest.forEach(reservationGuest -> {
                 ReservationFragment reservationFragment = ReservationFragment.newInstance(
