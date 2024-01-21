@@ -70,7 +70,6 @@
     <string name="kitchen">Kitchen</string>
     <string name="ac">AC</string>
     <string name="parking">Parking</string>
-    <string name="location">Location</string>
     <string name="is_reservation_auto_accepted">
         Should reservations for this accommodation be automatically accepted?
     </string>
