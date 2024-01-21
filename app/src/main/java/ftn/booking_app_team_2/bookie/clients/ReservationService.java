@@ -9,6 +9,7 @@ import ftn.booking_app_team_2.bookie.model.ReservationOwner;
 import ftn.booking_app_team_2.bookie.model.ReservationStatus;
 import ftn.booking_app_team_2.bookie.model.ReservationStatusDTO;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.PUT;
@@ -69,4 +70,12 @@ public interface ReservationService {
     })
     @PUT(reservationControllerPath + "/{id}/status/declined")
     Call<ReservationStatusDTO> declineReservation(@Path("id") Long id);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type: application/json",
+            "Authorization: Bearer " + ClientUtils.JWT
+    })
+    @DELETE(reservationControllerPath + "/{id}")
+    Call<Void> deleteReservation(@Path("id") Long id);
 }
