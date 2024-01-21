@@ -35,6 +35,11 @@
 
                 <!-- Title, secondary and supporting text -->
                 <TextView
+                    android:id="@+id/bestPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceTitleLarge" />
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/accommodation_name"
@@ -60,6 +65,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/guestInteractionContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -84,6 +90,21 @@
                     android:drawableLeft="@drawable/round_star"
                     />
             </LinearLayout>
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/ownerInteractionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/updateAccommodationBtn"
+                    style="@style/Widget.App.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:text="@string/update" />
+
+            </com.google.android.flexbox.FlexboxLayout>
 
         </LinearLayout>
 

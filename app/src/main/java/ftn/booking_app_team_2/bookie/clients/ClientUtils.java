@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ClientUtils {
     public static final String SERVICE_API_PATH = "http://localhost:8081/api/v1/";
 
-    public static final String JWT = "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJib29raWUtYmFja2VuZCIsInN1YiI6ImJvb2tpZUBnbWFpbC5jb20iLCJhdWQiOiJ3ZWIiLCJpYXQiOjE3MDM1MTQwMjksImlkIjoxLCJuYW1lIjoiQm9va2llIiwicm9sZSI6IkFkbWluIiwiZXhwIjoxNzAzNTE1ODI5fQ.np-mWIsFEK_aOppP-2ZSrYbTtAZAwpbpQdphg4SWWs5ZFxAVGSoIYa_fMtxqS8-30Wfqb-PNyLlTBilA7bwFag";
+    public static final String JWT = "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJib29raWUtYmFja2VuZCIsInN1YiI6Im93bmVyQGdtYWlsLmNvbSIsImF1ZCI6Im1vYmlsZSIsImlhdCI6MTcwNTg1Njc3NiwiaWQiOjQsIm5hbWUiOiJPd25lciIsInJvbGUiOiJPd25lciIsImV4cCI6MTcwNTk0MzE3Nn0.LZIMNrOzYB7gYBmEgkgjbLoO-wkhrETw1OG3VtykgDapRJQaaWjxmxSWcQRIzFKlk5e5FdTdKG8eExA3k9vBRg";
 
     public static OkHttpClient test() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
@@ -31,4 +31,6 @@ public class ClientUtils {
 
     public static UserService userService = retrofit.create(UserService.class);
     public static AccommodationService accommodationService=retrofit.create(AccommodationService.class);
+    public static ReservationService reservationService = retrofit.create(ReservationService.class);
+    public static ImageService imageService = retrofit.create(ImageService.class);
 }

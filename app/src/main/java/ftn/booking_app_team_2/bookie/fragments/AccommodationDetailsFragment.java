@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,7 +24,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
@@ -34,7 +32,6 @@ import ftn.booking_app_team_2.bookie.dialogs.CreateReservationDialog;
 import ftn.booking_app_team_2.bookie.model.AccommodationApproval;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
 import ftn.booking_app_team_2.bookie.model.AvailabilityPeriod;
-import ftn.booking_app_team_2.bookie.clients.AccommodationService;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
 import retrofit2.Call;
 import retrofit2.Callback;

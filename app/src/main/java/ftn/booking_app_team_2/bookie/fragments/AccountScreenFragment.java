@@ -1,5 +1,6 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,9 +31,7 @@ import retrofit2.Response;
 public class AccountScreenFragment extends Fragment {
     private User user = new User();
 
-    // TODO: Get userId from JWT
-
-    private final Long userId = 1L;
+    private Long userId;
 
     private TextView email;
     private TextView name;
@@ -48,6 +47,14 @@ public class AccountScreenFragment extends Fragment {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        SessionManager sessionManager = new SessionManager(requireContext());
+        userId = sessionManager.getUserId();
     }
 
     public void populateView() {

@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class AccommodationDTO implements Parcelable, Serializable {
+public class AccommodationBasicInfo implements Parcelable, Serializable {
     @SerializedName("id")
     @Expose
     private final Long id;
@@ -43,27 +43,35 @@ public class AccommodationDTO implements Parcelable, Serializable {
     @Expose
     private Set<Amenities> amenities;
 
-    @SerializedName("availabilityPeriods")
-    @Expose
-    private Set<AvailabilityPeriod> availabilityPeriods;
-
     @SerializedName("images")
     @Expose
     private Set<Image> images;
-
-    @SerializedName("reservationCancellationDeadline")
-    @Expose
-    private final int reservationCancellationDeadline;
 
     @SerializedName("type")
     @Expose
     private final AccommodationType type;
 
-    @SerializedName("reservationAutoAccepted")
+    @SerializedName("availabilityPeriods")
     @Expose
-    private final boolean isReservationAutoAccepted;
+    private Set<AvailabilityPeriodDTO> availabilityPeriodDTOs;
 
-    protected AccommodationDTO(Parcel in) {
+    public AccommodationBasicInfo(Long id, String name, String description, int minimumGuests,
+                                  int maximumGuests, Location location, Set<Amenities> amenities,
+                                  Set<Image> images, AccommodationType type,
+                                  Set<AvailabilityPeriodDTO> availabilityPeriodDTOs) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.minimumGuests = minimumGuests;
+        this.maximumGuests = maximumGuests;
+        this.location = location;
+        this.amenities = amenities;
+        this.images = images;
+        this.type = type;
+        this.availabilityPeriodDTOs = availabilityPeriodDTOs;
+    }
+
+    protected AccommodationBasicInfo(Parcel in) {
         id = in.readLong();
         name = in.readString();
         description = in.readString();
@@ -78,11 +86,11 @@ public class AccommodationDTO implements Parcelable, Serializable {
             );
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            availabilityPeriods = new HashSet<>(
+            availabilityPeriodDTOs = new HashSet<>(
                     Objects.requireNonNull(
                             in.readArrayList(
-                                    AvailabilityPeriod.class.getClassLoader(),
-                                    AvailabilityPeriod.class
+                                    AvailabilityPeriodDTO.class.getClassLoader(),
+                                    AvailabilityPeriodDTO.class
                             )
                     )
             );
@@ -94,9 +102,7 @@ public class AccommodationDTO implements Parcelable, Serializable {
                     )
             );
         }
-        reservationCancellationDeadline = in.readInt();
         type = AccommodationType.valueOf(in.readString());
-        isReservationAutoAccepted = in.readByte() != 0;
     }
 
     public Long getId() {
@@ -107,44 +113,8 @@ public class AccommodationDTO implements Parcelable, Serializable {
         return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public int getMinimumGuests() {
-        return minimumGuests;
-    }
-
-    public int getMaximumGuests() {
-        return maximumGuests;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public Set<Amenities> getAmenities() {
-        return amenities;
-    }
-
-    public Set<AvailabilityPeriod> getAvailabilityPeriods() {
-        return availabilityPeriods;
-    }
-
-    public Set<Image> getImages() {
-        return images;
-    }
-
-    public int getReservationCancellationDeadline() {
-        return reservationCancellationDeadline;
-    }
-
     public AccommodationType getType() {
         return type;
-    }
-
-    public boolean isReservationAutoAccepted() {
-        return isReservationAutoAccepted;
     }
 
     @Override
@@ -161,41 +131,21 @@ public class AccommodationDTO implements Parcelable, Serializable {
         dest.writeInt(maximumGuests);
         dest.writeParcelable(location, flags);
         dest.writeArray(amenities.toArray());
-        dest.writeArray(availabilityPeriods.toArray());
+        dest.writeArray(availabilityPeriodDTOs.toArray());
         dest.writeArray(images.toArray());
-        dest.writeInt(reservationCancellationDeadline);
         dest.writeSerializable(type);
-        dest.writeByte((byte) (isReservationAutoAccepted ? 1 : 0));
     }
 
-    public static final Creator<AccommodationDTO> CREATOR = new Creator<AccommodationDTO>() {
-        @Override
-        public AccommodationDTO createFromParcel(Parcel in) {
-            return new AccommodationDTO(in);
-        }
+    public static final Creator<AccommodationBasicInfo> CREATOR =
+            new Creator<AccommodationBasicInfo>() {
+                @Override
+                public AccommodationBasicInfo createFromParcel(Parcel in) {
+                    return new AccommodationBasicInfo(in);
+                }
 
-        @Override
-        public AccommodationDTO[] newArray(int size) {
-            return new AccommodationDTO[size];
-        }
+                @Override
+                public AccommodationBasicInfo[] newArray(int size) {
+                    return new AccommodationBasicInfo[size];
+                }
     };
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "AccommodationDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", minimumGuests=" + minimumGuests +
-                ", maximumGuests=" + maximumGuests +
-                ", location=" + location +
-                ", amenities=" + amenities +
-                ", availabilityPeriods=" + availabilityPeriods +
-                ", images=" + images +
-                ", reservationCancellationDeadline=" + reservationCancellationDeadline +
-                ", type=" + type +
-                ", isReservationAutoAccepted=" + isReservationAutoAccepted +
-                '}';
-    }
 }

@@ -10,11 +10,6 @@ import android.view.ViewGroup;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
-
 import ftn.booking_app_team_2.bookie.R;
 
 /**
@@ -31,8 +26,8 @@ public class AvailabilityPeriodFragment extends Fragment {
     private static final String ARG_PRICE = "price";
 
     // TODO: Rename and change types of parameters
-    private long startDate;
-    private long endDate;
+    private String startDate;
+    private String endDate;
 
     private double price;
 
@@ -49,11 +44,11 @@ public class AvailabilityPeriodFragment extends Fragment {
      * @return A new instance of fragment AvailabilityPeriodFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AvailabilityPeriodFragment newInstance(long startDate,long endDate,Double price) {
+    public static AvailabilityPeriodFragment newInstance(String startDate,String endDate,Double price) {
         AvailabilityPeriodFragment fragment = new AvailabilityPeriodFragment();
         Bundle args = new Bundle();
-        args.putLong(ARG_START_DATE,startDate);
-        args.putLong(ARG_END_DATE,endDate);
+        args.putString(ARG_START_DATE,startDate);
+        args.putString(ARG_END_DATE,endDate);
         args.putDouble(ARG_PRICE,price);
         fragment.setArguments(args);
         return fragment;
@@ -63,8 +58,8 @@ public class AvailabilityPeriodFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            startDate=getArguments().getLong(ARG_START_DATE);
-            endDate=getArguments().getLong(ARG_END_DATE);
+            startDate=getArguments().getString(ARG_START_DATE);
+            endDate=getArguments().getString(ARG_END_DATE);
             price= getArguments().getDouble(ARG_PRICE);
         }
     }
@@ -75,14 +70,7 @@ public class AvailabilityPeriodFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_availability_period, container, false);
         TextInputEditText text=view.findViewById(R.id.periodField);
-        Instant instant = Instant.ofEpochSecond(startDate);
-        Date start_date = Date.from(instant);
-        instant = Instant.ofEpochSecond(endDate);
-        Date end_date = Date.from(instant);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String formattedStartDate = dateFormat.format(start_date);
-        String formatterEndDate=dateFormat.format(end_date);
-        text.setText(String.format("%s to %s , price:%s", formattedStartDate, formatterEndDate, price));
+        text.setText(String.format("%s to %s , price:%s", startDate, endDate, price));
         return view;
     }
 }

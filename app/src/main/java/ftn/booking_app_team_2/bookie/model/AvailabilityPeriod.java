@@ -1,55 +1,79 @@
 package ftn.booking_app_team_2.bookie.model;
 
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class AvailabilityPeriod {
-    private Long id = null;
+public class AvailabilityPeriod implements Parcelable, Serializable {
+    @SerializedName("id")
+    @Expose
+    private final Long id;
 
+    @SerializedName("price")
+    @Expose
     private BigDecimal price;
 
-    private Period period;
+    @SerializedName("period")
+    @Expose
+    private final Period period;
 
+    @SerializedName("deleted")
+    @Expose
+    private final boolean isDeleted;
 
-    private boolean isDeleted = false;
-    public AvailabilityPeriod(Long id, BigDecimal price, Period period, boolean isDeleted) {
-        this.id = id;
-        this.price = price;
-        this.period = period;
-        this.isDeleted = isDeleted;
-    }
-
-    public AvailabilityPeriod() {
+    protected AvailabilityPeriod(Parcel in) {
+        id = in.readLong();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            price = in.readSerializable(BigDecimal.class.getClassLoader(), BigDecimal.class);
+        }
+        period = in.readParcelable(Period.class.getClassLoader());
+        isDeleted = in.readByte() != 0;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public BigDecimal getPrice() {
         return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     public Period getPeriod() {
         return period;
     }
 
-    public void setPeriod(Period period) {
-        this.period = period;
-    }
-
     public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    @Override
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeSerializable(price);
+        dest.writeParcelable(period, flags);
+        dest.writeByte((byte) (isDeleted ? 1 : 0));
+    }
+
+    public static final Creator<AvailabilityPeriod> CREATOR = new Creator<AvailabilityPeriod>() {
+        @Override
+        public AvailabilityPeriod createFromParcel(Parcel in) {
+            return new AvailabilityPeriod(in);
+        }
+
+        @Override
+        public AvailabilityPeriod[] newArray(int size) {
+            return new AvailabilityPeriod[size];
+        }
+    };
 }
