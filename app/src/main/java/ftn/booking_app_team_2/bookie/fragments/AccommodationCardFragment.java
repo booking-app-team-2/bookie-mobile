@@ -1,7 +1,10 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +13,28 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 import ftn.booking_app_team_2.bookie.R;
+import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationCardBinding;
+import ftn.booking_app_team_2.bookie.model.Image;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccommodationCardFragment extends Fragment {
+    private FragmentAccommodationCardBinding binding;
+
     private String userRole;
 
     private static final String ARG_ACCOMMODATION_NAME = "accommodation_name";
@@ -22,18 +42,21 @@ public class AccommodationCardFragment extends Fragment {
     private static final String ARG_ACCOMMODATION_MIN_GUESTS = "Minimum guests";
     private static final String ARG_ACCOMMODATION_MAX_GUESTS = "Maximum guests";
     private static final String ARG_ACCOMMODATION_ID="Accommodation ID";
+    private static final String ARG_IMAGES = "images";
 
     private String accommodationName;
     private String accommodationDescription;
     private String minGuests;
     private String maxGuests;
     private Long accommodationId;
+    private Set<Image> images;
 
-    public AccommodationCardFragment() {
-        // Required empty public constructor
-    }
+    public AccommodationCardFragment() { }
 
-    public static AccommodationCardFragment newInstance(String accommodationName, String accommodationDescription,String minGuests,String maxGuests,Long accommodationId) {
+    public static AccommodationCardFragment newInstance(String accommodationName,
+                                                        String accommodationDescription,
+                                                        String minGuests, String maxGuests,
+                                                        Long accommodationId, Set<Image> images) {
         AccommodationCardFragment fragment = new AccommodationCardFragment();
         Bundle args = new Bundle();
         args.putString(ARG_ACCOMMODATION_NAME, accommodationName);
@@ -41,6 +64,7 @@ public class AccommodationCardFragment extends Fragment {
         args.putString(ARG_ACCOMMODATION_MIN_GUESTS, minGuests);
         args.putString(ARG_ACCOMMODATION_MAX_GUESTS, maxGuests);
         args.putLong(ARG_ACCOMMODATION_ID,accommodationId);
+        args.putParcelableArrayList(ARG_IMAGES, new ArrayList<>(images));
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,15 +87,73 @@ public class AccommodationCardFragment extends Fragment {
             minGuests=getArguments().getString(ARG_ACCOMMODATION_MIN_GUESTS);
             maxGuests=getArguments().getString(ARG_ACCOMMODATION_MAX_GUESTS);
             accommodationId=getArguments().getLong(ARG_ACCOMMODATION_ID);
-
+            images = new HashSet<>(
+                    Objects.requireNonNull(requireArguments().getParcelableArrayList(ARG_IMAGES))
+            );
         }
     }
 
+    private void displayThumbnail(ResponseBody responseBody) {
+        Bitmap bitmap = BitmapFactory.decodeStream(responseBody.byteStream());
+        binding.imageId.setImageBitmap(
+                Bitmap.createScaledBitmap(
+                        bitmap,
+                        binding.imageId.getWidth(),
+                        binding.imageId.getHeight(),
+                        false
+                )
+        );
+    }
+
+    private void getThumbnail() {
+        images.stream().findFirst().ifPresent(image -> {
+            Call<ResponseBody> call = ClientUtils.imageService.getImage(image.getId());
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call,
+                                       @NonNull Response<ResponseBody> response) {
+                    if (response.code() == 200) {
+                        assert response.body() != null;
+                        displayThumbnail(response.body());
+                    } else {
+                        assert response.errorBody() != null;
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                            Snackbar.make(
+                                    requireView(),
+                                    jsonObject.getString("message"),
+                                    Snackbar.LENGTH_SHORT
+                            ).show();
+                        } catch (Exception ex) {
+                            Log.d(
+                                    "Bookie",
+                                    ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                            );
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ResponseBody> call,
+                                      @NonNull Throwable t) {
+                    Snackbar.make(
+                            requireView(),
+                            "Error reaching the server.",
+                            Snackbar.LENGTH_SHORT
+                    ).show();
+                }
+            });
+        });
+    }
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FragmentAccommodationCardBinding binding = FragmentAccommodationCardBinding
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentAccommodationCardBinding
                 .inflate(inflater, container, false);
 
+        getThumbnail();
         binding.accommodationName.setText(accommodationName);
         binding.accommodationDescription.setText(accommodationDescription);
         binding.accommodationGuestCount.setText(
