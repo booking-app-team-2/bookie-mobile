@@ -1,3 +1,5 @@
+# Bookie Mobile
+Mobile app for Bookie.
 # Contributors
 - Darko Svilar SV50/2021
 - Gojko Vučković SV49/2021
