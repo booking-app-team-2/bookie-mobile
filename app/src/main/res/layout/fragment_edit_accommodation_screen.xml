@@ -27,6 +27,52 @@
                 app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"
                 tools:ignore="SpeakableTextPresentCheck" />
 
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flexDirection="row"
+                app:flexWrap="nowrap"
+                app:alignItems="stretch"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addImageBtn"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/add_image"
+                    app:layout_flexGrow="2" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_flexGrow="2"
+                    tools:ignore="UselessLeaf" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/imageRemovalHolder"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:layout_flexGrow="3" >
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/removeImageBtn"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/remove_image" />
+
+                    <NumberPicker
+                        android:id="@+id/imageNumberPicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+            </com.google.android.flexbox.FlexboxLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

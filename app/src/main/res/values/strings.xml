@@ -75,5 +75,7 @@
     </string>
     <string name="update_accommodation">Update accommodation</string>
     <string name="accommodation_type">Accommodation type:</string>
+    <string name="add_image">Add image</string>
+    <string name="remove_image">Remove image:</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
+import android.widget.NumberPicker;
 
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.slider.RangeSlider;
@@ -57,8 +59,12 @@ public class EditAccommodationScreenFragment extends Fragment {
     private FragmentEditAccommodationScreenBinding binding;
 
     private AccommodationDTO accommodation = null;
-    private final ArrayList<byte[]> images = new ArrayList<>();
 
+    private final ArrayList<byte[]> images = new ArrayList<>();
+    private final ArrayList<Long> imageIds = new ArrayList<>();
+
+    private RecyclerView carousel;
+    private NumberPicker imageNumber;
     private TextInputEditText name;
     private TextInputEditText description;
     private RangeSlider numberOfGuests;
@@ -84,9 +90,21 @@ public class EditAccommodationScreenFragment extends Fragment {
         }
     }
 
-    private void displayImages() {
+    private void addImageToView(byte[] image, Long id) {
+        images.add(image);
+        imageIds.add(id);
+
         ImageAdapter imageAdapter = new ImageAdapter(requireContext(), images);
-        binding.carousel.setAdapter(imageAdapter);
+        carousel.setAdapter(imageAdapter);
+
+        imageNumber.setMinValue(0);
+
+        int imageCount = Objects.requireNonNull(carousel.getAdapter()).getItemCount() - 1;
+        if (imageCount == 0) {
+            binding.carousel.setVisibility(View.VISIBLE);
+            binding.imageRemovalHolder.setVisibility(View.VISIBLE);
+        } else
+            imageNumber.setMaxValue(imageCount);
     }
 
     private void getImages() {
@@ -100,12 +118,12 @@ public class EditAccommodationScreenFragment extends Fragment {
                     if (response.code() == 200) {
                         assert response.body() != null;
                         try {
-                            images.add(response.body().bytes());
+                            byte[] rawImage = response.body().bytes();
+
+                            addImageToView(rawImage, image.getId());
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-
-                        displayImages();
                     } else {
                         assert response.errorBody() != null;
                         try {
@@ -136,23 +154,6 @@ public class EditAccommodationScreenFragment extends Fragment {
         });
     }
 
-    private void displayAmenities() {
-        Set<String> amenities = accommodation
-                .getAmenities()
-                .stream()
-                .map(Enum::toString)
-                .collect(Collectors.toSet());
-
-        if (amenities.contains(wiFi.getText().toString()))
-            wiFi.setChecked(true);
-        if (amenities.contains(kitchen.getText().toString()))
-            kitchen.setChecked(true);
-        if (amenities.contains(aC.getText().toString()))
-            aC.setChecked(true);
-        if (amenities.contains(parking.getText().toString()))
-            parking.setChecked(true);
-    }
-
     private void addMarkerToMap(GeoPoint geoPoint) {
         Marker locationMarker = new Marker(location);
         locationMarker.setPosition(geoPoint);
@@ -170,6 +171,23 @@ public class EditAccommodationScreenFragment extends Fragment {
         );
         mapController.setCenter(locationPoint);
         addMarkerToMap(locationPoint);
+    }
+
+    private void displayAmenities() {
+        Set<String> amenities = accommodation
+                .getAmenities()
+                .stream()
+                .map(Enum::toString)
+                .collect(Collectors.toSet());
+
+        if (amenities.contains(wiFi.getText().toString()))
+            wiFi.setChecked(true);
+        if (amenities.contains(kitchen.getText().toString()))
+            kitchen.setChecked(true);
+        if (amenities.contains(aC.getText().toString()))
+            aC.setChecked(true);
+        if (amenities.contains(parking.getText().toString()))
+            parking.setChecked(true);
     }
 
     private void displayBasicInfo() {
@@ -196,8 +214,10 @@ public class EditAccommodationScreenFragment extends Fragment {
                     assert response.body() != null;
                     accommodation = response.body();
 
-                    if (accommodation.getImages().isEmpty())
+                    if (accommodation.getImages().isEmpty()) {
                         binding.carousel.setVisibility(View.GONE);
+                        binding.imageRemovalHolder.setVisibility(View.GONE);
+                    }
                     else
                         getImages();
 
@@ -398,6 +418,69 @@ public class EditAccommodationScreenFragment extends Fragment {
         });
     }
 
+    private void addImage() {
+
+
+    }
+
+    private void removeImageFromView() {
+        images.remove(images.get(imageNumber.getValue()));
+        imageIds.remove(imageIds.get(imageNumber.getValue()));
+
+        ImageAdapter imageAdapter = new ImageAdapter(requireContext(), images);
+        carousel.setAdapter(imageAdapter);
+
+        imageNumber.setMinValue(0);
+
+        int imageCount = Objects.requireNonNull(carousel.getAdapter()).getItemCount() - 1;
+        if (imageCount == -1) {
+            binding.carousel.setVisibility(View.GONE);
+            binding.imageRemovalHolder.setVisibility(View.GONE);
+        }
+        else
+            imageNumber.setMaxValue(imageCount);
+    }
+
+    private void removeImage() {
+        Call<ResponseBody> call =
+                ClientUtils.imageService.deleteImage(imageIds.get(imageNumber.getValue()));
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    removeImageFromView();
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call,
+                                  @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -405,6 +488,8 @@ public class EditAccommodationScreenFragment extends Fragment {
                 inflater, container, false
         );
 
+        carousel = binding.carousel;
+        imageNumber = binding.imageNumberPicker;
         name = binding.nameTextInput;
         description = binding.descriptionTextInput;
         numberOfGuests = binding.numberOfGuestsSlider;
@@ -430,6 +515,10 @@ public class EditAccommodationScreenFragment extends Fragment {
             else
                 isReservationAutoAccepted.setThumbIconResource(R.drawable.round_close);
         });
+
+        binding.addImageBtn.setOnClickListener(view -> addImage());
+
+        binding.removeImageBtn.setOnClickListener(view -> removeImage());
 
         binding.updateAccommodationBtn.setOnClickListener(view -> updateAccommodation());
 
