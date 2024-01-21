@@ -69,4 +69,12 @@ public interface ReservationService {
     })
     @PUT(reservationControllerPath + "/{id}/status/declined")
     Call<ReservationStatusDTO> declineReservation(@Path("id") Long id);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type: application/json",
+            "Authorization: Bearer " + ClientUtils.JWT
+    })
+    @PUT(reservationControllerPath + "/{id}/status/cancelled")
+    Call<ReservationStatusDTO> cancelReservation(@Path("id") Long id);
 }
