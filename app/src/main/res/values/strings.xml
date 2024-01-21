@@ -77,5 +77,6 @@
     <string name="accommodation_type">Accommodation type:</string>
     <string name="add_image">Add image</string>
     <string name="remove_image">Remove image:</string>
+    <string name="delete">Delete</string>
 
 </resources>

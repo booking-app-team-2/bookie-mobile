@@ -118,9 +118,6 @@ public class AccommodationsScreenFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (accommodations != null)
-            return;
-
         SessionManager sessionManager = new SessionManager(requireContext());
         getAccommodationsForOwner(sessionManager.getUserId());
     }

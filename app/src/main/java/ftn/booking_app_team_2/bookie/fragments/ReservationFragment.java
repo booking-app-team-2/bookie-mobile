@@ -277,6 +277,92 @@ public class ReservationFragment extends Fragment {
         });
     }
 
+    private void cancelReservation() {
+        Call<ReservationStatusDTO> call = ClientUtils.reservationService.cancelReservation(id);
+        call.enqueue(new Callback<ReservationStatusDTO>() {
+            @Override
+            public void onResponse(@NonNull Call<ReservationStatusDTO> call,
+                                   @NonNull Response<ReservationStatusDTO> response) {
+                if (response.code() == 200) {
+                    Snackbar.make(
+                            requireView(),
+                            "Reservation successfully cancelled.",
+                            Snackbar.LENGTH_SHORT
+                    ).show();
+
+                    parentFragment.searchReservationsGuest();
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ReservationStatusDTO> call, @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
+    private void deleteReservation() {
+        Call<Void> call = ClientUtils.reservationService.deleteReservation(id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call,
+                                   @NonNull Response<Void> response) {
+                if (response.code() == 200) {
+                    Snackbar.make(
+                            requireView(),
+                            "Reservation successfully deleted.",
+                            Snackbar.LENGTH_SHORT
+                    ).show();
+
+                    parentFragment.searchReservationsGuest();
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -303,10 +389,12 @@ public class ReservationFragment extends Fragment {
         }
         binding.status.setText(status.toString());
 
+        binding.ownerButtonHolder.setVisibility(View.GONE);
+        binding.cancelReservationBtn.setVisibility(View.GONE);
+        binding.deleteReservationBtn.setVisibility(View.GONE);
         if (userRole.equals("Owner")) {
-            if (status != ReservationStatus.Waiting) {
-                binding.ownerButtonHolder.setVisibility(View.GONE);
-            } else {
+            if (status == ReservationStatus.Waiting) {
+                binding.ownerButtonHolder.setVisibility(View.VISIBLE);
                 binding.acceptReservationBtn.setOnClickListener(view ->
                         new MaterialAlertDialogBuilder(view.getContext())
                                 .setTitle("Are you sure you want to accept this reservation?")
@@ -314,8 +402,7 @@ public class ReservationFragment extends Fragment {
                                         "Confirm",
                                         (dialog, which) -> acceptReservation()
                                 )
-                                .setNegativeButton("Cancel", ((dialog, which) -> {
-                                }))
+                                .setNegativeButton("Cancel", ((dialog, which) -> { }))
                                 .show()
                 );
 
@@ -326,8 +413,33 @@ public class ReservationFragment extends Fragment {
                                         "Confirm",
                                         (dialog, which) -> declineReservation()
                                 )
-                                .setNegativeButton("Cancel", ((dialog, which) -> {
-                                }))
+                                .setNegativeButton("Cancel", ((dialog, which) -> { }))
+                                .show()
+                );
+            }
+        } else if (userRole.equals("Guest")) {
+            if (status == ReservationStatus.Waiting) {
+                binding.deleteReservationBtn.setVisibility(View.VISIBLE);
+                binding.deleteReservationBtn.setOnClickListener(view ->
+                        new MaterialAlertDialogBuilder(view.getContext())
+                                .setTitle("Are you sure you want to delete this reservation?")
+                                .setPositiveButton(
+                                        "Confirm",
+                                        (dialog, which) -> deleteReservation()
+                                )
+                                .setNegativeButton("Cancel", ((dialog, which) -> { }))
+                                .show()
+                );
+            } else if (status == ReservationStatus.Accepted) {
+                binding.cancelReservationBtn.setVisibility(View.VISIBLE);
+                binding.cancelReservationBtn.setOnClickListener(view ->
+                        new MaterialAlertDialogBuilder(view.getContext())
+                                .setTitle("Are you sure you want to cancel this reservation?")
+                                .setPositiveButton(
+                                        "Confirm",
+                                        (dialog, which) -> cancelReservation()
+                                )
+                                .setNegativeButton("Cancel", ((dialog, which) -> { }))
                                 .show()
                 );
             }

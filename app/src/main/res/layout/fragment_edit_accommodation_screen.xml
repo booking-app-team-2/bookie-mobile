@@ -55,7 +55,7 @@
                     android:layout_height="match_parent"
                     app:flexDirection="row"
                     app:flexWrap="nowrap"
-                    app:layout_flexGrow="3" >
+                    app:layout_flexGrow="4" >
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/removeImageBtn"
