@@ -173,7 +173,12 @@ public class AccommodationCardFragment extends Fragment {
             binding.guestInteractionContainer.setVisibility(View.GONE);
 
             binding.updateAccommodationBtn.setOnClickListener(view -> {
-
+                Bundle bundle = new Bundle();
+                bundle.putLong("id", accommodationId);
+                Navigation.findNavController(view).navigate(
+                        R.id.navigateToEditAccommodationScreen,
+                        bundle
+                );
             });
         }
 

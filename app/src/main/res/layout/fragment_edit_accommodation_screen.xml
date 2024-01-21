@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.EditAccommodationScreenFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/predecessorScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:flexDirection="column"
+            app:flexWrap="nowrap"
+            android:layout_margin="10dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/carousel"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nameTextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/placeholder"
+                    android:inputType="textCapWords" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/description"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/descriptionTextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/placeholder"
+                    android:inputType="textMultiLine"
+                    android:gravity="start"
+                    android:maxLines="10"
+                    android:scrollbars="vertical" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="?attr/materialCardViewElevatedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    app:flexDirection="column"
+                    app:flexWrap="nowrap">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/number_of_guests_min_max"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <com.google.android.material.slider.RangeSlider
+                        android:id="@+id/numberOfGuestsSlider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:stepSize="1.0"
+                        android:valueFrom="0.0"
+                        android:valueTo="50.0"
+                        app:labelBehavior="withinBounds"
+                        app:tickVisible="false"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexDirection="column"
+                app:flexWrap="nowrap"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/location"
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <org.osmdroid.views.MapView
+                    android:id="@+id/locationMapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="?attr/materialCardViewElevatedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    app:flexDirection="column"
+                    app:flexWrap="nowrap">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/amenities"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:flexDirection="row"
+                        app:flexWrap="wrap"
+                        app:justifyContent="space_between">
+
+                        <CheckBox
+                            android:id="@+id/wiFiCheckBox"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/wifi" />
+
+                        <CheckBox
+                            android:id="@+id/kitchenCheckBox"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/kitchen" />
+
+                        <CheckBox
+                            android:id="@+id/acCheckBox"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ac" />
+
+                        <CheckBox
+                            android:id="@+id/parkingCheckBox"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/parking" />
+
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/accommodation_type"
+                style=
+                    "@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_marginBottom="10dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/accommodationTypeAutoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    tools:ignore="LabelFor" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/is_reservation_auto_accepted"
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/isReservationAutoAcceptedSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    app:thumbIcon="@drawable/round_close" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/update_accommodation" />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>

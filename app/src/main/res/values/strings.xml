@@ -62,5 +62,19 @@
     <string name="date_range">Date range</string>
     <string name="filter">Filter</string>
     <string name="update">Update</string>
+    <string name="carousel_image">Carousel image</string>
+    <string name="description">Description</string>
+    <string name="number_of_guests_min_max">Number of guests (min - max):</string>
+    <string name="amenities">Amenities:</string>
+    <string name="wifi">WiFi</string>
+    <string name="kitchen">Kitchen</string>
+    <string name="ac">AC</string>
+    <string name="parking">Parking</string>
+    <string name="location">Location</string>
+    <string name="is_reservation_auto_accepted">
+        Should reservations for this accommodation be automatically accepted?
+    </string>
+    <string name="update_accommodation">Update accommodation</string>
+    <string name="accommodation_type">Accommodation type:</string>
 
 </resources>

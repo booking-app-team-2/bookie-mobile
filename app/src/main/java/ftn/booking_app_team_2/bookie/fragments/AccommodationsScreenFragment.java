@@ -38,10 +38,20 @@ public class AccommodationsScreenFragment extends Fragment {
     }
 
     private void removeAllAccommodationViews() {
-        binding.accommodationsContainer.removeAllViews();
+        if (!isAdded())
+            return;
+
+        getChildFragmentManager().getFragments().forEach(childFragment -> {
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.remove(childFragment);
+            transaction.commit();
+        });
     }
 
     private void addAllAccommodationViews() {
+        if (!isAdded())
+            return;
+
         accommodations.forEach(accommodation -> {
             AccommodationCardFragment accommodationCardFragment = AccommodationCardFragment
                     .newInstance(
