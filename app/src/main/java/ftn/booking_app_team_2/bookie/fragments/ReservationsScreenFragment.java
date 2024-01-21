@@ -194,7 +194,7 @@ public class ReservationsScreenFragment extends Fragment {
         }
     }
 
-    private void searchReservationsGuest() {
+    protected void searchReservationsGuest() {
         Call<Collection<ReservationGuest>> call =
                 ClientUtils.reservationService.searchAndFilterGuest(
                         Objects.requireNonNull(accommodationName.getText()).toString(),
