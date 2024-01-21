@@ -32,6 +32,8 @@ import org.osmdroid.views.overlay.Marker;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,8 +42,11 @@ import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.adapters.ImageAdapter;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentEditAccommodationScreenBinding;
+import ftn.booking_app_team_2.bookie.model.AccommodationBasicInfo;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
 import ftn.booking_app_team_2.bookie.model.AccommodationType;
+import ftn.booking_app_team_2.bookie.model.Amenities;
+import ftn.booking_app_team_2.bookie.model.AvailabilityPeriodDTO;
 import ftn.booking_app_team_2.bookie.model.Location;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -154,7 +159,6 @@ public class EditAccommodationScreenFragment extends Fragment {
         locationMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
         locationMarker.setTitle(accommodation.getName());
         location.getOverlays().add(locationMarker);
-        System.out.println(getCurrentLocation().getLatitude() + " " + getCurrentLocation().getLongitude());
     }
 
     public void displayLocation() {
@@ -307,6 +311,93 @@ public class EditAccommodationScreenFragment extends Fragment {
         );
     }
 
+    private Set<Amenities> getCurrentAmenities() {
+        Set<Amenities> amenities = new HashSet<>();
+
+        if (wiFi.isChecked())
+            amenities.add(Amenities.valueOf(wiFi.getText().toString()));
+        if (kitchen.isChecked())
+            amenities.add(Amenities.valueOf(kitchen.getText().toString()));
+        if (aC.isChecked())
+            amenities.add(Amenities.valueOf(aC.getText().toString()));
+        if (parking.isChecked())
+            amenities.add(Amenities.valueOf(parking.getText().toString()));
+
+        return amenities;
+    }
+
+    private void updateAccommodation() {
+        List<Float> numberOfGuestsValues = numberOfGuests.getValues();
+
+        Call<AccommodationBasicInfo> call = ClientUtils
+                .accommodationService
+                .putAccommodationBasicInfo(
+                        id,
+                        new AccommodationBasicInfo(
+                                id,
+                                Objects.requireNonNull(name.getText()).toString(),
+                                Objects.requireNonNull(description.getText()).toString(),
+                                numberOfGuestsValues.get(0).intValue(),
+                                numberOfGuestsValues.get(1).intValue(),
+                                getCurrentLocation(),
+                                getCurrentAmenities(),
+                                accommodation.getImages(),
+                                AccommodationType.valueOf(accommodationType.getText().toString()),
+                                accommodation
+                                        .getAvailabilityPeriods()
+                                        .stream()
+                                        .map(AvailabilityPeriodDTO::new)
+                                        .collect(Collectors.toSet())
+                        )
+                );
+
+        call.enqueue(new Callback<AccommodationBasicInfo>() {
+            @Override
+            public void onResponse(@NonNull Call<AccommodationBasicInfo> call,
+                                   @NonNull Response<AccommodationBasicInfo> response) {
+                if (response.code() == 200) {
+                    Snackbar
+                            .make(
+                                    requireView(),
+                                    "Accommodation successfully updated.",
+                                    Snackbar.LENGTH_LONG
+                            )
+                            .show();
+
+                    // TODO: Implement accommodation reservation auto-acceptance updating
+
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        Snackbar
+                                .make(
+                                        requireView(),
+                                        "Accommodation has reservations in the period you " +
+                                                "are trying to update.",
+                                        Snackbar.LENGTH_SHORT
+                                )
+                                .show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AccommodationBasicInfo> call,
+                                  @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -339,6 +430,8 @@ public class EditAccommodationScreenFragment extends Fragment {
             else
                 isReservationAutoAccepted.setThumbIconResource(R.drawable.round_close);
         });
+
+        binding.updateAccommodationBtn.setOnClickListener(view -> updateAccommodation());
 
         return binding.getRoot();
     }

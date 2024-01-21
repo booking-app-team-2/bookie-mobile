@@ -9,6 +9,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class PeriodDTO implements Parcelable, Serializable {
     @SerializedName("startTimestamp")
@@ -18,6 +20,21 @@ public class PeriodDTO implements Parcelable, Serializable {
     @SerializedName("endTimestamp")
     @Expose
     private final long endTimestamp;
+
+    public PeriodDTO(Period period) {
+        startTimestamp = LocalDate.
+                parse(period.getStartDate())
+                .atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli();
+        endTimestamp = LocalDate.
+                parse(period.getEndDate())
+                .atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli();
+    }
 
     protected PeriodDTO(Parcel in) {
         startTimestamp = in.readLong();

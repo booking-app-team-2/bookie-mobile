@@ -178,8 +178,8 @@ public class AccommodationDetailsFragment extends Fragment {
                     for(AvailabilityPeriod availabilityPeriod:accommodation.getAvailabilityPeriods()){
 
                         AvailabilityPeriodFragment fragment=AvailabilityPeriodFragment.newInstance(
-                                availabilityPeriod.getPeriod().getStartTimestamp(),
-                                availabilityPeriod.getPeriod().getEndTimestamp(),
+                                availabilityPeriod.getPeriod().getStartDate(),
+                                availabilityPeriod.getPeriod().getEndDate(),
                                 availabilityPeriod.getPrice().doubleValue()
                         );
 

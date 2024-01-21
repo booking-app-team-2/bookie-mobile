@@ -21,7 +21,7 @@ public class AvailabilityPeriod implements Parcelable, Serializable {
 
     @SerializedName("period")
     @Expose
-    private final PeriodDTO periodDTO;
+    private final Period period;
 
     @SerializedName("deleted")
     @Expose
@@ -32,7 +32,7 @@ public class AvailabilityPeriod implements Parcelable, Serializable {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             price = in.readSerializable(BigDecimal.class.getClassLoader(), BigDecimal.class);
         }
-        periodDTO = in.readParcelable(PeriodDTO.class.getClassLoader());
+        period = in.readParcelable(Period.class.getClassLoader());
         isDeleted = in.readByte() != 0;
     }
 
@@ -44,8 +44,8 @@ public class AvailabilityPeriod implements Parcelable, Serializable {
         return price;
     }
 
-    public PeriodDTO getPeriod() {
-        return periodDTO;
+    public Period getPeriod() {
+        return period;
     }
 
     public boolean isDeleted() {
@@ -61,7 +61,7 @@ public class AvailabilityPeriod implements Parcelable, Serializable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeSerializable(price);
-        dest.writeParcelable(periodDTO, flags);
+        dest.writeParcelable(period, flags);
         dest.writeByte((byte) (isDeleted ? 1 : 0));
     }
 
