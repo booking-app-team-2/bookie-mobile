@@ -23,7 +23,11 @@
         android:id="@+id/accommodationsScreenFragment"
         android:name="ftn.booking_app_team_2.bookie.fragments.AccommodationsScreenFragment"
         android:label="fragment_accommodations_screen"
-        tools:layout="@layout/fragment_accommodations_screen" />
+        tools:layout="@layout/fragment_accommodations_screen" >
+        <action
+            android:id="@+id/navigateToEditAccommodationScreen"
+            app:destination="@id/editAccommodationScreenFragment" />
+    </fragment>
     <fragment
         android:id="@+id/notificationsScreenFragment"
         android:name="ftn.booking_app_team_2.bookie.fragments.NotificationsScreenFragment"
@@ -43,4 +47,13 @@
         android:name="ftn.booking_app_team_2.bookie.fragments.ReservationsScreenFragment"
         android:label="fragment_reservations_screen"
         tools:layout="@layout/fragment_reservations_screen" />
+    <fragment
+        android:id="@+id/editAccommodationScreenFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.EditAccommodationScreenFragment"
+        android:label="fragment_edit_accommodation_screen"
+        tools:layout="@layout/fragment_edit_accommodation_screen" >
+        <action
+            android:id="@+id/navigateToAccommodationsScreen"
+            app:destination="@id/accommodationsScreenFragment" />
+    </fragment>
 </navigation>

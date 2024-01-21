@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.snackbar.Snackbar;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,6 +79,12 @@ public class GuestMainScreenFragment extends Fragment implements SensorEventList
                 sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION),
                 SensorManager.SENSOR_DELAY_NORMAL
         );
+
+        Snackbar
+                .make(requireView(),
+                "Shake your screen in order to get the best deals first.",
+                Snackbar.LENGTH_SHORT)
+                .show();
     }
 
     @Override
@@ -161,7 +168,9 @@ public class GuestMainScreenFragment extends Fragment implements SensorEventList
                     accommodation.getDescription(),
                     Integer.toString(accommodation.getMinimumGuests()),
                     Integer.toString(accommodation.getMaximumGuests()),
-                    accommodation.getId()
+                    accommodation.getId(),
+                    accommodation.getImages(),
+                    accommodation.getAvailabilityPeriods()
             );
 
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();

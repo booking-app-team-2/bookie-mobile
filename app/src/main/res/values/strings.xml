@@ -37,7 +37,7 @@
     <string name="approve_this_accommodation">Approve this accommodation</string>
     <string name="send_back_for_revision">Send back for revision</string>
     <string name="accommodation_name">Accommodation name</string>
-    <string name="reservation_period">Reservation periodDTO</string>
+    <string name="reservation_period">Reservation period</string>
     <string name="search">Search</string>
     <string name="search_reservations_by_status">Search reservations by status:</string>
     <string name="waiting">Waiting</string>
@@ -61,6 +61,22 @@
     <string name="guest_count">Guest count</string>
     <string name="date_range">Date range</string>
     <string name="filter">Filter</string>
+    <string name="update">Update</string>
+    <string name="carousel_image">Carousel image</string>
+    <string name="description">Description</string>
+    <string name="number_of_guests_min_max">Number of guests (min - max):</string>
+    <string name="amenities">Amenities:</string>
+    <string name="wifi">WiFi</string>
+    <string name="kitchen">Kitchen</string>
+    <string name="ac">AC</string>
+    <string name="parking">Parking</string>
+    <string name="is_reservation_auto_accepted">
+        Should reservations for this accommodation be automatically accepted?
+    </string>
+    <string name="update_accommodation">Update accommodation</string>
+    <string name="accommodation_type">Accommodation type:</string>
+    <string name="add_image">Add image</string>
+    <string name="remove_image">Remove image:</string>
     <string name="delete">Delete</string>
 
 </resources>

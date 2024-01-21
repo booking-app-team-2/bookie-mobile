@@ -5,9 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AccommodationsScreenFragment">
 
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/accommodations" />
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/accommodationsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

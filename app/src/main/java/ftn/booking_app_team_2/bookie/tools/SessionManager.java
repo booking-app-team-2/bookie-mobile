@@ -4,13 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.auth0.android.jwt.JWT;
+
+import java.util.Objects;
+
 import ftn.booking_app_team_2.bookie.activities.LoginRegisterActivity;
 
 public class SessionManager {
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-    private Context context;
+
+    private final Context context;
+
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor editor;
+
     private static final String PREF_FILE_NAME = "user_data";
+
+    private static final String KEY_USER_ID = "id";
     private static final String KEY_USER_TYPE = "type";
 
     public SessionManager(Context context) {
@@ -19,10 +28,23 @@ public class SessionManager {
         editor = sharedPreferences.edit();
     }
 
-    // TODO: Potentially change to enum, depending on the user model class.
-    public void createLoginSession(String userType) {
-        editor.putString(KEY_USER_TYPE, userType);
+    public void createLoginSession(String jwt) {
+        JWT parsedJwt = new JWT(jwt);
+
+        editor.putLong(
+                KEY_USER_ID,
+                Objects.requireNonNull(parsedJwt.getClaim("id").asLong())
+        );
+        editor.putString(
+                KEY_USER_TYPE,
+                parsedJwt.getClaim("role").asString()
+        );
+
         editor.commit();
+    }
+
+    public Long getUserId() {
+        return sharedPreferences.getLong(KEY_USER_ID, 0);
     }
 
     public String getUserType() {
