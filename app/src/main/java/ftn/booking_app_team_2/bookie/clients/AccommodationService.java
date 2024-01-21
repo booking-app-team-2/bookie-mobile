@@ -3,6 +3,7 @@ package ftn.booking_app_team_2.bookie.clients;
 import java.util.Collection;
 
 import ftn.booking_app_team_2.bookie.model.AccommodationApproval;
+import ftn.booking_app_team_2.bookie.model.AccommodationAutoAccept;
 import ftn.booking_app_team_2.bookie.model.AccommodationBasicInfo;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
 import retrofit2.Call;
@@ -71,5 +72,14 @@ public interface AccommodationService {
     Call<AccommodationApproval> putIsApproved(@Path("id") Long id,
                                               @Body AccommodationApproval accommodationApproval);
 
-    // TODO: Auto-accept
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type: application/json",
+            "Authorization: Bearer " + ClientUtils.JWT
+    })
+    @PUT("accommodations/{id}/is-reservation-auto-accepted")
+    Call<AccommodationAutoAccept> putIsReservationAutoAccepted(
+            @Path("id") Long id,
+            @Body AccommodationAutoAccept accommodationAutoAccept
+    );
 }

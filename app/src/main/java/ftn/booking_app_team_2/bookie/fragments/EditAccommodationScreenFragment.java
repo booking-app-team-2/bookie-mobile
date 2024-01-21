@@ -49,6 +49,7 @@ import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.adapters.ImageAdapter;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentEditAccommodationScreenBinding;
+import ftn.booking_app_team_2.bookie.model.AccommodationAutoAccept;
 import ftn.booking_app_team_2.bookie.model.AccommodationBasicInfo;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
 import ftn.booking_app_team_2.bookie.model.AccommodationType;
@@ -392,9 +393,6 @@ public class EditAccommodationScreenFragment extends Fragment {
                                     Snackbar.LENGTH_LONG
                             )
                             .show();
-
-                    // TODO: Implement accommodation reservation auto-acceptance updating
-
                 } else {
                     assert response.errorBody() != null;
                     try {
@@ -417,6 +415,49 @@ public class EditAccommodationScreenFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<AccommodationBasicInfo> call,
+                                  @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
+    private void updateIsReservationAutoAccepted() {
+        Call<AccommodationAutoAccept> call =
+                ClientUtils.accommodationService.putIsReservationAutoAccepted(
+                        accommodation.getId(),
+                        new AccommodationAutoAccept(isReservationAutoAccepted.isChecked())
+                );
+
+        call.enqueue(new Callback<AccommodationAutoAccept>() {
+            @Override
+            public void onResponse(@NonNull Call<AccommodationAutoAccept> call,
+                                   @NonNull Response<AccommodationAutoAccept> response) {
+                if (response.code() == 200) {
+                    updateAccommodation();
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AccommodationAutoAccept> call,
                                   @NonNull Throwable t) {
                 Snackbar.make(
                         requireView(),
@@ -586,7 +627,8 @@ public class EditAccommodationScreenFragment extends Fragment {
 
         binding.removeImageBtn.setOnClickListener(view -> removeImage());
 
-        binding.updateAccommodationBtn.setOnClickListener(view -> updateAccommodation());
+        binding.updateAccommodationBtn.setOnClickListener(view ->
+                updateIsReservationAutoAccepted());
 
         return binding.getRoot();
     }
