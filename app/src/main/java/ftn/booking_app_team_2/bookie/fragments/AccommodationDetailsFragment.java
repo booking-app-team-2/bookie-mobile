@@ -183,10 +183,8 @@ public class AccommodationDetailsFragment extends Fragment {
                                 availabilityPeriod.getPrice().doubleValue()
                         );
 
-                        // Use FragmentTransaction to add the fragment to the layout
                         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                        transaction.add(R.id.periodLayout, fragment); // Assuming R.id.accommodations_container is the container in your layout
-                        transaction.addToBackStack(null);
+                        transaction.add(R.id.periodLayout, fragment);
                         transaction.commit();
                     }
 

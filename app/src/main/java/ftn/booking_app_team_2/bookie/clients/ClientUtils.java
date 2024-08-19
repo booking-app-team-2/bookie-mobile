@@ -10,8 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ClientUtils {
     public static final String SERVICE_API_PATH = "http://localhost:8081/api/v1/";
 
-    public static final String JWT = "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJib29raWUtYmFja2VuZCIsInN1YiI6Im93bmVyQGdtYWlsLmNvbSIsImF1ZCI6Im1vYmlsZSIsImlhdCI6MTcwNTg1Njc3NiwiaWQiOjQsIm5hbWUiOiJPd25lciIsInJvbGUiOiJPd25lciIsImV4cCI6MTcwNTk0MzE3Nn0.LZIMNrOzYB7gYBmEgkgjbLoO-wkhrETw1OG3VtykgDapRJQaaWjxmxSWcQRIzFKlk5e5FdTdKG8eExA3k9vBRg";
-
+    public static final String JWT = "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJib29raWUtYmFja2VuZCIsInN1YiI6ImJvb2tpZUBnbWFpbC5jb20iLCJhdWQiOiJtb2JpbGUiLCJpYXQiOjE3MjQwMDg3MTQsImlkIjoxLCJuYW1lIjoiQm9va2llIiwicm9sZSI6IkFkbWluIiwiZXhwIjoxNzI0MDk1MTE0fQ.sdQUGjAVeTqc7YcP0L7OF7bBwqeaPzYWIcvipESpRxfWnyNEIrz_xB4rdMwDGQ4oGUMB71dcazdXENfM4orlCw";
     public static OkHttpClient test() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -20,7 +19,8 @@ public class ClientUtils {
                 .connectTimeout(120, TimeUnit.SECONDS)
                 .readTimeout(120, TimeUnit.SECONDS)
                 .writeTimeout(120, TimeUnit.SECONDS)
-                .addInterceptor(httpLoggingInterceptor).build();
+                .addInterceptor(httpLoggingInterceptor)
+                .retryOnConnectionFailure(true).build();
     }
 
     public static Retrofit retrofit = new Retrofit.Builder()
