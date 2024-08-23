@@ -79,5 +79,15 @@
     <string name="add_image">Add image</string>
     <string name="remove_image">Remove image:</string>
     <string name="delete">Delete</string>
+    <string name="comment">Comment:</string>
+    <string name="grade">Grade:</string>
+    <string name="date">Date:</string>
+    <string name="approve">Approve</string>
+    <string name="deny">Deny</string>
+    <string name="owners">Owners</string>
+    <string name="reason">Reason:</string>
+    <string name="block_user">Block User</string>
+    <string name="content">Content:</string>
+    <string name="delete_notification">Delete notification</string>
 
 </resources>

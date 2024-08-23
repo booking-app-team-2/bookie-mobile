@@ -14,7 +14,7 @@ import com.google.gson.annotations.SerializedName;
 public class AccommodationReviewDTO implements Parcelable, Serializable{
     @SerializedName("id")
     @Expose
-    private Long id = null;
+    private Long id;
 
     @SerializedName("grade")
     @Expose
@@ -113,5 +113,45 @@ public class AccommodationReviewDTO implements Parcelable, Serializable{
         }
         dest.writeString(reviewerName);
         dest.writeLong(accommodationId);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Float getGrade() {
+        return grade;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public Long getTimestampOfCreation() {
+        return timestampOfCreation;
+    }
+
+    public Long getReviewerId() {
+        return reviewerId;
+    }
+
+    public String getReviewerName() {
+        return reviewerName;
+    }
+
+    public void setReviewerName(String reviewerName) {
+        this.reviewerName = reviewerName;
+    }
+
+    public Long getAccommodationId() {
+        return accommodationId;
+    }
+
+    public void setAccommodationId(Long accommodationId) {
+        this.accommodationId = accommodationId;
     }
 }

@@ -1,8 +1,10 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -16,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
@@ -132,6 +135,55 @@ public class AccommodationsScreenFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentAccommodationsScreenBinding
                 .inflate(inflater, container, false);
+
+
+        binding.createReportBtn.setOnClickListener(view -> {
+            final Calendar startDate = Calendar.getInstance();
+            final Calendar endDate = Calendar.getInstance();
+
+            AlertDialog.Builder startDateAlertDialog = new AlertDialog.Builder(view.getContext());
+            startDateAlertDialog.setTitle("Select First Date");
+            startDateAlertDialog.setMessage("Please select the first date.");
+
+            startDateAlertDialog.setPositiveButton("OK", (dialog, which) -> {
+                DatePickerDialog startDatePicker = new DatePickerDialog(view.getContext(), (datePicker, year, month, dayOfMonth) -> {
+                    startDate.set(year, month, dayOfMonth);
+                    AlertDialog.Builder endDateAlertDialog = new AlertDialog.Builder(view.getContext());
+                    endDateAlertDialog.setTitle("Select Second Date");
+                    endDateAlertDialog.setMessage("Please select the second date.");
+
+                    endDateAlertDialog.setPositiveButton("OK", (endDialog, which1) -> {
+                        DatePickerDialog endDatePicker = new DatePickerDialog(view.getContext(), (endDatePickerView, endYear, endMonth, endDayOfMonth) -> {
+                            endDate.set(endYear, endMonth, endDayOfMonth);
+
+                            if (endDate.after(startDate)) {
+                                new AlertDialog.Builder(view.getContext())
+                                        .setTitle("Error!")
+                                        .setMessage("Generating reports not yet implemented")
+                                        .setPositiveButton("OK", (confirmDialog, which2) -> confirmDialog.dismiss())
+                                        .show();
+                            } else {
+                                new AlertDialog.Builder(view.getContext())
+                                        .setTitle("Invalid Dates")
+                                        .setMessage("The end date must be after the start date.")
+                                        .setPositiveButton("OK", (errorDialog, which2) -> errorDialog.dismiss())
+                                        .show();
+                            }
+                        }, startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DAY_OF_MONTH));
+                        endDatePicker.show();
+                    });
+
+                    endDateAlertDialog.show();
+
+                }, startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DAY_OF_MONTH));
+
+                startDatePicker.show();
+            });
+
+            startDateAlertDialog.show();
+        });
+
+
 
         return binding.getRoot();
     }

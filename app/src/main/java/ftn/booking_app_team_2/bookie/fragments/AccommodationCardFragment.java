@@ -130,15 +130,24 @@ public class AccommodationCardFragment extends Fragment {
 
     private void displayThumbnail(ResponseBody responseBody) {
         Bitmap bitmap = BitmapFactory.decodeStream(responseBody.byteStream());
-        binding.imageId.setImageBitmap(
-                Bitmap.createScaledBitmap(
-                        bitmap,
-                        binding.imageId.getWidth(),
-                        binding.imageId.getHeight(),
-                        false
-                )
-        );
+
+        binding.imageId.post(new Runnable() {
+            @Override
+            public void run() {
+                int width = binding.imageId.getWidth();
+                int height = binding.imageId.getHeight();
+
+                if (width > 0 && height > 0) {
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+                    binding.imageId.setImageBitmap(scaledBitmap);
+                } else {
+                    // Handle the error or use default dimensions
+                    Log.e("BitmapScaling", "ImageView dimensions are invalid");
+                }
+            }
+        });
     }
+
 
     private void getThumbnail() {
         images.stream().findFirst().ifPresent(image -> {

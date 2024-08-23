@@ -36,7 +36,7 @@ public class OwnerReviewDTO implements Parcelable, Serializable{
     @Expose
     private String reviewerName = "";
 
-    @SerializedName("accommodationId")
+    @SerializedName("revieweeId")
     @Expose
     private Long revieweeId;
 
@@ -113,5 +113,45 @@ public class OwnerReviewDTO implements Parcelable, Serializable{
         }
         dest.writeString(reviewerName);
         dest.writeLong(revieweeId);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Float getGrade() {
+        return grade;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public Long getTimestampOfCreation() {
+        return timestampOfCreation;
+    }
+
+    public Long getReviewerId() {
+        return reviewerId;
+    }
+
+    public String getReviewerName() {
+        return reviewerName;
+    }
+
+    public void setReviewerName(String reviewerName) {
+        this.reviewerName = reviewerName;
+    }
+
+    public Long getRevieweeId() {
+        return revieweeId;
+    }
+
+    public void setRevieweeId(Long revieweeId) {
+        this.revieweeId = revieweeId;
     }
 }
