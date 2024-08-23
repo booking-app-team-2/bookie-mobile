@@ -47,7 +47,9 @@ import java.util.stream.Collectors;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.adapters.ImageAdapter;
+import ftn.booking_app_team_2.bookie.clients.AccommodationService;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.ImageService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentEditAccommodationScreenBinding;
 import ftn.booking_app_team_2.bookie.model.AccommodationAutoAccept;
 import ftn.booking_app_team_2.bookie.model.AccommodationBasicInfo;
@@ -118,8 +120,9 @@ public class EditAccommodationScreenFragment extends Fragment {
     }
 
     private void getImages() {
+        ImageService service = ClientUtils.getImageService(getContext());
         accommodation.getImages().forEach(image -> {
-            Call<ResponseBody> call = ClientUtils.imageService.getImage(image.getId());
+            Call<ResponseBody> call = service.getImage(image.getId());
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -214,7 +217,8 @@ public class EditAccommodationScreenFragment extends Fragment {
     }
 
     private void getAccommodation() {
-        Call<AccommodationDTO> call = ClientUtils.accommodationService.getAccommodation(id);
+        AccommodationService service = ClientUtils.getAccommodationService(getContext());
+        Call<AccommodationDTO> call = service.getAccommodation(id);
 
         call.enqueue(new Callback<AccommodationDTO>() {
             @Override
@@ -357,10 +361,10 @@ public class EditAccommodationScreenFragment extends Fragment {
     }
 
     private void updateAccommodation() {
+        AccommodationService service = ClientUtils.getAccommodationService(getContext());
         List<Float> numberOfGuestsValues = numberOfGuests.getValues();
 
-        Call<AccommodationBasicInfo> call = ClientUtils
-                .accommodationService
+        Call<AccommodationBasicInfo> call = service
                 .putAccommodationBasicInfo(
                         id,
                         new AccommodationBasicInfo(
@@ -426,8 +430,9 @@ public class EditAccommodationScreenFragment extends Fragment {
     }
 
     private void updateIsReservationAutoAccepted() {
+        AccommodationService service = ClientUtils.getAccommodationService(getContext());
         Call<AccommodationAutoAccept> call =
-                ClientUtils.accommodationService.putIsReservationAutoAccepted(
+                service.putIsReservationAutoAccepted(
                         accommodation.getId(),
                         new AccommodationAutoAccept(isReservationAutoAccepted.isChecked())
                 );
@@ -493,7 +498,8 @@ public class EditAccommodationScreenFragment extends Fragment {
         MultipartBody.Part body =
                 MultipartBody.Part.createFormData("image", file.getName(), requestBody);
 
-        Call<ResponseBody> call = ClientUtils.imageService.postImage(body, accommodation.getId());
+        ImageService service = ClientUtils.getImageService(getContext());
+        Call<ResponseBody> call = service.postImage(body, accommodation.getId());
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -548,8 +554,9 @@ public class EditAccommodationScreenFragment extends Fragment {
     }
 
     private void removeImage() {
+        ImageService service = ClientUtils.getImageService(getContext());
         Call<ResponseBody> call =
-                ClientUtils.imageService.deleteImage(imageIds.get(imageNumber.getValue()));
+                service.deleteImage(imageIds.get(imageNumber.getValue()));
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

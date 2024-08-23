@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.util.Collection;
 
+import ftn.booking_app_team_2.bookie.clients.AccommodationService;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationsScreenBinding;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
@@ -70,8 +71,9 @@ public class AccommodationsScreenFragment extends Fragment {
     }
 
     private void getAccommodationsForOwner(long ownerId) {
+        AccommodationService service = ClientUtils.getAccommodationService(getContext());
         Call<Collection<AccommodationDTO>> call =
-                ClientUtils.accommodationService.getAccommodationsByOwner(ownerId);
+                service.getAccommodationsByOwner(ownerId);
 
         call.enqueue(new Callback<Collection<AccommodationDTO>>() {
             @Override
