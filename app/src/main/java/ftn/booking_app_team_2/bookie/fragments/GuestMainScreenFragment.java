@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import ftn.booking_app_team_2.bookie.clients.AccommodationService;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentGuestMainScreenBinding;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
@@ -203,8 +204,9 @@ public class GuestMainScreenFragment extends Fragment implements SensorEventList
         Long endDateInSeconds =
                 selectedDateRange.second != null ? selectedDateRange.second : null;
 
+        AccommodationService service = ClientUtils.getAccommodationService(getContext());
         Call<Collection<AccommodationDTO>> call =
-                ClientUtils.accommodationService.getSearchedAccommodations(
+                service.getSearchedAccommodations(
                         null,
                         guestCount,
                         startDateInSeconds,

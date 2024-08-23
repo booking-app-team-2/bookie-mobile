@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import ftn.booking_app_team_2.bookie.R;
+import ftn.booking_app_team_2.bookie.clients.AccommodationService;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationDetailsBinding;
 import ftn.booking_app_team_2.bookie.dialogs.CreateReservationDialog;
@@ -59,8 +60,9 @@ public class AccommodationDetailsFragment extends Fragment {
     }
 
     public void updateIsApproved(boolean isApproved) {
+        AccommodationService service = ClientUtils.getAccommodationService(getContext());
         assert getArguments() != null;
-        Call<AccommodationApproval> call = ClientUtils.accommodationService.putIsApproved(
+        Call<AccommodationApproval> call = service.putIsApproved(
                 getArguments().getLong("accommodationId"),
                 new AccommodationApproval(isApproved)
         );
@@ -156,9 +158,9 @@ public class AccommodationDetailsFragment extends Fragment {
     }
 
     private void loadAccommodation(Long id,View view){
+        AccommodationService service = ClientUtils.getAccommodationService(getContext());
 
-
-        Call<AccommodationDTO> call = ClientUtils.accommodationService.getAccommodation(id);
+        Call<AccommodationDTO> call = service.getAccommodation(id);
         call.enqueue(new Callback<AccommodationDTO>() {
             @Override
             public void onResponse(Call<AccommodationDTO> call, Response<AccommodationDTO> response) {

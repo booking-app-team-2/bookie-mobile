@@ -22,6 +22,7 @@ import java.util.Objects;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.UserService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccountChangeScreenBinding;
 import ftn.booking_app_team_2.bookie.model.User;
 import ftn.booking_app_team_2.bookie.model.UserAddress;
@@ -71,7 +72,8 @@ public class AccountChangeScreenFragment extends Fragment {
     }
 
     private void getUser() {
-        Call<User> call = ClientUtils.userService.getUser(userId);
+        UserService service = ClientUtils.getUserService(getContext());
+        Call<User> call = service.getUser(userId);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
@@ -122,7 +124,8 @@ public class AccountChangeScreenFragment extends Fragment {
     }
 
     private void updateUserBasicInfo() {
-        Call<UserBasicInfo> call = ClientUtils.userService.putUserBasicInfo(
+        UserService service = ClientUtils.getUserService(getContext());
+        Call<UserBasicInfo> call = service.putUserBasicInfo(
                 userId,
                 new UserBasicInfo(
                         Objects.requireNonNull(name.getText()).toString(),
@@ -170,7 +173,8 @@ public class AccountChangeScreenFragment extends Fragment {
     }
 
     private void updateUserTelephone() {
-        Call<UserTelephone> call = ClientUtils.userService.putUserTelephone(
+        UserService service = ClientUtils.getUserService(getContext());
+        Call<UserTelephone> call = service.putUserTelephone(
                 userId,
                 new UserTelephone(
                         Objects.requireNonNull(telephone.getText()).toString()
@@ -217,7 +221,8 @@ public class AccountChangeScreenFragment extends Fragment {
     }
 
     private void updateUserAddress() {
-        Call<UserAddress> call = ClientUtils.userService.putUserAddress(
+        UserService service = ClientUtils.getUserService(getContext());
+        Call<UserAddress> call = service.putUserAddress(
                 userId,
                 new UserAddress(
                         Objects.requireNonNull(addressOfResidence.getText()).toString()
@@ -264,7 +269,8 @@ public class AccountChangeScreenFragment extends Fragment {
     }
 
     private void updateUserPassword() {
-        Call<UserPassword> call = ClientUtils.userService.putUserPassword(
+        UserService service = ClientUtils.getUserService(getContext());
+        Call<UserPassword> call = service.putUserPassword(
                 userId,
                 new UserPassword(
                         Objects.requireNonNull(currentPassword.getText()).toString(),
