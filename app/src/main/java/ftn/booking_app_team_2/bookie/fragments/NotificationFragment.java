@@ -1,5 +1,6 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
+import android.app.Notification;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 import org.json.JSONObject;
 
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.NotificationService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentNotificationBinding;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
 import retrofit2.Call;
@@ -78,7 +80,8 @@ public class NotificationFragment extends Fragment {
     }
 
     private void deleteNotification(){
-        Call<Void> call = ClientUtils.notificationService.deleteNotification(id);
+        NotificationService service=ClientUtils.getNotificationService(getContext());
+        Call<Void> call = service.deleteNotification(id);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call,

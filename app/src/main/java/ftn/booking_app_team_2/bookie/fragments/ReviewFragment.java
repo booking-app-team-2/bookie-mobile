@@ -22,6 +22,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.ReviewService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentReviewBinding;
 import ftn.booking_app_team_2.bookie.model.ReservationStatusDTO;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
@@ -124,7 +125,8 @@ public class ReviewFragment extends Fragment {
 
     private void approveReview(){
         if(isAccommodationReview){
-            Call<Void> call = ClientUtils.reviewService.approveAccommodationReview(id);
+            ReviewService service=ClientUtils.getReviewService(getContext());
+            Call<Void> call = service.approveAccommodationReview(id);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(@NonNull Call<Void> call,
@@ -166,7 +168,8 @@ public class ReviewFragment extends Fragment {
             });
         }
         else{
-            Call<Void> call = ClientUtils.reviewService.approveOwnerReview(id);
+            ReviewService service=ClientUtils.getReviewService(getContext());
+            Call<Void> call = service.approveOwnerReview(id);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(@NonNull Call<Void> call,
@@ -212,7 +215,8 @@ public class ReviewFragment extends Fragment {
 
     private void denyReview(){
         if(isAccommodationReview){
-            Call<Void> call = ClientUtils.reviewService.denyAccommodationReview(id);
+            ReviewService service=ClientUtils.getReviewService(getContext());
+            Call<Void> call = service.denyAccommodationReview(id);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(@NonNull Call<Void> call,
@@ -254,7 +258,8 @@ public class ReviewFragment extends Fragment {
             });
         }
         else{
-            Call<Void> call = ClientUtils.reviewService.denyOwnerReview(id);
+            ReviewService service=ClientUtils.getReviewService(getContext());
+            Call<Void> call = service.denyOwnerReview(id);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(@NonNull Call<Void> call,
@@ -299,7 +304,8 @@ public class ReviewFragment extends Fragment {
 
     private void deleteReview(){
         if(isAccommodationReview){
-            Call<Void> call = ClientUtils.reviewService.deleteReportedAccommodationReview(id);
+            ReviewService service=ClientUtils.getReviewService(getContext());
+            Call<Void> call = service.deleteReportedAccommodationReview(id);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(@NonNull Call<Void> call,
@@ -341,7 +347,8 @@ public class ReviewFragment extends Fragment {
             });
         }
         else{
-            Call<Void> call = ClientUtils.reviewService.deleteReportedOwnerReview(id);
+            ReviewService service=ClientUtils.getReviewService(getContext());
+            Call<Void> call = service.deleteReportedOwnerReview(id);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(@NonNull Call<Void> call,

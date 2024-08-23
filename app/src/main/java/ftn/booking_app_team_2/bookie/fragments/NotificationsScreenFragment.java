@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.NotificationService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentNotificationsScreenBinding;
 import ftn.booking_app_team_2.bookie.model.NotificationDTO;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
@@ -91,8 +92,9 @@ public class NotificationsScreenFragment extends Fragment {
     }
 
     protected void getNotifications() {
+        NotificationService service=ClientUtils.getNotificationService(getContext());
         Call<Collection<NotificationDTO>> call =
-                ClientUtils.notificationService.getUserNotifications(userId);
+                service.getUserNotifications(userId);
 
         call.enqueue(new Callback<Collection<NotificationDTO>>() {
             @Override

@@ -51,4 +51,20 @@ public class ClientUtils {
     public static AuthService getAuthService(Context context) {
         return getRetrofitInstance(context).create(AuthService.class);
     }
+
+    public static GuestService getGuestService(Context context){
+        return getRetrofitInstance(context).create(GuestService.class);
+    }
+
+    public static NotificationService getNotificationService(Context context){
+        return getRetrofitInstance(context).create(NotificationService.class);
+    }
+
+    public static ReportService getReportService(Context context){
+        return getRetrofitInstance(context).create(ReportService.class);
+    }
+
+    public static ReviewService getReviewService(Context context){
+        return getRetrofitInstance(context).create(ReviewService.class);
+    }
 }

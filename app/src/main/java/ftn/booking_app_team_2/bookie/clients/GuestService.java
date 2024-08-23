@@ -15,19 +15,9 @@ public interface GuestService {
 
     String guestControllerPath = ClientUtils.SERVICE_API_PATH + "guests";
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @GET(guestControllerPath + "/{id}/favourite-accommodations")
     Call<Collection<AccommodationDTO>> getFavouriteAccommodations(@Path("id") Long id);
-
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
+    
     @POST(guestControllerPath + "/{id}/favourite-accommodations")
     Call<Void> addFavouriteAccommodations(@Path("id") Long id, @Query("accommodation_id") Long accommodationId);
 }

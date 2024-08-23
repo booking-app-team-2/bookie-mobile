@@ -16,19 +16,11 @@ import retrofit2.http.Query;
 public interface ReportService {
     String reportControllerPath = ClientUtils.SERVICE_API_PATH + "reports";
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
+
     @GET(reportControllerPath)
     Call<Collection<ReportDTO>> getAllReports();
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
+
     @PUT(reportControllerPath + "/{id}")
     Call<Void> blockUser(
             @Path("id") Long id
