@@ -6,15 +6,26 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import java.io.IOException;
+
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.activities.MainActivity;
+import ftn.booking_app_team_2.bookie.clients.AuthService;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentLoginBinding;
+import ftn.booking_app_team_2.bookie.model.LoginCredentials;
+import ftn.booking_app_team_2.bookie.model.Token;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,11 +86,67 @@ public class LoginFragment extends Fragment {
         });
 
         binding.loginBtn.setOnClickListener(view -> {
-            SessionManager sessionManager = new SessionManager(requireContext());
-            sessionManager.createLoginSession(ClientUtils.JWT);
 
-            Intent intent = new Intent(requireActivity(), MainActivity.class);
-            startActivity(intent);
+            String username = binding.usernameField.getText().toString();
+            String password = binding.passwordField.getText().toString();
+
+            LoginCredentials credentials = new LoginCredentials(username,password);
+
+            SessionManager sessionManager = new SessionManager(requireContext());
+            AuthService service = ClientUtils.getAuthService(getContext());
+            Call<Token> call = service.getToken(credentials);
+
+            call.enqueue(new Callback<Token>() {
+                @Override
+                public void onResponse(Call<Token> call, Response<Token> response) {
+                    if (response.isSuccessful()) {
+                        // Extract the token from the response
+                        Token tokenResponse = response.body();
+                        if (tokenResponse != null) {
+                            String jWT = tokenResponse.getjWT();
+
+                            // Save the token using SessionManager
+                            sessionManager.createLoginSession(jWT);
+
+                            // Start the MainActivity
+                            Intent intent = new Intent(requireActivity(), MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Snackbar.make(
+                                    requireView(),
+                                    "Unknown error!",
+                                    Snackbar.LENGTH_SHORT
+                            ).show();
+                        }
+                    } else {
+                        if(response.code()==401) {
+                            Snackbar.make(
+                                    requireView(),
+                                    "Wrong credentials!",
+                                    Snackbar.LENGTH_SHORT
+                            ).show();
+                        }
+                        try {
+                            Log.e("API Error", "Error Body: " + response.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Token> call, Throwable t) {
+                    Snackbar.make(
+                            requireView(),
+                            "Error reaching the server.",
+                            Snackbar.LENGTH_SHORT
+                    ).show();
+                }
+            });
+//          sessionManager.createLoginSession(ClientUtils.JWT);
+
+//          Intent intent = new Intent(requireActivity(), MainActivity.class);
+//          startActivity(intent);
         });
 
         return binding.getRoot();

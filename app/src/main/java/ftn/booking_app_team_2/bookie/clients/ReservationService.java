@@ -19,11 +19,6 @@ import retrofit2.http.Query;
 public interface ReservationService {
     String reservationControllerPath = ClientUtils.SERVICE_API_PATH + "reservations";
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @GET(reservationControllerPath + "/reservee")
     Call<Collection<ReservationGuest>> searchAndFilterGuest(
             @Query("name") String name,
@@ -32,11 +27,6 @@ public interface ReservationService {
             @Query("status") List<ReservationStatus> statuses
     );
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @GET(reservationControllerPath + "/accommodation/owner")
     Call<Collection<ReservationOwner>> searchAndFilterOwner(
             @Query("name") String name,
@@ -45,45 +35,20 @@ public interface ReservationService {
             @Query("status") List<ReservationStatus> statuses
     );
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @GET(reservationControllerPath + "/status/cancelled")
     Call<NumberOfCancelledReservations> getNumberOfCancelledReservationsForReservee(
             @Query("reservee_id") Long reserveeId
     );
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @PUT(reservationControllerPath + "/{id}/status/accepted")
     Call<ReservationStatusDTO> acceptReservation(@Path("id") Long id);
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @PUT(reservationControllerPath + "/{id}/status/declined")
     Call<ReservationStatusDTO> declineReservation(@Path("id") Long id);
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @PUT(reservationControllerPath + "/{id}/status/cancelled")
     Call<ReservationStatusDTO> cancelReservation(@Path("id") Long id);
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @DELETE(reservationControllerPath + "/{id}")
     Call<Void> deleteReservation(@Path("id") Long id);
 }

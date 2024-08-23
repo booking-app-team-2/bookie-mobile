@@ -17,51 +17,21 @@ import retrofit2.http.Path;
 public interface UserService {
     String userControllerPath = ClientUtils.SERVICE_API_PATH + "users";
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @GET(userControllerPath + "/{id}")
     Call<User> getUser(@Path("id") Long id);
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @PUT(userControllerPath + "/{id}/basic-info")
     Call<UserBasicInfo> putUserBasicInfo(@Path("id") Long id, @Body UserBasicInfo userBasicInfo);
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @PUT(userControllerPath + "/{id}/telephone")
     Call<UserTelephone> putUserTelephone(@Path("id") Long id, @Body UserTelephone userTelephone);
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @PUT(userControllerPath + "/{id}/address-of-residence")
     Call<UserAddress> putUserAddress(@Path("id") Long id, @Body UserAddress userAddress);
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @PUT(userControllerPath + "/{id}/password")
     Call<UserPassword> putUserPassword(@Path("id") Long id, @Body UserPassword userPassword);
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @DELETE(userControllerPath + "/{id}")
     Call<ResponseBody> delete(@Path("id") Long id);
 }

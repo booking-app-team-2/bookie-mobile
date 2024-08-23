@@ -24,6 +24,7 @@ import java.util.Set;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.ImageService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationCardBinding;
 import ftn.booking_app_team_2.bookie.model.AvailabilityPeriod;
 import ftn.booking_app_team_2.bookie.model.Image;
@@ -150,8 +151,9 @@ public class AccommodationCardFragment extends Fragment {
 
 
     private void getThumbnail() {
+        ImageService service = ClientUtils.getImageService(getContext());
         images.stream().findFirst().ifPresent(image -> {
-            Call<ResponseBody> call = ClientUtils.imageService.getImage(image.getId());
+            Call<ResponseBody> call = service.getImage(image.getId());
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override

@@ -17,6 +17,7 @@ public class SessionManager {
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
 
+    private static final String KEY_JWT = "jwt";
     private static final String PREF_FILE_NAME = "user_data";
 
     private static final String KEY_USER_ID = "id";
@@ -31,6 +32,8 @@ public class SessionManager {
     public void createLoginSession(String jwt) {
         JWT parsedJwt = new JWT(jwt);
 
+        editor.putString(KEY_JWT, jwt);
+
         editor.putLong(
                 KEY_USER_ID,
                 Objects.requireNonNull(parsedJwt.getClaim("id").asLong())
@@ -42,6 +45,7 @@ public class SessionManager {
 
         editor.commit();
     }
+    public String getJwtToken() { return sharedPreferences.getString(KEY_JWT, null); }
 
     public Long getUserId() {
         return sharedPreferences.getLong(KEY_USER_ID, 0);

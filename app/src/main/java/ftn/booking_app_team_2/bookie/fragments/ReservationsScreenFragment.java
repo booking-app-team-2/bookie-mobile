@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.ReservationService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentReservationsScreenBinding;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
 import ftn.booking_app_team_2.bookie.model.ReservationGuest;
@@ -278,8 +279,9 @@ public class ReservationsScreenFragment extends Fragment {
 
     }
     protected void searchReservationsGuest() {
+        ReservationService service = ClientUtils.getReservationService(getContext());
         Call<Collection<ReservationGuest>> call =
-                ClientUtils.reservationService.searchAndFilterGuest(
+                service.searchAndFilterGuest(
                         Objects.requireNonNull(accommodationName.getText()).toString(),
                         selectedTimestampRange.first,
                         selectedTimestampRange.second,
@@ -327,8 +329,9 @@ public class ReservationsScreenFragment extends Fragment {
     }
 
     protected void searchReservationsOwner() {
+        ReservationService service = ClientUtils.getReservationService(getContext());
         Call<Collection<ReservationOwner>> call =
-                ClientUtils.reservationService.searchAndFilterOwner(
+                service.searchAndFilterOwner(
                         Objects.requireNonNull(accommodationName.getText()).toString(),
                         selectedTimestampRange.first,
                         selectedTimestampRange.second,

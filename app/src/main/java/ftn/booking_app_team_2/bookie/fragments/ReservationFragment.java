@@ -23,6 +23,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.ReservationService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentReservationBinding;
 import ftn.booking_app_team_2.bookie.model.AccommodationNameDTO;
 import ftn.booking_app_team_2.bookie.model.NumberOfCancelledReservations;
@@ -150,8 +151,8 @@ public class ReservationFragment extends Fragment {
     }
 
     private void getNumberOfCancelledReservations() {
-        Call<NumberOfCancelledReservations> call = ClientUtils
-                .reservationService
+        ReservationService service = ClientUtils.getReservationService(getContext());
+        Call<NumberOfCancelledReservations> call = service
                 .getNumberOfCancelledReservationsForReservee(reserveeBasicInfoDTO.getId());
 
         call.enqueue(new Callback<NumberOfCancelledReservations>() {
@@ -192,7 +193,8 @@ public class ReservationFragment extends Fragment {
     }
 
     private void acceptReservation() {
-        Call<ReservationStatusDTO> call = ClientUtils.reservationService.acceptReservation(id);
+        ReservationService service = ClientUtils.getReservationService(getContext());
+        Call<ReservationStatusDTO> call = service.acceptReservation(id);
         call.enqueue(new Callback<ReservationStatusDTO>() {
             @Override
             public void onResponse(@NonNull Call<ReservationStatusDTO> call,
@@ -235,7 +237,8 @@ public class ReservationFragment extends Fragment {
     }
 
     private void declineReservation() {
-        Call<ReservationStatusDTO> call = ClientUtils.reservationService.declineReservation(id);
+        ReservationService service = ClientUtils.getReservationService(getContext());
+        Call<ReservationStatusDTO> call = service.declineReservation(id);
         call.enqueue(new Callback<ReservationStatusDTO>() {
             @Override
             public void onResponse(@NonNull Call<ReservationStatusDTO> call,
@@ -278,7 +281,8 @@ public class ReservationFragment extends Fragment {
     }
 
     private void cancelReservation() {
-        Call<ReservationStatusDTO> call = ClientUtils.reservationService.cancelReservation(id);
+        ReservationService service = ClientUtils.getReservationService(getContext());
+        Call<ReservationStatusDTO> call = service.cancelReservation(id);
         call.enqueue(new Callback<ReservationStatusDTO>() {
             @Override
             public void onResponse(@NonNull Call<ReservationStatusDTO> call,
@@ -321,7 +325,8 @@ public class ReservationFragment extends Fragment {
     }
 
     private void deleteReservation() {
-        Call<Void> call = ClientUtils.reservationService.deleteReservation(id);
+        ReservationService service = ClientUtils.getReservationService(getContext());
+        Call<Void> call = service.deleteReservation(id);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call,
