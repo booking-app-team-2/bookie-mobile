@@ -44,7 +44,6 @@ public class ClientUtils {
     public static ReservationService getReservationService(Context context) {
         return getRetrofitInstance(context).create(ReservationService.class);
     }
-
     public static ImageService getImageService(Context context) {
         return getRetrofitInstance(context).create(ImageService.class);
     }

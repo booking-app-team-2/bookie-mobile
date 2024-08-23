@@ -33,6 +33,7 @@ import java.util.Objects;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.clients.ReservationService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentReservationsScreenBinding;
+import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
 import ftn.booking_app_team_2.bookie.model.ReservationGuest;
 import ftn.booking_app_team_2.bookie.model.ReservationOwner;
 import ftn.booking_app_team_2.bookie.model.ReservationStatus;
@@ -45,9 +46,11 @@ public class ReservationsScreenFragment extends Fragment {
     private FragmentReservationsScreenBinding binding;
 
     private String userRole;
+    private Long userId;
 
     private Collection<ReservationOwner> reservationsOwner = null;
     private Collection<ReservationGuest> reservationsGuest = null;
+    private Collection<AccommodationDTO> guestFavouriteAccommodations = null;
 
     private static final String START_TIMESTAMP_KEY = "start_timestamp";
     private static final String END_TIMESTAMP_KEY = "end_timestamp";
@@ -71,6 +74,7 @@ public class ReservationsScreenFragment extends Fragment {
 
         SessionManager sessionManager = new SessionManager(requireContext());
         userRole = sessionManager.getUserType();
+        userId = sessionManager.getUserId();
     }
 
     private List<ReservationStatus> getStatuses() {
@@ -95,9 +99,11 @@ public class ReservationsScreenFragment extends Fragment {
         if (reservationsOwner != null) {
             return;
         }
-
-        if (userRole.equals("Guest"))
+        removeAllReservationViews();
+        if (userRole.equals("Guest")){
             searchReservationsGuest();
+            searchFavouriteAccommodations();
+        }
         else if (userRole.equals("Owner"))
             searchReservationsOwner();
     }
@@ -163,11 +169,33 @@ public class ReservationsScreenFragment extends Fragment {
         });
     }
 
+    private void addAllAccommodationViews(){
+        if(!isAdded())
+            return;
+
+        guestFavouriteAccommodations.forEach(accommodation -> {
+            AccommodationCardFragment accommodationCardFragment = AccommodationCardFragment
+                    .newInstance(
+                            accommodation.getName(),
+                            accommodation.getDescription(),
+                            Integer.toString(accommodation.getMinimumGuests()),
+                            Integer.toString(accommodation.getMaximumGuests()),
+                            accommodation.getId(),
+                            accommodation.getImages(),
+                            accommodation.getAvailabilityPeriods()
+                    );
+
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.add(binding.guestFavouriteAccommodationsContainer.getId(), accommodationCardFragment);
+            transaction.commit();
+        });
+    }
+
     private void addAllReservationViews() {
         if (!isAdded())
             return;
 
-        if (userRole.equals("Guest"))
+        if (userRole.equals("Guest")) {
             reservationsGuest.forEach(reservationGuest -> {
                 ReservationFragment reservationFragment = ReservationFragment.newInstance(
                         reservationGuest.getId(),
@@ -183,6 +211,8 @@ public class ReservationsScreenFragment extends Fragment {
                 fragmentTransaction.add(binding.reservationsContainer.getId(), reservationFragment);
                 fragmentTransaction.commit();
             });
+
+        }
         else if (userRole.equals("Owner")) {
             reservationsOwner.forEach(reservationOwner -> {
                 ReservationFragment reservationFragment = ReservationFragment.newInstance(
@@ -203,6 +233,51 @@ public class ReservationsScreenFragment extends Fragment {
         }
     }
 
+    protected void searchFavouriteAccommodations(){
+
+        Call<Collection<AccommodationDTO>> call =
+                ClientUtils.guestService.getFavouriteAccommodations(userId);
+
+        call.enqueue(new Callback<Collection<AccommodationDTO>>() {
+            @Override
+            public void onResponse(@NonNull Call<Collection<AccommodationDTO>> call,
+                                   @NonNull Response<Collection<AccommodationDTO>> response) {
+                if (response.code() == 200) {
+
+                    assert response.body() != null;
+                    guestFavouriteAccommodations = response.body();
+
+                    addAllAccommodationViews();
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Collection<AccommodationDTO>> call,
+                                  @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
+
+    }
     protected void searchReservationsGuest() {
         ReservationService service = ClientUtils.getReservationService(getContext());
         Call<Collection<ReservationGuest>> call =
@@ -218,7 +293,6 @@ public class ReservationsScreenFragment extends Fragment {
             public void onResponse(@NonNull Call<Collection<ReservationGuest>> call,
                                    @NonNull Response<Collection<ReservationGuest>> response) {
                 if (response.code() == 200) {
-                    removeAllReservationViews();
 
                     assert response.body() != null;
                     reservationsGuest = response.body();
@@ -269,7 +343,6 @@ public class ReservationsScreenFragment extends Fragment {
             public void onResponse(@NonNull Call<Collection<ReservationOwner>> call,
                                    @NonNull Response<Collection<ReservationOwner>> response) {
                 if (response.code() == 200) {
-                    removeAllReservationViews();
 
                     assert response.body() != null;
                     reservationsOwner = response.body();

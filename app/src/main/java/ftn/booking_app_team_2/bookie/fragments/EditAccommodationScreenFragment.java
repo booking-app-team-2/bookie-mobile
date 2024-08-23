@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -636,6 +637,20 @@ public class EditAccommodationScreenFragment extends Fragment {
 
         binding.updateAccommodationBtn.setOnClickListener(view ->
                 updateIsReservationAutoAccepted());
+        binding.createReportBtn.setOnClickListener(view -> {
+            // Create an AlertDialog Builder
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setTitle("Error!");
+            builder.setMessage("Not yet implemented");
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                // Dismiss the dialog when "OK" is clicked
+                dialog.dismiss();
+            });
+
+            // Create and show the AlertDialog
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        });
 
         return binding.getRoot();
     }

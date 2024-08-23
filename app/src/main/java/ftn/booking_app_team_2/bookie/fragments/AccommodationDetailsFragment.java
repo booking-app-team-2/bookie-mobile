@@ -1,5 +1,6 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,17 @@ public class AccommodationDetailsFragment extends Fragment {
     public static GuestMainScreenFragment newInstance() {
         GuestMainScreenFragment fragment = new GuestMainScreenFragment();
         return fragment;
+    }
+    private Long accommodationId;
+    private Long userId;
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        SessionManager sessionManager = new SessionManager(requireContext());
+        userId = sessionManager.getUserId();
     }
 
     @Override
@@ -111,7 +123,7 @@ public class AccommodationDetailsFragment extends Fragment {
         SessionManager sessionManager = new SessionManager(requireContext());
         String userRole = sessionManager.getUserType();
 
-        if (!userRole.equals("Admin")) {
+        if (userRole.equals("Guest")) {
             binding.approvalLayout.setVisibility(View.GONE);
             root.findViewById(R.id.reserveButton).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,7 +132,7 @@ public class AccommodationDetailsFragment extends Fragment {
                 }
             });
         }
-        else if (!userRole.equals("Guest")) {
+        else if (userRole.equals("Admin")) {
             binding.reservationLayout.setVisibility(View.GONE);
 
             binding.approveBtn.setOnClickListener(view ->
@@ -142,13 +154,23 @@ public class AccommodationDetailsFragment extends Fragment {
                             .show()
             );
         }
+        else if(userRole.equals("Owner")){
 
+        }
         Bundle args = getArguments();
         if (args != null) {
-            Long accommodationId = args.getLong("accommodationId");
+            accommodationId = args.getLong("accommodationId");
             //TODO: Add getReqest and connect to other fields
             loadAccommodation(accommodationId,root);
         }
+        binding.favouriteButton.setOnClickListener(view ->
+                new MaterialAlertDialogBuilder(view.getContext())
+                        .setTitle("Are you sure you want to make this your favourite accommodation?")
+                        .setPositiveButton("Yes", ((dialog, which) ->
+                                setFavouriteAccommodation()))
+                        .setNegativeButton("No", ((dialog, which) -> { }))
+                        .show()
+        );
         return root;
     }
 
@@ -185,10 +207,8 @@ public class AccommodationDetailsFragment extends Fragment {
                                 availabilityPeriod.getPrice().doubleValue()
                         );
 
-                        // Use FragmentTransaction to add the fragment to the layout
                         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                        transaction.add(R.id.periodLayout, fragment); // Assuming R.id.accommodations_container is the container in your layout
-                        transaction.addToBackStack(null);
+                        transaction.add(R.id.periodLayout, fragment);
                         transaction.commit();
                     }
 
@@ -241,5 +261,49 @@ public class AccommodationDetailsFragment extends Fragment {
 
 
         }
+    }
+
+    private void setFavouriteAccommodation(){
+
+        Call<Void> call = ClientUtils.guestService.addFavouriteAccommodations(userId,accommodationId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call,
+                                   @NonNull Response<Void> response) {
+                if (response.code() == 200) {
+                    Snackbar.make(
+                            requireView(),
+                            "Successfully added to favourite accommodations",
+                            Snackbar.LENGTH_SHORT
+                    ).show();
+
+                    //TODO Add call for refreshing
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
     }
 }

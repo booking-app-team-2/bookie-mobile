@@ -14,9 +14,9 @@
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="10dp"
             app:flexDirection="column"
-            app:flexWrap="nowrap"
-            android:layout_margin="10dp">
+            app:flexWrap="nowrap">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/carousel"
@@ -30,9 +30,9 @@
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
                 app:flexDirection="row"
-                app:flexWrap="nowrap"
-                android:layout_marginBottom="10dp">
+                app:flexWrap="nowrap">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/addImageBtn"
@@ -55,15 +55,15 @@
                     android:layout_height="match_parent"
                     app:flexDirection="row"
                     app:flexWrap="nowrap"
-                    app:layout_flexGrow="4" >
+                    app:layout_flexGrow="4">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/removeImageBtn"
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_alignSelf="center"
-                        android:text="@string/remove_image" />
+                        android:text="@string/remove_image"
+                        app:layout_alignSelf="center" />
 
                     <NumberPicker
                         android:id="@+id/imageNumberPicker"
@@ -77,33 +77,33 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/name"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:hint="@string/name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nameTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/placeholder"
-                    android:inputType="textCapWords" />
+                    android:inputType="textCapWords"
+                    android:text="@string/placeholder" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/description"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:hint="@string/description">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/descriptionTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/placeholder"
-                    android:inputType="textMultiLine"
                     android:gravity="start"
+                    android:inputType="textMultiLine"
                     android:maxLines="10"
-                    android:scrollbars="vertical" />
+                    android:scrollbars="vertical"
+                    android:text="@string/placeholder" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -154,18 +154,18 @@
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 app:flexDirection="column"
-                app:flexWrap="nowrap"
-                android:layout_marginBottom="10dp">
+                app:flexWrap="nowrap">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/location"
-                    android:textColor="?attr/colorOnSurface"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
+                    android:text="@string/location"
                     android:textAlignment="center"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="20sp" />
 
                 <org.osmdroid.views.MapView
@@ -242,12 +242,11 @@
                 android:layout_marginBottom="10dp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/accommodation_type"
-                style=
-                    "@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:hint="@string/accommodation_type">
 
                 <AutoCompleteTextView
                     android:id="@+id/accommodationTypeAutoCompleteTextView"
@@ -266,15 +265,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:text="@string/is_reservation_auto_accepted"
-                    android:textColor="?attr/colorOnSurface"
-                    android:layout_weight="1" />
+                    android:textColor="?attr/colorOnSurface" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/isReservationAutoAcceptedSwitch"
@@ -290,6 +289,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/update_accommodation" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/createReportBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Generate Report" />
 
         </com.google.android.flexbox.FlexboxLayout>
 
