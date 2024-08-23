@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.ReportService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentReportedCommentsScreenBinding;
 import ftn.booking_app_team_2.bookie.databinding.FragmentReportedUsersScreenBinding;
 import ftn.booking_app_team_2.bookie.model.AccommodationReviewDTO;
@@ -87,8 +88,9 @@ public class ReportedUsersScreenFragment extends Fragment {
     }
 
     protected void getReports() {
+        ReportService service = ClientUtils.getReportService(getContext());
         Call<Collection<ReportDTO>> call =
-                ClientUtils.reportService.getAllReports();
+                service.getAllReports();
 
         call.enqueue(new Callback<Collection<ReportDTO>>() {
             @Override

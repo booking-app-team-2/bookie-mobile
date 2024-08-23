@@ -29,6 +29,7 @@ import java.util.Locale;
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.AccommodationService;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.GuestService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationDetailsBinding;
 import ftn.booking_app_team_2.bookie.dialogs.CreateReservationDialog;
 import ftn.booking_app_team_2.bookie.model.AccommodationApproval;
@@ -264,8 +265,8 @@ public class AccommodationDetailsFragment extends Fragment {
     }
 
     private void setFavouriteAccommodation(){
-
-        Call<Void> call = ClientUtils.guestService.addFavouriteAccommodations(userId,accommodationId);
+        GuestService service= ClientUtils.getGuestService(getContext());
+        Call<Void> call = service.addFavouriteAccommodations(userId,accommodationId);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call,

@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.ReviewService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentReportedCommentsScreenBinding;
 import ftn.booking_app_team_2.bookie.databinding.FragmentReservationsScreenBinding;
 import ftn.booking_app_team_2.bookie.model.AccommodationReviewDTO;
@@ -137,8 +138,9 @@ public class ReportedCommentsScreenFragment extends Fragment {
 
 
     protected void getUnapprovedAccommodationReviews() {
+        ReviewService service=ClientUtils.getReviewService(getContext());
         Call<Collection<AccommodationReviewDTO>> call =
-                ClientUtils.reviewService.getUnapprovedAccomodationReviews(
+                service.getUnapprovedAccomodationReviews(
                 );
 
         call.enqueue(new Callback<Collection<AccommodationReviewDTO>>() {
@@ -180,8 +182,9 @@ public class ReportedCommentsScreenFragment extends Fragment {
     }
 
     protected void getReportedAccommodationReviews() {
+        ReviewService service=ClientUtils.getReviewService(getContext());
         Call<Collection<AccommodationReviewDTO>> call =
-                ClientUtils.reviewService.getReportedAccomodationReviews();
+                service.getReportedAccomodationReviews();
 
         call.enqueue(new Callback<Collection<AccommodationReviewDTO>>() {
             @Override
@@ -222,8 +225,9 @@ public class ReportedCommentsScreenFragment extends Fragment {
     }
 
     protected void getUnapprovedOwnerReviews() {
+        ReviewService service=ClientUtils.getReviewService(getContext());
         Call<Collection<OwnerReviewDTO>> call =
-                ClientUtils.reviewService.getUnapprovedOwnerReviews(
+                service.getUnapprovedOwnerReviews(
                 );
 
         call.enqueue(new Callback<Collection<OwnerReviewDTO>>() {
@@ -265,8 +269,9 @@ public class ReportedCommentsScreenFragment extends Fragment {
     }
 
     protected void getReportedOwnerReviews() {
+        ReviewService service=ClientUtils.getReviewService(getContext());
         Call<Collection<OwnerReviewDTO>> call =
-                ClientUtils.reviewService.getReportedOwnerReviews();
+                service.getReportedOwnerReviews();
 
         call.enqueue(new Callback<Collection<OwnerReviewDTO>>() {
             @Override

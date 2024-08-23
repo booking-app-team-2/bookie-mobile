@@ -13,21 +13,11 @@ public interface NotificationService {
 
     String notificationControllerPath = ClientUtils.SERVICE_API_PATH + "notifications";
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @GET(notificationControllerPath + "/{id}")
     Call<Collection<NotificationDTO>> getUserNotifications(
             @Path("id") Long id
     );
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type: application/json",
-            "Authorization: Bearer " + ClientUtils.JWT
-    })
     @DELETE(notificationControllerPath + "/{id}")
     Call<Void> deleteNotification(
             @Path("id") Long id

@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.GuestService;
 import ftn.booking_app_team_2.bookie.clients.ReservationService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentReservationsScreenBinding;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
@@ -234,9 +235,9 @@ public class ReservationsScreenFragment extends Fragment {
     }
 
     protected void searchFavouriteAccommodations(){
-
+        GuestService service=ClientUtils.getGuestService(getContext());
         Call<Collection<AccommodationDTO>> call =
-                ClientUtils.guestService.getFavouriteAccommodations(userId);
+                service.getFavouriteAccommodations(userId);
 
         call.enqueue(new Callback<Collection<AccommodationDTO>>() {
             @Override

@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.ReportService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentReportBinding;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
 import retrofit2.Call;
@@ -77,7 +78,8 @@ public class ReportFragment extends Fragment {
         }
     }
     private void blockUser(){
-        Call<Void> call = ClientUtils.reportService.blockUser(id);
+        ReportService service=ClientUtils.getReportService(getContext());
+        Call<Void> call = service.blockUser(id);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call,
