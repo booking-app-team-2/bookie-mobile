@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/bookie_final" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -25,6 +25,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/firstnameField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="First name" />
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lastnameField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Surname" />
@@ -46,6 +48,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/usernameField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username" />
@@ -56,10 +59,62 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password" />
+
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addressField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phoneField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phone" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:id="@+id/role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@id/guest">
+
+                <RadioButton
+                    android:id="@+id/owner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Owner Account" />
+
+                <RadioButton
+                    android:id="@+id/guest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Guest Account" />
+
+            </RadioGroup>
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/hintText1"
@@ -70,7 +125,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
@@ -90,6 +145,7 @@
                 android:text="Register" />
 
         </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>
