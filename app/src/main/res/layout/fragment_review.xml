@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.ReviewFragment"
+    android:layout_margin="10dp">
+
+    <com.google.android.material.card.MaterialCardView
+        style="?attr/materialCardViewElevatedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:flexDirection="column"
+            app:flexWrap="nowrap"
+            android:padding="10dp">
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexDirection="row"
+                app:flexWrap="nowrap"
+                app:alignItems="stretch"
+                android:paddingBottom="10dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="From:"
+                    android:textColor="?attr/colorOnSurface"
+                    android:gravity="center_vertical" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/reviewerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="?attr/colorOnSurface"
+                    android:text="@string/placeholder"
+                    android:textAlignment="viewEnd"
+                    android:gravity="center_vertical"
+                    tools:ignore="RtlCompat" />
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/revieweeExtra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/revieweeSegment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:alignItems="stretch"
+                app:flexDirection="row"
+                app:flexWrap="nowrap">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="To:"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/rewieweeName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/placeholder"
+                    android:textAlignment="viewEnd"
+                    android:textColor="?attr/colorOnSurface"
+                    tools:ignore="RtlCompat" />
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexDirection="column"
+                app:flexWrap="nowrap"
+                app:alignItems="stretch"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/comment"
+                    android:textColor="?attr/colorOnSurface"
+                    android:gravity="center_vertical" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="?attr/colorOnSurface"
+                    android:text="@string/placeholder"
+                    android:textAlignment="viewStart"
+                    android:gravity="center"
+                    tools:ignore="RtlCompat" />
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexDirection="row"
+                app:flexWrap="nowrap"
+                app:alignItems="stretch"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/grade"
+                    android:textColor="?attr/colorOnSurface"
+                    android:gravity="center_vertical" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="?attr/colorOnSurface"
+                    android:text="@string/placeholder"
+                    android:textAlignment="viewEnd"
+                    android:gravity="center_vertical"
+                    tools:ignore="RtlCompat" />
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/reservationOwnerDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexDirection="column"
+                app:flexWrap="nowrap">
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:alignItems="stretch"
+                    android:layout_marginBottom="10dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/date"
+                        android:textColor="?attr/colorOnSurface"
+                        android:gravity="center_vertical" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="?attr/colorOnSurface"
+                        android:text="@string/placeholder"
+                        android:textAlignment="viewEnd"
+                        android:gravity="center_vertical"
+                        tools:ignore="RtlCompat" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp" />
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteReviewBtn"
+                style="@style/Widget.App.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:text="@string/delete" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/unapprovedButtonHolder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexDirection="row"
+                app:flexWrap="nowrap"
+                app:alignItems="stretch">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/approveReviewBtn"
+                    style="@style/Widget.App.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_flexGrow="1"
+                    android:layout_marginHorizontal="5dp"
+                    android:text="@string/approve" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/denyReviewBtn"
+                    style="@style/Widget.App.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_flexGrow="1"
+                    android:layout_marginHorizontal="5dp"
+                    android:text="@string/deny" />
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

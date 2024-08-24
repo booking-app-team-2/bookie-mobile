@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.UserService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccountScreenBinding;
 import ftn.booking_app_team_2.bookie.model.User;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
@@ -73,8 +74,8 @@ public class AccountScreenFragment extends Fragment {
             populateView();
             return;
         }
-
-        Call<User> call = ClientUtils.userService.getUser(userId);
+        UserService service = ClientUtils.getUserService(getContext());
+        Call<User> call = service.getUser(userId);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
@@ -113,7 +114,8 @@ public class AccountScreenFragment extends Fragment {
     }
 
     private void deleteUser() {
-        Call<ResponseBody> call = ClientUtils.userService.delete(userId);
+        UserService service = ClientUtils.getUserService(getContext());
+        Call<ResponseBody> call = service.delete(userId);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,

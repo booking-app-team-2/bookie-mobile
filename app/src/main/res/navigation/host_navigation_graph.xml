@@ -27,6 +27,9 @@
         <action
             android:id="@+id/navigateToEditAccommodationScreen"
             app:destination="@id/editAccommodationScreenFragment" />
+        <action
+            android:id="@+id/navigateToCreateAccomodationScreen"
+            app:destination="@id/accommodationCreateScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationsScreenFragment"
@@ -54,6 +57,14 @@
         tools:layout="@layout/fragment_edit_accommodation_screen" >
         <action
             android:id="@+id/navigateToAccommodationsScreen"
+            app:destination="@id/accommodationsScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accommodationCreateScreenFragment"
+        android:name="ftn.booking_app_team_2.bookie.fragments.AccommodationCreateScreenFragment"
+        android:label="AccommodationCreateScreenFragment" >
+        <action
+            android:id="@+id/backToAccommodations"
             app:destination="@id/accommodationsScreenFragment" />
     </fragment>
 </navigation>

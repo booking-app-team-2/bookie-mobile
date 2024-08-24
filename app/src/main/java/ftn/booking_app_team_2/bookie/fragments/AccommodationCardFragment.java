@@ -24,6 +24,7 @@ import java.util.Set;
 
 import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.ImageService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationCardBinding;
 import ftn.booking_app_team_2.bookie.model.AvailabilityPeriod;
 import ftn.booking_app_team_2.bookie.model.Image;
@@ -130,19 +131,29 @@ public class AccommodationCardFragment extends Fragment {
 
     private void displayThumbnail(ResponseBody responseBody) {
         Bitmap bitmap = BitmapFactory.decodeStream(responseBody.byteStream());
-        binding.imageId.setImageBitmap(
-                Bitmap.createScaledBitmap(
-                        bitmap,
-                        binding.imageId.getWidth(),
-                        binding.imageId.getHeight(),
-                        false
-                )
-        );
+
+        binding.imageId.post(new Runnable() {
+            @Override
+            public void run() {
+                int width = binding.imageId.getWidth();
+                int height = binding.imageId.getHeight();
+
+                if (width > 0 && height > 0) {
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+                    binding.imageId.setImageBitmap(scaledBitmap);
+                } else {
+                    // Handle the error or use default dimensions
+                    Log.e("BitmapScaling", "ImageView dimensions are invalid");
+                }
+            }
+        });
     }
 
+
     private void getThumbnail() {
+        ImageService service = ClientUtils.getImageService(getContext());
         images.stream().findFirst().ifPresent(image -> {
-            Call<ResponseBody> call = ClientUtils.imageService.getImage(image.getId());
+            Call<ResponseBody> call = service.getImage(image.getId());
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override

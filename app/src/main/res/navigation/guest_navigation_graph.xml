@@ -46,5 +46,9 @@
         android:id="@+id/guestReservationsScreenFragment"
         android:name="ftn.booking_app_team_2.bookie.fragments.ReservationsScreenFragment"
         android:label="fragment_reservations_screen"
-        tools:layout="@layout/fragment_reservations_screen" />
+        tools:layout="@layout/fragment_reservations_screen" >
+        <action
+            android:id="@+id/navigateToAccommodationDetailsScreen"
+            app:destination="@id/accommodationDetailsFragment" />
+    </fragment>
 </navigation>

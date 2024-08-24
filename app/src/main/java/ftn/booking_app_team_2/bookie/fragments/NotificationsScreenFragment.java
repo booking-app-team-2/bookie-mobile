@@ -1,14 +1,32 @@
 package ftn.booking_app_team_2.bookie.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONObject;
+
+import java.util.Collection;
+
 import ftn.booking_app_team_2.bookie.R;
+import ftn.booking_app_team_2.bookie.clients.ClientUtils;
+import ftn.booking_app_team_2.bookie.clients.NotificationService;
+import ftn.booking_app_team_2.bookie.databinding.FragmentNotificationsScreenBinding;
+import ftn.booking_app_team_2.bookie.model.NotificationDTO;
+import ftn.booking_app_team_2.bookie.tools.SessionManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,50 +35,116 @@ import ftn.booking_app_team_2.bookie.R;
  */
 public class NotificationsScreenFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+   private FragmentNotificationsScreenBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+   private Collection<NotificationDTO> notifications = null;
+
+   private Long userId;
 
     public NotificationsScreenFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NotificationsScreenFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static NotificationsScreenFragment newInstance(String param1, String param2) {
-        NotificationsScreenFragment fragment = new NotificationsScreenFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+
+    public static NotificationsScreenFragment newInstance() {
+        return new NotificationsScreenFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        SessionManager sessionManager = new SessionManager(requireContext());
+        userId = sessionManager.getUserId();
+    }
+
+    private void removeAllNotifications() {
+        if (!isAdded())
+            return;
+
+        getChildFragmentManager().getFragments().forEach(childFragment -> {
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.remove(childFragment);
+            fragmentTransaction.commit();
+        });
+    }
+
+    private void addAllNotifications(){
+        if(!isAdded()){
+            return;
+        }
+        notifications.forEach(notification ->{
+            NotificationFragment reportFragment = NotificationFragment.newInstance(
+                    notification.getId(), notification.getBody(), notification.getType(), notification.getReceiverId()
+            );
+            FragmentTransaction fragmentTransaction =
+                    getChildFragmentManager().beginTransaction();
+            fragmentTransaction.add(binding.notificationsContainer.getId(), reportFragment);
+            fragmentTransaction.commit();
+        });
+    }
+
+    protected void getNotifications() {
+        NotificationService service=ClientUtils.getNotificationService(getContext());
+        Call<Collection<NotificationDTO>> call =
+                service.getUserNotifications(userId);
+
+        call.enqueue(new Callback<Collection<NotificationDTO>>() {
+            @Override
+            public void onResponse(@NonNull Call<Collection<NotificationDTO>> call,
+                                   @NonNull Response<Collection<NotificationDTO>> response) {
+                if (response.code() == 200) {
+                    assert response.body() != null;
+                    notifications = response.body();
+                    addAllNotifications();
+                } else {
+                    assert response.errorBody() != null;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        Snackbar.make(
+                                requireView(),
+                                jsonObject.getString("message"),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    } catch (Exception ex) {
+                        Log.d(
+                                "Bookie",
+                                ex.getMessage() != null ? ex.getMessage() : "Unknown error"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Collection<NotificationDTO>> call,
+                                  @NonNull Throwable t) {
+                Snackbar.make(
+                        requireView(),
+                        "Error reaching the server.",
+                        Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        removeAllNotifications();
+        getNotifications();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notifications_screen, container, false);
+        binding = FragmentNotificationsScreenBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 }
