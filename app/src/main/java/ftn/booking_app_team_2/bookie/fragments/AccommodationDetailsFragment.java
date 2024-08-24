@@ -188,7 +188,8 @@ public class AccommodationDetailsFragment extends Fragment {
             @Override
             public void onResponse(Call<Collection<AccommodationReviewDTO>> call, Response<Collection<AccommodationReviewDTO>> response) {
                 reviews = response.body();
-                if(!reviews.isEmpty()) {
+                if(reviews != null && !reviews.isEmpty()) {
+                    binding.textView2.setVisibility(View.GONE);
                     reviews.forEach(review -> {
                         ReviewFragment reviewFragment = ReviewFragment
                                 .newInstance(

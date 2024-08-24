@@ -446,6 +446,8 @@ public class ReviewFragment extends Fragment {
         if(!userRole.equals("Admin")){
             binding.unapprovedButtonHolder.setVisibility(View.GONE);
             binding.deleteReviewBtn.setVisibility(View.GONE);
+            binding.revieweeSegment.setVisibility(View.GONE);
+            binding.revieweeExtra.setVisibility(View.GONE);
         }
         return binding.getRoot();
     }
