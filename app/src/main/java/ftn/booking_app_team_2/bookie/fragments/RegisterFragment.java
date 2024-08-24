@@ -97,11 +97,43 @@ public class RegisterFragment extends Fragment {
             int radioId = binding.role.getCheckedRadioButtonId();
             RadioButton radioButton = (RadioButton) binding.getRoot().findViewById(radioId);
 
-            String role;
+            String role = null;
             if(radioButton.getText().toString().equals("Guest Account")){
                 role = "Guest";
             } else {
                 role = "Owner";
+            }
+
+            if (name.isEmpty()) {
+                binding.firstnameField.requestFocus();
+                binding.firstnameField.setError("Required");
+                showSnackbar(view, "All fields must be filled.");
+                return;
+            } else if (last_name.isEmpty()) {
+                binding.lastnameField.requestFocus();
+                binding.lastnameField.setError("Required");
+                showSnackbar(view, "All fields must be filled.");
+                return;
+            } else if (username.isEmpty()) {
+                binding.usernameField.requestFocus();
+                binding.usernameField.setError("Required");
+                showSnackbar(view, "All fields must be filled.");
+                return;
+            } else if (password.isEmpty()) {
+                binding.passwordField.requestFocus();
+                binding.passwordField.setError("Required");
+                showSnackbar(view, "All fields must be filled.");
+                return;
+            } else if (address.isEmpty()) {
+                binding.addressField.requestFocus();
+                binding.addressField.setError("Required");
+                showSnackbar(view, "All fields must be filled.");
+                return;
+            } else if (phone.isEmpty()) {
+                binding.phoneField.requestFocus();
+                binding.phoneField.setError("Required");
+                showSnackbar(view, "All fields must be filled.");
+                return;
             }
 
             NewUserDTO user = new NewUserDTO(username,password,name,last_name,address,phone,role);
@@ -138,6 +170,13 @@ public class RegisterFragment extends Fragment {
                                     Snackbar.LENGTH_SHORT
                             ).show();
                         }
+                        if(response.code()==500) {
+                            Snackbar.make(
+                                    requireView(),
+                                    "Account already present with that email.",
+                                    Snackbar.LENGTH_SHORT
+                            ).show();
+                        }
                         try {
                             Log.e("API Error", "Error Body: " + response.errorBody().string());
                         } catch (IOException e) {
@@ -157,5 +196,9 @@ public class RegisterFragment extends Fragment {
             });
         });
         return binding.getRoot();
+    }
+
+    private void showSnackbar(View view, String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 }
