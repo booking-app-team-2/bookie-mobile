@@ -178,6 +178,13 @@
             app:icon="@drawable/round_star"
             />
     </RelativeLayout>
+
+            <FrameLayout
+                android:id="@+id/reviewsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"/>
+
             <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/approvalLayout"
                 android:layout_width="match_parent"

@@ -75,4 +75,7 @@ public interface ReviewService {
     Call<Void> deleteReportedAccommodationReview(
             @Path("id") Long id
     );
+
+    @GET(accommodationReviewControllerPath + "/{id}")
+    Call<Collection<AccommodationReviewDTO>> getReviews(@Path("id") Long accommodationId);
 }

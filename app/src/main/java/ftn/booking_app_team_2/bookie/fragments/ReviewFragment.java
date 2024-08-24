@@ -37,7 +37,7 @@ import retrofit2.Response;
  */
 public class ReviewFragment extends Fragment {
 
-    ReportedCommentsScreenFragment parentFragment;
+    Fragment parentFragment;
     private FragmentReviewBinding binding;
 
     private static final String ARG_ID = "id";
@@ -90,8 +90,13 @@ public class ReviewFragment extends Fragment {
 
     @Override
     public void onAttach(@NonNull Context context) {
+        Fragment parent = getParentFragment();
         super.onAttach(context);
-        parentFragment = (ReportedCommentsScreenFragment) getParentFragment();
+        if (parent instanceof ReportedCommentsScreenFragment) {
+            parentFragment = (ReportedCommentsScreenFragment) getParentFragment();
+        } else {
+            parentFragment = (AccommodationDetailsFragment) getParentFragment();
+        }
         SessionManager sessionManager = new SessionManager(requireContext());
     }
 
@@ -435,6 +440,12 @@ public class ReviewFragment extends Fragment {
                             .setNegativeButton("Cancel", ((dialog, which) -> { }))
                             .show()
             );
+        }
+        SessionManager sessionManager = new SessionManager(requireContext());
+        String userRole = sessionManager.getUserType();
+        if(!userRole.equals("Admin")){
+            binding.unapprovedButtonHolder.setVisibility(View.GONE);
+            binding.deleteReviewBtn.setVisibility(View.GONE);
         }
         return binding.getRoot();
     }
