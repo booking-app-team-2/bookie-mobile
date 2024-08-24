@@ -12,7 +12,7 @@ Clone the **[Bookie Backend](https://github.com/booking-app-team-2/bookie-backen
 <br>
 Download the Android SDK Platform Tools for your desired operating system.<br>
 Connect your mobile device to your localhost device where the server is running.<br>
-In your favourite shell, position yourself inside the downloaded directory or add the downloaded directory to PATH and run the command ```adb reverse tcp:8081 tcp8081```<br>
+In your favourite shell, position yourself inside the downloaded directory or add the downloaded directory to PATH and run the command ```adb reverse tcp:8081 tcp:8081```<br>
 This is required in order to be able to connect to the server from your mobile device, as they are on different networks. With a USB connection you will be able to expose the first port in the command on your mobile device to the second port in the command on your localhost device.<br>
 This command's effect will expire when you disconnect your mobile device from the localhost device.<br>
 <br>
