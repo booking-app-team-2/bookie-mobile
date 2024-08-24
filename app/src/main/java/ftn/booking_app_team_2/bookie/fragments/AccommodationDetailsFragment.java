@@ -23,6 +23,7 @@ import com.google.android.material.textview.MaterialTextView;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
@@ -30,10 +31,12 @@ import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.AccommodationService;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.clients.GuestService;
+import ftn.booking_app_team_2.bookie.clients.ReviewService;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationDetailsBinding;
 import ftn.booking_app_team_2.bookie.dialogs.CreateReservationDialog;
 import ftn.booking_app_team_2.bookie.model.AccommodationApproval;
 import ftn.booking_app_team_2.bookie.model.AccommodationDTO;
+import ftn.booking_app_team_2.bookie.model.AccommodationReviewDTO;
 import ftn.booking_app_team_2.bookie.model.AvailabilityPeriod;
 import ftn.booking_app_team_2.bookie.tools.SessionManager;
 import retrofit2.Call;
@@ -46,6 +49,8 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class AccommodationDetailsFragment extends Fragment {
+    private Collection<AccommodationReviewDTO> reviews = null;
+
     public AccommodationDetailsFragment() {
 
     }
@@ -172,7 +177,45 @@ public class AccommodationDetailsFragment extends Fragment {
                         .setNegativeButton("No", ((dialog, which) -> { }))
                         .show()
         );
+        loadReviews(accommodationId);
         return root;
+    }
+
+    private void loadReviews(Long accommodationId) {
+        ReviewService service = ClientUtils.getReviewService(getContext());
+        Call<Collection<AccommodationReviewDTO>> call = service.getReviews(accommodationId);
+        call.enqueue(new Callback<Collection<AccommodationReviewDTO>>() {
+            @Override
+            public void onResponse(Call<Collection<AccommodationReviewDTO>> call, Response<Collection<AccommodationReviewDTO>> response) {
+                reviews = response.body();
+                if(reviews != null && !reviews.isEmpty()) {
+                    binding.textView2.setVisibility(View.GONE);
+                    reviews.forEach(review -> {
+                        ReviewFragment reviewFragment = ReviewFragment
+                                .newInstance(
+                                        review.getId(),
+                                        review.getGrade(),
+                                        review.getComment(),
+                                        review.getTimestampOfCreation(),
+                                        review.getReviewerId(),
+                                        (long) 0,
+                                        review.getReviewerName(),
+                                        false,
+                                        true
+                                );
+
+                        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                        transaction.add(binding.reviewsContainer.getId(), reviewFragment);
+                        transaction.commit();
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Collection<AccommodationReviewDTO>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void showDialog() {

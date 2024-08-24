@@ -47,33 +47,35 @@
             </com.google.android.flexbox.FlexboxLayout>
 
             <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/revieweeExtra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp" />
 
             <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/revieweeSegment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:flexDirection="row"
-                app:flexWrap="nowrap"
+                android:layout_marginBottom="10dp"
                 app:alignItems="stretch"
-                android:layout_marginBottom="10dp">
+                app:flexDirection="row"
+                app:flexWrap="nowrap">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="To:"
-                    android:textColor="?attr/colorOnSurface"
-                    android:gravity="center_vertical" />
+                    android:textColor="?attr/colorOnSurface" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/rewieweeName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="?attr/colorOnSurface"
+                    android:gravity="center_vertical"
                     android:text="@string/placeholder"
                     android:textAlignment="viewEnd"
-                    android:gravity="center_vertical"
+                    android:textColor="?attr/colorOnSurface"
                     tools:ignore="RtlCompat" />
 
             </com.google.android.flexbox.FlexboxLayout>
