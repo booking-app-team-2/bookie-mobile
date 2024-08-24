@@ -13,6 +13,12 @@
         android:layout_marginTop="10dp"
         android:text="Generate Report" />
 
+    <Button
+        android:id="@+id/createNewBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create New" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

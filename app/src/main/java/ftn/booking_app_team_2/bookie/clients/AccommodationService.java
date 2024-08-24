@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -22,6 +23,9 @@ public interface AccommodationService {
             @Query("startDate") Long startDate,
             @Query("endDate") Long endDate
     );
+
+    @POST("accommodations")
+    Call<AccommodationDTO> createAccommodation(@Body AccommodationDTO accommodation);
 
     @GET("accommodations/unapproved")
     Call<Collection<AccommodationDTO>> getUnapproved();

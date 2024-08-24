@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 import java.util.Calendar;
 import java.util.Collection;
 
+import ftn.booking_app_team_2.bookie.R;
 import ftn.booking_app_team_2.bookie.clients.AccommodationService;
 import ftn.booking_app_team_2.bookie.clients.ClientUtils;
 import ftn.booking_app_team_2.bookie.databinding.FragmentAccommodationsScreenBinding;
@@ -138,6 +140,9 @@ public class AccommodationsScreenFragment extends Fragment {
         binding = FragmentAccommodationsScreenBinding
                 .inflate(inflater, container, false);
 
+        binding.createNewBtn.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.navigateToCreateAccomodationScreen);
+        });
 
         binding.createReportBtn.setOnClickListener(view -> {
             final Calendar startDate = Calendar.getInstance();
