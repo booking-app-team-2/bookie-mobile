@@ -99,6 +99,23 @@ public class AccommodationDTO implements Parcelable, Serializable {
         isReservationAutoAccepted = in.readByte() != 0;
     }
 
+    public AccommodationDTO(Long idArg, String nameArg, String descriptionArg, int minimumGuestsArg,
+                            int maximumGuestsArg, Location currentLocationArg,
+                            Set<Amenities> currentAmenitiesArg,
+                            AccommodationType accommodationTypeArg, boolean autoAcceptArg) {
+        id = idArg;
+        name = nameArg;
+        description = descriptionArg;
+        minimumGuests = minimumGuestsArg;
+        maximumGuests = maximumGuestsArg;
+        location = currentLocationArg;
+        amenities = currentAmenitiesArg;
+        type = accommodationTypeArg;
+        isReservationAutoAccepted = autoAcceptArg;
+        images = new HashSet<>();
+        reservationCancellationDeadline = 1;
+    }
+
     public Long getId() {
         return id;
     }
