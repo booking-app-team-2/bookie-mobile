@@ -7,8 +7,10 @@ import ftn.booking_app_team_2.bookie.model.ReportDTO;
 import ftn.booking_app_team_2.bookie.model.ReservationGuest;
 import ftn.booking_app_team_2.bookie.model.ReservationStatus;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -22,7 +24,8 @@ public interface ReportService {
 
 
     @PUT(reportControllerPath + "/{id}")
-    Call<Void> blockUser(
-            @Path("id") Long id
-    );
+    Call<Void> blockUser(@Path("id") Long id);
+
+    @POST(reportControllerPath)
+    Call<ReportDTO> createReport(@Body ReportDTO report);
 }

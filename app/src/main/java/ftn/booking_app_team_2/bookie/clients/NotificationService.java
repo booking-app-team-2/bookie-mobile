@@ -4,9 +4,11 @@ import java.util.Collection;
 
 import ftn.booking_app_team_2.bookie.model.NotificationDTO;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface NotificationService {
@@ -22,4 +24,7 @@ public interface NotificationService {
     Call<Void> deleteNotification(
             @Path("id") Long id
     );
+
+    @POST(notificationControllerPath)
+    Call<NotificationDTO> createNotification(@Body NotificationDTO notificationDTO);
 }

@@ -1,19 +1,16 @@
 package ftn.booking_app_team_2.bookie.clients;
 
 import java.util.Collection;
-import java.util.List;
 
 import ftn.booking_app_team_2.bookie.model.AccommodationReviewDTO;
 import ftn.booking_app_team_2.bookie.model.OwnerReviewDTO;
-import ftn.booking_app_team_2.bookie.model.ReservationGuest;
-import ftn.booking_app_team_2.bookie.model.ReservationStatus;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ReviewService {
 
@@ -78,4 +75,10 @@ public interface ReviewService {
 
     @GET(accommodationReviewControllerPath + "/{id}")
     Call<Collection<AccommodationReviewDTO>> getReviews(@Path("id") Long accommodationId);
+
+    @POST(accommodationReviewControllerPath)
+    Call<AccommodationReviewDTO> createAccommodationReview(@Body AccommodationReviewDTO review);
+
+    @POST(ownerReviewControllerPath)
+    Call<OwnerReviewDTO> createOwnerReview(@Body OwnerReviewDTO review);
 }
